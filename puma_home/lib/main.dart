@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
+import 'caratula.dart';
 
 void main() {
   runApp(
-    Center(
-      child: Text(
-        'Hello, world!',
-        textDirection: TextDirection.ltr,
-      ),
-    ),
+    Caratula()
   );
 }
