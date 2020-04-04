@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:puma_home/signin.dart';
 
 void main() {
   runApp(
-    Center(
-      child: Text(
-        'Hello, world!',
-        textDirection: TextDirection.ltr,
-      ),
+    MaterialApp(
+      home: Signin(),
     ),
   );
 }
