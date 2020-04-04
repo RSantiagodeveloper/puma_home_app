@@ -3,6 +3,9 @@ import 'caratula.dart';
 
 void main() {
   runApp(
-    Caratula()
+    MaterialApp(
+    title: 'puma-home',
+    home: Caratula()
+    )
   );
 }
