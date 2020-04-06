@@ -84,7 +84,7 @@ Widget _introducirTexto() {
             ),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Campo Obligatorio';
+                return 'Campo Obligatorio'; //HANNIBAL SE LA COME :3
               }
               return null;
             },
