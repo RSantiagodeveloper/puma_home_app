@@ -28,9 +28,9 @@ class _MisGruposState extends State<MisGrupos> {
           vertical:16,
         ),
         children:[
-           _grupo(""),
-           _grupo(""),
-           _grupo(""),
+           _grupo("Historia"),
+           _grupo("Matematicas"),
+           _grupo("Quimica"),
         ]
 
       ),
