@@ -11,6 +11,7 @@ class Signin extends StatelessWidget {
           child: Text('Registrate'),
         ),
       ),
+      drawer: new Drawer(),
       body: ListView(
         padding: EdgeInsets.symmetric(
           horizontal:16,
