@@ -13,15 +13,13 @@ class Signin extends StatelessWidget {
       ),
       drawer: new Drawer(),
       body: ListView(
-        padding: EdgeInsets.symmetric(
-          horizontal:16,
-          vertical:16,
-        ),
-        children:[
-           _introducirTexto(),
-        ]
-
-      ),
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ),
+          children: [
+            _introducirTexto(),
+          ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_formKey.currentState.validate()) {
@@ -51,7 +49,7 @@ Widget _introducirTexto() {
             validator: (value) {
               if (value.isEmpty) {
                 return 'campo obligatorio'; //NOTA PARA EQUIPO BACKEND: Pongan condicional evitar mandar caracteres especiales
-                                            //  y que la base de datos no se la lleve la verga
+                //  y que la base de datos no se la lleve la verga
               }
               return null;
             },
