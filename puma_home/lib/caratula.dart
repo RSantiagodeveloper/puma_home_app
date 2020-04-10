@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:puma_home/MenuApp.dart';
 import 'package:puma_home/addgrupo.dart';
 import 'package:puma_home/creargrupo.dart';
-import 'package:puma_home/rutaEjemplo.dart';
 import 'misgrupos.dart';
 
 class Caratula extends StatelessWidget{
