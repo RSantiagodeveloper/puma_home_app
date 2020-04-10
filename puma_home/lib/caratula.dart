@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/misgrupos.dart';
+import 'package:puma_home/MenuApp.dart';
+import 'package:puma_home/addgrupo.dart';
+import 'package:puma_home/creargrupo.dart';
+import 'package:puma_home/rutaEjemplo.dart';
+import 'misgrupos.dart';
+
 class Caratula extends StatelessWidget{
   Widget build(BuildContext context){
     return MaterialApp(
       title: 'Puma_Home',
       home: Scaffold(
+        drawer: MenuApp(),
         backgroundColor: Colors.lightBlueAccent[100], //color de fondo para esta pantalla
         body: SafeArea(
           child: Column(
@@ -23,7 +29,7 @@ class Caratula extends StatelessWidget{
               ),
               Center(
                 child: RaisedButton(
-                  child: Text('iniciar'),
+                  child: Text('Mis grupos (alumno)'),
                   onPressed: (){
                     Navigator.push(
                       context,
@@ -31,7 +37,29 @@ class Caratula extends StatelessWidget{
                     );
                   },                  
                 ),
-              )
+              ),
+               Center(
+                child: RaisedButton(
+                  child: Text('Añadir grupo  (alumno)'),
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Addgrupo()),
+                    );
+                  },                  
+                ),
+              ),
+              Center(
+                child: RaisedButton(
+                  child: Text('Crear Grupo (Profesor)'),
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>CrearGrupo()),
+                    );
+                  },                  
+                ),
+              ),
             ],
           ),
         ),
