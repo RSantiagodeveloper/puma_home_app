@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puma_home/MenuApp.dart';
 import 'package:puma_home/addgrupo.dart';
 import 'package:puma_home/creargrupo.dart';
 import 'package:puma_home/signin.dart';
@@ -10,9 +11,18 @@ class MisGrupos extends StatefulWidget {
 
 Widget _grupo(String nombre) {
   return Card(
-    margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
-    color: Colors.lightBlue,
-    child: Text(nombre),
+    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+    color: Colors.blue,
+    child: Column(
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.class_),
+          title:  Text(nombre),
+          subtitle: Text("clase virtual"),
+
+        )
+      ],
+    )
   );
 }
 
@@ -26,7 +36,7 @@ class _MisGruposState extends State<MisGrupos> {
           child: Text('Mis Grupos'),
         ),
       ),
-      drawer: new Drawer(),
+      drawer: MenuApp(),
       body: ListView(
           padding: EdgeInsets.symmetric(
             horizontal: 16,

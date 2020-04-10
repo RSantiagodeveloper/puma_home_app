@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puma_home/MenuApp.dart';
 final _formKey = GlobalKey<FormState>();
 
 
@@ -17,7 +18,7 @@ class _CrearGrupoState extends State<CrearGrupo> {
           child: Text("Crear un grupo nuevo"),
         ),
       ),
-      drawer: new Drawer(),
+      drawer: new MenuApp(),
       body: ListView(
                   padding: EdgeInsets.symmetric(
             horizontal: 16,

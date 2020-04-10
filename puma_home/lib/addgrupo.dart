@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puma_home/MenuApp.dart';
 final _formKey = GlobalKey<FormState>();
 
 class Addgrupo extends StatelessWidget {
@@ -11,7 +12,7 @@ class Addgrupo extends StatelessWidget {
           child: Text("Añade un grupo nuevo"),
         ),
       ),
-      drawer: new Drawer(),
+      drawer: MenuApp(),
       body: ListView(
                   padding: EdgeInsets.symmetric(
             horizontal: 16,
