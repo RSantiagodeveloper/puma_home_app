@@ -5,6 +5,7 @@ import 'MiPerfil.dart';
 import 'EliminarClase.dart';
 import 'VerGrupos.dart';
 import 'CrearClase.dart';
+import 'alta.dart';
 
 class Menu extends StatelessWidget {
 
@@ -73,7 +74,22 @@ class Menu extends StatelessWidget {
       )
       );
   }
+     Widget createAltaButton(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 40),
+      child: RaisedButton(
+        textColor: Colors.black,
+        child: Text('Alta de clases'),
+      onPressed: () {
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => AltaClase()),
+          );
 
+      },
+      )
+      );
+  }
 
   @override
 
@@ -104,6 +120,7 @@ class Menu extends StatelessWidget {
             createVerGruposButton(context),
             createEliminarClaseButton(context),
             createMiPerfilButton(context),
+            createAltaButton(context),
 
           ],
         )

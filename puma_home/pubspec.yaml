@@ -1,4 +1,4 @@
-name: admi
+name: puma_home
 description: A new Flutter project.
 
 
@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
@@ -19,9 +20,8 @@ dev_dependencies:
 
 
 
+
 flutter:
-
-
   uses-material-design: true
   assets:
     - images/

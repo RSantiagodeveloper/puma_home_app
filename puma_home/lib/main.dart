@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'alta.dart';
-
+import 'menú.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Alta',
+      title: 'Administración',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      home: AltaClase(),
+      home: Menu(),
     );
   }
 }
