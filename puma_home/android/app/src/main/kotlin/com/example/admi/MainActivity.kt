@@ -1,4 +1,4 @@
-package com.example.puma_home
+package com.example.admi
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
