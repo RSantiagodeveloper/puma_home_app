@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puma_home/MenuApp.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -11,7 +12,7 @@ class Signin extends StatelessWidget {
           child: Text('Registrate'),
         ),
       ),
-      drawer: new Drawer(),
+      drawer: MenuApp(),
       body: ListView(
           padding: EdgeInsets.symmetric(
             horizontal: 16,
