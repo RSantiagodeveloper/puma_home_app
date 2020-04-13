@@ -40,12 +40,14 @@ class FormMiPerfilState extends State<FormMiPerfil> {
       key: _formKey,
       child: Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width,
               height: 35.0,
               padding: EdgeInsets.all(4.0),
+              margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                   color: Colors.white,
@@ -63,6 +65,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
               width: MediaQuery.of(context).size.width,
               height: 35.0,
               padding: EdgeInsets.all(4.0),
+              margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                   color: Colors.white,
@@ -79,6 +82,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 35.0,
+              margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
               padding: EdgeInsets.all(4.0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
