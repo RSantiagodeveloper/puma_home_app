@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'MenuApp.dart';
 import 'iconAppBar.dart';
-import 'MiPerfil.dart';
+import 'mi_perfil.dart';
 import 'EliminarClase.dart';
 import 'VerGrupos.dart';
 import 'CrearClase.dart';
 import 'alta.dart';
-
+//
 class Menu extends StatelessWidget {
 
 
