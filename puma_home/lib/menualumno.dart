@@ -4,27 +4,11 @@ import 'iconAppBar.dart';
 import 'mi_perfil.dart';
 import 'EliminarClase.dart';
 import 'misgrupos.dart';
-import 'addgrupo.dart';
+import 'alta.dart';
 //
-class Menu extends StatelessWidget {
+class MenuAlumno extends StatelessWidget {
 
-
-  Widget createCrearClaseButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
-        child: Text('Crear clase'),
-      onPressed: () {
-        Navigator.push(
-          context, 
-          MaterialPageRoute(builder: (context) => Addgrupo()),
-          );
-      },
-      )
-      );
-  }
-  
+ 
     Widget createVerGruposButton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 40),
@@ -73,6 +57,22 @@ class Menu extends StatelessWidget {
       )
       );
   }
+     Widget createAltaButton(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 40),
+      child: RaisedButton(
+        textColor: Colors.black,
+        child: Text('Alta de clases'),
+      onPressed: () {
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => AltaClase()),
+          );
+
+      },
+      )
+      );
+  }
 
   @override
 
@@ -81,7 +81,7 @@ class Menu extends StatelessWidget {
       drawer:MenuApp(),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Administración (Profesor)'),
+        title: Text('Administración (Alumno)'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -99,10 +99,10 @@ class Menu extends StatelessWidget {
         ),
         child: ListView(
           children: [
-            createCrearClaseButton(context),
             createVerGruposButton(context),
             createEliminarClaseButton(context),
             createMiPerfilButton(context),
+            createAltaButton(context),
 
           ],
         )

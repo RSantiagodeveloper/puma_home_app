@@ -12,7 +12,7 @@ class CrearClase extends StatelessWidget {
       padding: const EdgeInsets.only(top: 40),
       child: RaisedButton(
         textColor: Colors.black,
-        child: Text('Administración'),
+        child: Text('Crear Clase'),
       onPressed: () {
         Navigator.push(
           context, 

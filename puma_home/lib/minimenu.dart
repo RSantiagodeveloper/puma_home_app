@@ -2,34 +2,53 @@ import 'package:flutter/material.dart';
 import 'MenuApp.dart';
 import 'iconAppBar.dart';
 import 'menú.dart';
+import 'menualumno.dart';
 
+//
+class MiniMenu extends StatelessWidget {
 
-class VerGrupos extends StatelessWidget {
-
-
-    Widget createMenuButton(BuildContext context) {
+ 
+    Widget createMenuAlumnoButton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 40),
       child: RaisedButton(
         textColor: Colors.black,
-        child: Text('Administración'),
+        child: Text('Menú de Alumno'),
       onPressed: () {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => Menu())
+          MaterialPageRoute(builder: (context) => MenuAlumno()),
           );
       },
       )
       );
   }
-  
+
+    Widget createMenuProfesorButton(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 40),
+      child: RaisedButton(
+        textColor: Colors.black,
+        child: Text('Menú de Profesor'),
+      onPressed: () {
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => Menu()),
+          );
+      },
+      )
+      );
+  }
+
+
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       drawer:MenuApp(),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Ver grupos'),
+        title: Text('Mini Menú'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -47,8 +66,8 @@ class VerGrupos extends StatelessWidget {
         ),
         child: ListView(
           children: [
-
-            createMenuButton(context),
+            createMenuAlumnoButton(context),
+            createMenuProfesorButton(context),
 
           ],
         )

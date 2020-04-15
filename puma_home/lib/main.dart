@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'menú.dart';
+import 'minimenu.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Administración',
+      title: 'Mini Menú',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      home: Menu(),
+      home: MiniMenu(),
     );
   }
 }
