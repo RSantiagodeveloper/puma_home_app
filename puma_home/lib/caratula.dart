@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puma_home/MenuApp.dart';
 import 'package:puma_home/addgrupo.dart';
 import 'package:puma_home/creargrupo.dart';
+import 'package:puma_home/tareas.dart';
 import 'misgrupos.dart';
 import 'signin.dart';
 
@@ -68,6 +69,17 @@ class Caratula extends StatelessWidget{
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>CrearGrupo()),
+                    );
+                  },                  
+                ),
+              ),
+              Center(
+                child: RaisedButton(
+                  child: Text('Mis Tareas (alumno)'),
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>Tareas()),
                     );
                   },                  
                 ),
