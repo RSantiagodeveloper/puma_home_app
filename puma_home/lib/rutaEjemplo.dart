@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/MenuApp.dart';
 import 'package:puma_home/iconAppBar.dart';
+import 'package:puma_home/tablon.dart';
 
 class RutaEjemplo extends StatelessWidget{
   Widget build(BuildContext context){
@@ -17,9 +18,7 @@ class RutaEjemplo extends StatelessWidget{
         ],
       ),
       drawer: MenuApp(),
-      body: Center(
-        child: Text('Aqui van los formularios'),
-      ),
+      body: TablonAnuncios()
     );
   }
 }
