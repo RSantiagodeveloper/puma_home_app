@@ -1,62 +1,62 @@
 import 'package:flutter/material.dart';
 import 'MenuApp.dart';
 import 'iconAppBar.dart';
-import 'menú.dart';
-import 'menualumno.dart';
-import 'pantallagrupo.dart';
+import 'tareas.dart';
+import 'contacto.dart';
+import 'materialdeapoyo.dart';
+import 'tablon.dart';
 //
-class MiniMenu extends StatelessWidget {
+class PantallaGrupo extends StatelessWidget {
 
  
-    Widget createMenuAlumnoButton(BuildContext context) {
+    Widget createTareasButton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 40),
       child: RaisedButton(
         textColor: Colors.black,
-        child: Text('Menú de Alumno'),
+        child: Text('Tareas'),
       onPressed: () {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => MenuAlumno()),
+          MaterialPageRoute(builder: (context) => Tareas()),
           );
       },
       )
       );
   }
 
-    Widget createMenuProfesorButton(BuildContext context) {
+    Widget createContactoButton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 40),
       child: RaisedButton(
         textColor: Colors.black,
-        child: Text('Menú de Profesor'),
+        child: Text('Contacto profesor'),
       onPressed: () {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => Menu()),
+          MaterialPageRoute(builder: (context) => Contacto()),
+          );
+      },
+      )
+      );
+  }
+    Widget createMaterialButton(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 40),
+      child: RaisedButton(
+        textColor: Colors.black,
+        child: Text('Material de apoyo'),
+      onPressed: () {
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => MaterialApoyo()),
           );
       },
       )
       );
   }
 
-    Widget createPantallaGrupoButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
-        child: Text('Pantalla de Grupo'),
-      onPressed: () {
-        Navigator.push(
-          context, 
-          MaterialPageRoute(builder: (context) => PantallaGrupo()),
-          );
-      },
-      )
-      );
-  }
-
-
+  
   @override
 
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class MiniMenu extends StatelessWidget {
       drawer:MenuApp(),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Mini Menú'),
+        title: Text('Grupo'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -82,9 +82,10 @@ class MiniMenu extends StatelessWidget {
         ),
         child: ListView(
           children: [
-            createMenuAlumnoButton(context),
-            createMenuProfesorButton(context),
-            createPantallaGrupoButton(context),
+            TablonAnuncios(),
+            createTareasButton(context),
+            createContactoButton(context),
+            createMaterialButton(context),
 
           ],
         )
