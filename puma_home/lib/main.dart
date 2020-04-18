@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puma_home/Inicio.dart';
 import 'minimenu.dart';
 void main() => runApp(MyApp());
 
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      home: MiniMenu(),
+      //home: MiniMenu(),
+      home: Caratula(),
     );
   }
 }

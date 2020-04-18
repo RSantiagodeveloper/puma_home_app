@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/rutaEjemplo.dart';
+import 'package:puma_home/minimenu.dart';
+import 'package:puma_home/rutaTest.dart';
 
 class Caratula extends StatelessWidget{
   Widget build(BuildContext context){
@@ -29,7 +30,7 @@ class Caratula extends StatelessWidget{
                   onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RutaEjemplo()),
+                      MaterialPageRoute(builder: (context) => MiniMenu()),
                     );
                   },                  
                 ),
