@@ -11,6 +11,7 @@ class Caratula extends StatelessWidget{
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              
               Center(
                 child: Text(
                   'Puma_Home',

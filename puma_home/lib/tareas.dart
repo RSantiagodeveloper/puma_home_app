@@ -1,60 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/pantallagrupo.dart';
-import 'MenuApp.dart';
-import 'iconAppBar.dart';
-import 'pantallagrupo.dart';
+import 'package:puma_home/MenuApp.dart';
 
 
-class Tareas extends StatelessWidget {
 
+class Tareas extends StatefulWidget {
+  @override
+  _TareasState createState() => _TareasState();
+}
 
-    Widget createMenuButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
-        child: Text('Pantalla Grupo'),
-      onPressed: () {
-        Navigator.push(
-          context, 
-          MaterialPageRoute(builder: (context) => PantallaGrupo())
-          );
-      },
-      )
-      );
+seleccionarColor(materia){
+  var sistemasOperativos= "sistemas operativos";
+  if(materia==sistemasOperativos){
+    return Colors.blue;
   }
-  
+  else if(materia=="ecuaciones diferenciales"){
+    return Colors.green;
+  }
+  else if(materia=="analisis de sistemas y señales"){
+    return Colors.red;
+  }
+  else{
+    return Colors.grey;
+  }
+}
+Widget _tarea(nombre,clase,entrega){
+    return Card(
+    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+    color: seleccionarColor(clase),
+    child: Column(
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.fiber_new),
+          title:  Text(nombre),
+          subtitle: Text(clase + "\n"+"Entrega: "+entrega),
+          isThreeLine: true,
+          onTap: (){
+
+          },
+        )
+      ],
+    )
+  );
+}
+
+class _TareasState extends State<Tareas> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer:MenuApp(),
+   return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Tareas'),
-        centerTitle: true,
-        actions: [
+        actions: <Widget>[
           IconButton(
-            icon: IconAppBar(),//metodo donde se crea la referencia al icono
-            onPressed: null
+            icon: const
+            Icon(Icons.list),
+          onPressed: (){
+
+          }
           )
+
         ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16
+        title: Title(
+          color: Colors.blue,
+          child: Text('Tareas Pendientes'),
         ),
-        decoration: BoxDecoration(
-          color: Colors.white
-        ),
-        child: ListView(
-          children: [
-
-            createMenuButton(context),
-
-          ],
-        )
-        
       ),
+      drawer: MenuApp(),
+      body: ListView(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ),
+          children: [ //aqui se crean las tarjetas de las tareas
+            _tarea("reporte tema 2", "sistemas operativos", "03/09/22"),
+            _tarea("serie 1", "ecuaciones diferenciales", "12/03/22"),
+            _tarea("reporte tema 2", "sistemas operativos", "03/09/22"),
+            _tarea("reporte tema 1", "analisis de sistemas y señales", "03/09/22"),
+            _tarea("chistes de pepito", "sistemas operativos", "03/09/22"),
+            _tarea("reporte tema 2", "analisis de sistemas y señales", "03/09/22"),
+
+          ]),
     );
   }
 }
