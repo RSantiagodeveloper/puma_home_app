@@ -1,3 +1,7 @@
+/**
+ * En este archivo se define la pantalla correspondiente a los grupos en los que un alumno está incrito.
+ * 
+ */
 import 'package:flutter/material.dart';
 import 'package:puma_home/MenuApp.dart';
 import 'package:puma_home/addgrupo.dart';
