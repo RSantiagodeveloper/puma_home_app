@@ -13,14 +13,13 @@
 
 import 'package:flutter/material.dart';
 
-class TablonAnuncios extends StatefulWidget {
-
-  _TablonAnunciosState createState() {
-    return _TablonAnunciosState();
+class TablonAnunciosS extends StatefulWidget {
+  _TablonAnunciosSState createState() {
+    return _TablonAnunciosSState();
   }
 }
 
-class _TablonAnunciosState extends State<TablonAnuncios> {
+class _TablonAnunciosSState extends State<TablonAnunciosS> {
   
   String notice = 'Nueva Noticia generada y consultada desde Firebase';
   TextEditingController newNotice = new TextEditingController();
@@ -57,42 +56,6 @@ class _TablonAnunciosState extends State<TablonAnuncios> {
                     style: TextStyle(color: Colors.white, fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width/1.78,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4)
-                        ),
-                        child: TextField(
-                          controller: newNotice,
-                          style: TextStyle(
-                            color: Colors.black
-                          ),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.announcement,
-                              color: Color(0xFF040367),
-                            ),
-                            border: OutlineInputBorder(),
-                        )),
-                      ),
-                      IconButton(
-                          icon: Icon(
-                            Icons.send,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              notice = newNotice.text; //guarda el cambio-> este se va a la DB
-                              newNotice.text = ''; //limpia el campo de texto
-                            });
-                          }),
-                    ],
-                  )
                 ],
               ),
             ),

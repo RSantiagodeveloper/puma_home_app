@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/loginExample.dart';
+import 'package:puma_home/registro.dart';
 import 'package:puma_home/minimenu.dart';
 
 class Caratula extends StatelessWidget{
@@ -30,7 +30,7 @@ class Caratula extends StatelessWidget{
                   onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(builder: (context) => RegistryPage()),
                     );
                   },                  
                 ),

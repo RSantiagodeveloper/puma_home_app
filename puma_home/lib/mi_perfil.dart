@@ -29,10 +29,13 @@ class FormMiPerfil extends StatefulWidget {
 }
 
 class FormMiPerfilState extends State<FormMiPerfil> {
+
+  double _height = 50;
+  var colorElements = 0xFF040367;
   final _formKey = GlobalKey<FormState>();
   TextEditingController usrname = new TextEditingController();
-  TextEditingController usrmail = new TextEditingController(); 
-  TextEditingController usrphone = new TextEditingController(); 
+  TextEditingController usrmail = new TextEditingController();
+  TextEditingController usrphone = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,81 +43,61 @@ class FormMiPerfilState extends State<FormMiPerfil> {
       key: _formKey,
       child: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: 35.0,
-              padding: EdgeInsets.all(4.0),
-              margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(color: Colors.lightBlue, blurRadius: 5)
-                  ]),
-              child: TextFormField(
-                controller: usrname,
-                decoration: InputDecoration(
-                    icon: Icon(Icons.account_circle, color: Colors.blue),
-                    hintText: 'Nombre de Usuario'),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 35.0,
-              padding: EdgeInsets.all(4.0),
-              margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(color: Colors.lightBlue, blurRadius: 5)
-                  ]),
-              child: TextFormField(
-                controller: usrmail,
-                decoration: InputDecoration(
-                    icon: Icon(Icons.contact_mail, color: Colors.blue),
-                    hintText: 'Correo de Contacto'),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 35.0,
-              margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
-              padding: EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(color: Colors.lightBlue, blurRadius: 5)
-                  ]),
-              child: TextFormField(
-                controller: usrphone,
-                decoration: InputDecoration(
-                    icon: Icon(Icons.phone, color: Colors.blue),
-                    hintText: 'Telefono de Contacto'),
-              ),
-            ),
-            RaisedButton(
-              child: Text(
-                'Guardar cambios',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.0
+              child: Column(children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: _height,
+                  padding: EdgeInsets.all(4.0),
+                  child: TextField(
+                    controller: usrname,
+                    decoration: InputDecoration(
+                        labelText: 'Nombre de Usuario',
+                        icon: Icon(Icons.account_circle, color: Color(colorElements)),
+                      ),
+                  ),
                 ),
-              ),
-              color: Colors.blue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)
-              ),
+                Divider(),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: _height,
+                  padding: EdgeInsets.all(4.0),
+                  child: TextField(
+                    controller: usrmail,
+                    decoration: InputDecoration(
+                        labelText: 'Correo de Contacto',
+                        icon: Icon(Icons.contact_mail, color: Color(colorElements)),
+                      ),
+                  ),
+                ),
+                Divider(),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: _height,
+                  padding: EdgeInsets.all(4.0),
+                  child: TextField(
+                    controller: usrphone,
+                    decoration: InputDecoration(
+                        labelText: 'Telefono de Contacto',
+                        icon: Icon(Icons.phone, color: Color(colorElements)),
+                      ),
+                  ),
+                ),
+            ])),
+            FloatingActionButton.extended(
+              icon: Icon(Icons.check_circle_outline),
+              label: Text('guardar'),
+              backgroundColor: Color(colorElements),
               onPressed: () {
                 String nombre = usrname.text;
                 String email = usrmail.text;
                 String phone = usrphone.text;
 
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Recibi $nombre $email y $phone')));
+                Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text('Recibi $nombre $email y $phone')));
               },
             ),
           ],

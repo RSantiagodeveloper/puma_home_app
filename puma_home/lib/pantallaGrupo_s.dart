@@ -1,7 +1,8 @@
 /**
- * Pantalla de grupo del profesor
+ * Pantalla de grupo del alumno
  */
 import 'package:flutter/material.dart';
+import 'package:puma_home/tablon_s.dart';
 import 'MenuApp.dart';
 import 'iconAppBar.dart';
 import 'tareas.dart';
@@ -10,7 +11,7 @@ import 'materialdeapoyo.dart';
 import 'tablon.dart';
 
 //
-class PantallaGrupo extends StatelessWidget {
+class PantallaGrupoS extends StatelessWidget {
   final int bgColor = 0xFF040367;
   final int borderColor = 0xFFBEAF2A;
   final double widthBorder = 5.0;
@@ -97,11 +98,11 @@ class PantallaGrupo extends StatelessWidget {
           decoration: BoxDecoration(color: Colors.white),
           child: ListView(
             children: [
-              TablonAnuncios(),
+              TablonAnunciosS(),
               Divider(),
               createTareasButton(context),
-              /*Divider(),
-              createContactoButton(context),*/
+              Divider(),
+              createContactoButton(context),
               Divider(),
               createMaterialButton(context),
             ],
