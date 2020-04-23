@@ -12,16 +12,20 @@ class MisGrupos extends StatefulWidget {
   _MisGruposState createState() => _MisGruposState();
 }
 
-Widget _grupo(String nombre) {
+
+///este widget devuelve la tarjeta individual para cada grupo
+///se le tiene que pasar un string nombre para que la pueda mostrar
+
+Widget _grupo(String nombre , String tipoClase) {
   return Card(
-    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),  
     color: Colors.blue,
     child: Column(
       children: <Widget>[
         ListTile(
           leading: Icon(Icons.class_),
           title:  Text(nombre),
-          subtitle: Text("clase virtual"),
+          subtitle: Text(tipoClase),
 
         )
       ],
@@ -29,6 +33,15 @@ Widget _grupo(String nombre) {
   );
 }
 
+///funcion que obtiene los datos de firebase para los grupos
+generarGrupo(){
+//obtenerDatosBase();
+//contarDatosBase();
+//crearArregloTarjetas();
+//return arregloTarjetas ;
+}
+
+///clase que devuelve un scaffold donde se encuentra la lista de los grupos a los que el alumno está inscrito
 class _MisGruposState extends State<MisGrupos> {
   @override
   Widget build(BuildContext context) {
@@ -46,9 +59,10 @@ class _MisGruposState extends State<MisGrupos> {
             vertical: 16,
           ),
           children: [
-            _grupo("Historia"),
-            _grupo("Matematicas"),
-            _grupo("Quimica"),
+            generarGrupo(),
+            _grupo("Historia","clase virtual"),
+            _grupo("Matematicas","clase prensencial"),
+            _grupo("Quimica","clase virtual"),
           ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
