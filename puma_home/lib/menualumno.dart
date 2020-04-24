@@ -7,13 +7,22 @@ import 'misgrupos.dart';
 import 'alta.dart';
 //
 class MenuAlumno extends StatelessWidget {
+  final int bgColor = 0xFF040367;
+  final int borderColor = 0xFFBEAF2A;
+  final double widthBorder = 5.0;
 
  
     Widget createVerGruposButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+        width: MediaQuery.of(context).size.width/1.2,
+        height: MediaQuery.of(context).size.height/6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Ver mis grupos'),
       onPressed: () {
         Navigator.push(
@@ -27,9 +36,15 @@ class MenuAlumno extends StatelessWidget {
 
     Widget createEliminarClaseButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+      width: MediaQuery.of(context).size.width/1.2,
+      height: MediaQuery.of(context).size.height/6.67,
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Eliminar clase'),
       onPressed: () {
         Navigator.push(
@@ -43,9 +58,15 @@ class MenuAlumno extends StatelessWidget {
 
     Widget createMiPerfilButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+        width: MediaQuery.of(context).size.width/1.2,
+        height: MediaQuery.of(context).size.height/6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Mi perfil'),
       onPressed: () {
         Navigator.push(
@@ -59,9 +80,15 @@ class MenuAlumno extends StatelessWidget {
   }
      Widget createAltaButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+        width: MediaQuery.of(context).size.width/1.2,
+        height: MediaQuery.of(context).size.height/6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Alta de clases'),
       onPressed: () {
         Navigator.push(
@@ -99,9 +126,13 @@ class MenuAlumno extends StatelessWidget {
         ),
         child: ListView(
           children: [
+            Divider(),
             createVerGruposButton(context),
+            Divider(),
             createEliminarClaseButton(context),
+            Divider(),
             createMiPerfilButton(context),
+            Divider(),
             createAltaButton(context),
 
           ],
