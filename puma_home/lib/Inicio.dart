@@ -1,41 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/registro.dart';
-import 'package:puma_home/minimenu.dart';
 
-class Caratula extends StatelessWidget{
+class Caratula extends StatefulWidget{
+  _CaratulaState createState() => _CaratulaState();
+}
+
+class _CaratulaState extends State<Caratula>{
+
+  void initState(){
+    Future.delayed(
+      Duration(seconds: 5),
+      (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RegistryPage()));
+      }
+    );
+  }
+
   Widget build(BuildContext context){
     return MaterialApp(
       title: 'Puma_Home',
       home: Scaffold(
-        backgroundColor: Colors.lightBlueAccent[100], //color de fondo para esta pantalla
+        backgroundColor: Color(0xFF040367), //color de fondo para esta pantalla
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              
-              Center(
-                child: Text(
-                  'Puma_Home',
-                  style: TextStyle(
-                    fontFamily: 'Pacifico',
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
+          child: Center(
+            child: Text(
+              'Puma_Home',
+              style: TextStyle(
+                fontFamily: 'Pacifico',
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.bold
               ),
-              Center(
-                child: RaisedButton(
-                  child: Text('iniciar'),
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegistryPage()),
-                    );
-                  },                  
-                ),
-              )
-            ],
+            ),
           ),
         ),
       ),

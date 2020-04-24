@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'MenuApp.dart';
+import 'package:puma_home/MenuApp_S.dart';
 import 'iconAppBar.dart';
 
-class MiPerfil extends StatelessWidget {
+class MiPerfilS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +16,7 @@ class MiPerfil extends StatelessWidget {
               onPressed: null)
         ],
       ),
-      drawer: MenuApp(),
+      drawer: MenuApps(),
       body: FormMiPerfil(),
     );
   }
