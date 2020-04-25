@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/Inicio.dart';
-import 'package:puma_home/loginPage.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
         )
       ),
       //home: MiniMenu(),
-      home: LoginPage(),
+      home: Caratula(),
     );
   }
 }

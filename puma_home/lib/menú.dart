@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puma_home/misgruposExample.dart';
 import 'MenuApp.dart';
 import 'iconAppBar.dart';
 import 'mi_perfil.dart';
@@ -49,7 +50,7 @@ class Menu extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => MisGrupos()),
+          MaterialPageRoute(builder: (context) => MisGruposX()),
           );
       },
       )

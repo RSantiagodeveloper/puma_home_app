@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:puma_home/men%C3%BA.dart';
 import 'package:puma_home/registro.dart';
 
 class LoginPage extends StatefulWidget {
@@ -66,6 +67,7 @@ class LoginPageState extends State<LoginPage> {
               onPressed: () {
                 if(_keyForm.currentState.validate()){
                   print('Recibi: ${_emailController.text} y ${_contraController.text}');
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Menu()));
                 }
               }, //deja el acceso en caso de ser correcto****
             )),

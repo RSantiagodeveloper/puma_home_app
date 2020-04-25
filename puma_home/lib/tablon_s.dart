@@ -42,7 +42,7 @@ class _TablonAnunciosSState extends State<TablonAnunciosS> {
             Text('Tablon de Anuncios', style: TextStyle(fontSize: 30.0),),
             Container(
               width: _width/1.2,
-              height: _height/3.03,
+              height: (_width < _height)? _height/3.03 : _height/2,
               padding: EdgeInsets.all(_sizepadding),
               decoration: BoxDecoration(
                   border: Border.all(width: widthBorder, color: Color(borderColor)),

@@ -100,8 +100,6 @@ class PantallaGrupo extends StatelessWidget {
               TablonAnuncios(),
               Divider(),
               createTareasButton(context),
-              /*Divider(),
-              createContactoButton(context),*/
               Divider(),
               createMaterialButton(context),
             ],

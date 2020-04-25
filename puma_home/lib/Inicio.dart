@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/registro.dart';
+import 'package:puma_home/loginPage.dart';
 
 class Caratula extends StatefulWidget{
   _CaratulaState createState() => _CaratulaState();
@@ -11,7 +11,7 @@ class _CaratulaState extends State<Caratula>{
     Future.delayed(
       Duration(seconds: 5),
       (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RegistryPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
     );
   }

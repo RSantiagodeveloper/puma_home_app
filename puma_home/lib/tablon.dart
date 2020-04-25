@@ -43,7 +43,7 @@ class _TablonAnunciosState extends State<TablonAnuncios> {
             Text('Tablon de Anuncios', style: TextStyle(fontSize: 30.0),),
             Container(
               width: _width/1.2,
-              height: _height/3.03,
+              height: (_width < _height)? _height/3.03 : _height/2,
               padding: EdgeInsets.all(_sizepadding),
               decoration: BoxDecoration(
                   border: Border.all(width: widthBorder, color: Color(borderColor)),
@@ -61,7 +61,7 @@ class _TablonAnunciosState extends State<TablonAnuncios> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Container(
-                        width: MediaQuery.of(context).size.width/1.78,
+                        width: (_width < _height)? MediaQuery.of(context).size.width/1.78: MediaQuery.of(context).size.width/1.5,
                         height: 30,
                         decoration: BoxDecoration(
                           color: Colors.white,
