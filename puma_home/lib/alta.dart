@@ -3,6 +3,10 @@ import 'MenuApp.dart';
 import 'iconAppBar.dart';
 
 class AltaClase extends StatelessWidget {
+  final int bgColor = 0xFF040367;
+  final int borderColor = 0xFFBEAF2A;
+  final double widthBorder = 5.0;
+
 
 
   Widget createCodigoInput() {
@@ -17,11 +21,17 @@ class AltaClase extends StatelessWidget {
               ),
             );
   }
-  Widget createLoginButton() {
+  Widget createLoginButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+        width: MediaQuery.of(context).size.width/1.2,
+        height: MediaQuery.of(context).size.height/6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Darse de alta'),
       onPressed: () {},
       )
@@ -55,7 +65,8 @@ class AltaClase extends StatelessWidget {
         child: ListView(
           children: [
             createCodigoInput(),
-            createLoginButton(),
+            Divider(),
+            createLoginButton(context),
           ],
         )
         

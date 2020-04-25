@@ -6,13 +6,22 @@ import 'menualumno.dart';
 import 'pantallagrupo.dart';
 //
 class MiniMenu extends StatelessWidget {
+  final int bgColor = 0xFF040367;
+  final int borderColor = 0xFFBEAF2A;
+  final double widthBorder = 5.0;
 
  
     Widget createMenuAlumnoButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+        width: MediaQuery.of(context).size.width/1.2,
+        height: MediaQuery.of(context).size.height/6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Menú de Alumno'),
       onPressed: () {
         Navigator.push(
@@ -26,9 +35,15 @@ class MiniMenu extends StatelessWidget {
 
     Widget createMenuProfesorButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+        width: MediaQuery.of(context).size.width/1.2,
+        height: MediaQuery.of(context).size.height/6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Menú de Profesor'),
       onPressed: () {
         Navigator.push(
@@ -42,9 +57,15 @@ class MiniMenu extends StatelessWidget {
 
     Widget createPantallaGrupoButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+        width: MediaQuery.of(context).size.width/1.2,
+        height: MediaQuery.of(context).size.height/6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Pantalla de Grupo'),
       onPressed: () {
         Navigator.push(
@@ -82,8 +103,11 @@ class MiniMenu extends StatelessWidget {
         ),
         child: ListView(
           children: [
+            Divider(),
             createMenuAlumnoButton(context),
+            Divider(),
             createMenuProfesorButton(context),
+            Divider(),
             createPantallaGrupoButton(context),
 
           ],
