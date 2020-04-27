@@ -107,8 +107,8 @@ class Menu extends StatelessWidget {
     return Scaffold(
       drawer:MenuApp(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Administración (Profesor)'),
+        backgroundColor: Color(bgColor),
+        title: Text('Administración (Profesor)',style: TextStyle(color: Color(borderColor))),
         centerTitle: true,
         actions: [
           IconButton(

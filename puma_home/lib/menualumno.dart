@@ -107,8 +107,8 @@ class MenuAlumno extends StatelessWidget {
     return Scaffold(
       drawer:MenuApp(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Administración (Alumno)'),
+        backgroundColor: Color(bgColor),
+        title: Text('Administración (Alumno)',style: TextStyle(color: Color(borderColor))),
         centerTitle: true,
         actions: [
           IconButton(

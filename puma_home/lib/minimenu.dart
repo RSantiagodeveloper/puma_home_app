@@ -84,8 +84,9 @@ class MiniMenu extends StatelessWidget {
     return Scaffold(
       drawer:MenuApp(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Mini Menú'),
+        backgroundColor: Color(bgColor),
+        title: Text('Mini Menú', style: TextStyle(color: Color(borderColor))),
+        
         centerTitle: true,
         actions: [
           IconButton(

@@ -45,8 +45,8 @@ class AltaClase extends StatelessWidget {
     return Scaffold(
       drawer:MenuApp(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Inscripción'),
+        backgroundColor: Color(bgColor),
+        title: Text('Inscripción',style: TextStyle(color: Color(borderColor))),
         centerTitle: true,
         actions: [
           IconButton(

@@ -46,6 +46,7 @@ import 'package:flutter/widgets.dart';
 class MenuApp extends StatelessWidget{
   final double sizeOption = 16.0;
   final double sizeTitle = 20.0;
+ 
   @override
   Widget build(BuildContext context) {
     return new Drawer(
