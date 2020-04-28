@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/Inicio.dart';
-import 'package:puma_home/mi_perfil.dart';
-import 'package:puma_home/pantallaGrupo_s.dart';
-import 'package:puma_home/pantallagrupo.dart';
 import 'package:puma_home/registro.dart';
-import 'package:puma_home/rutaTest.dart';
-import 'minimenu.dart';
+import 'package:puma_home/testdatabase.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -27,7 +23,9 @@ class MyApp extends StatelessWidget {
         )
       ),
       //home: MiniMenu(),
-      home: RegistryPage(),
+      //home: RegistryPage(),
+      //home: Tareas(),
+      home: Testdatabase(),
     );
   }
 }

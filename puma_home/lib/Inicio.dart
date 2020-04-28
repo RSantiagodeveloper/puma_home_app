@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/registro.dart';
-import 'package:puma_home/minimenu.dart';
+
 
 class Caratula extends StatelessWidget{
   Widget build(BuildContext context){

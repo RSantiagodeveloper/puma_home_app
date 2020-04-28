@@ -8,7 +8,7 @@ import 'iconAppBar.dart';
 import 'tareas.dart';
 import 'contacto.dart';
 import 'materialdeapoyo.dart';
-import 'tablon.dart';
+
 
 //
 class PantallaGrupoS extends StatelessWidget {
