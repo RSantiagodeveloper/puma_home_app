@@ -224,6 +224,7 @@ class _RegistryPageState extends State<RegistryPage> {
             usrNameField(),
             lastNameField(),
             mLastNameField(),
+            emailField(),
             passwdField(),
             passwdCheckField(),
             userType(),
