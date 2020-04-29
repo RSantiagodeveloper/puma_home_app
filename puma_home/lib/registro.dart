@@ -24,6 +24,10 @@ class _RegistryPageState extends State<RegistryPage> {
 
   String rolUser = 'teacher';
 
+  //Ejemplos de consulta para validar registro
+  String _noCtaUNAMexample = '310291322';
+  String _clvProfUNAMexample = 'SRAA-2041a';
+
   GlobalKey<FormState> keyForm = new GlobalKey();
 
   Widget usrNameField() {
@@ -188,28 +192,76 @@ class _RegistryPageState extends State<RegistryPage> {
       width: MediaQuery.of(context).size.width / 2,
       height: MediaQuery.of(context).size.height / 6.67,
       decoration: BoxDecoration(
-        color: Color(bgColor),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(width: 5, color: Color(borderColor))
-      ),
+          color: Color(bgColor),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(width: 5, color: Color(borderColor))),
       child: FlatButton(
         child: Text(
-          'Entrar',
+          'Registrarme',
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () {
           if (keyForm.currentState.validate()) {
             print(
                 'Recibi ${_usrName.text} ${_lastName.text} ${_mLastName.text} ${_email.text} ${_passwdUsr.text} $rolUser ${_keyComunity.text}');
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SuccessRegPage(_usrName.text)));
+            if (rolUser == 'student') {
+              //si escogio rol de estudiante debe consultar y comprobar que el numero de cuenta sea valido
+              //nota: para que sea valido el campo se debe de:
+              //  comprobar la existencia del noCuenta
+              //comprobar que los datos ingresados corresponden a los asociados a ese no de cuenta
+              if (_keyComunity.text == _noCtaUNAMexample) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SuccessRegPage(_usrName.text)));
+              }else{
+               _showDialog('Estudiante', _keyComunity.text);
+              }
+            }else if(rolUser == 'teacher'){
+              if (_keyComunity.text == _clvProfUNAMexample) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SuccessRegPage(_usrName.text)));
+              }else{
+               _showDialog('Profesor', _keyComunity.text);
+              }
+            }
           }
         },
       ),
     );
   }
+
+  void _showDialog(String tipo, String clave){
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text('aviso'),
+          content: Text(
+            'No se reconcio al $tipo con clave de comunidad $clave, verifique los datos',
+            textAlign: TextAlign.justify,
+          ),
+          actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    child: GestureDetector(
+                      child: Text('Aceptar', style: TextStyle(fontSize: 14, color: Colors.blue),),
+                      onTap: (){
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  )
+                ],
+              )
+            ],
+        );
+      }
+    );
+  }  
 
   @override
   Widget build(BuildContext context) {

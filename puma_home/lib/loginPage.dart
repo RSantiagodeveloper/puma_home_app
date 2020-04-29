@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:puma_home/men%C3%BA.dart';
+import 'package:puma_home/menualumno.dart';
 import 'package:puma_home/registro.dart';
 
 class LoginPage extends StatefulWidget {
@@ -8,12 +9,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contraController = TextEditingController();
 
-  GlobalKey<FormState> _keyForm = new GlobalKey();
+  String _userTest = 'ricardo@comunidad.unam.mx';
+  String _passTest = 'hola1234';
+  String _userType = 'teacher';
 
+  GlobalKey<FormState> _keyForm = new GlobalKey();
 
   Widget crearEmail() {
     //crea formato Email
@@ -22,8 +25,8 @@ class LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: _emailController,
         decoration: InputDecoration(labelText: 'Usuario o Email'),
-        validator: (value){
-          if(value.isEmpty){
+        validator: (value) {
+          if (value.isEmpty) {
             return 'Campo obligatorio';
           }
         },
@@ -39,8 +42,8 @@ class LoginPageState extends State<LoginPage> {
         controller: _contraController,
         decoration: InputDecoration(labelText: 'Contraseña'),
         obscureText: true,
-        validator: (value){
-          if(value.isEmpty){
+        validator: (value) {
+          if (value.isEmpty) {
             return 'Campo obligatorio';
           }
         },
@@ -54,25 +57,82 @@ class LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-            width: MediaQuery.of(context).size.width/2,
-            height: MediaQuery.of(context).size.height/6,
+            width: MediaQuery.of(context).size.width / 2,
+            height: MediaQuery.of(context).size.height / 6,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Color(0xFF040367),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(width: 5, color: Color(0xFFBEAF2A))
-            ),
+                color: Color(0xFF040367),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(width: 5, color: Color(0xFFBEAF2A))),
             child: FlatButton(
-              child: Text('Entrar', style: TextStyle(color: Colors.white),),
+              child: Text(
+                'Entrar',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
-                if(_keyForm.currentState.validate()){
-                  print('Recibi: ${_emailController.text} y ${_contraController.text}');
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Menu()));
+                if (_keyForm.currentState.validate()) {
+                  print(
+                      'Recibi: ${_emailController.text} y ${_contraController.text}');
+                  /**
+                   * para hacer la autentificacion se recomiendan los pasos
+                   * 1 - verifica que el correo y contraseña existen en el registro de ususarios, ademas comprueba que sean correctas
+                   * 2 - si se valida el paso anterior, entonces hay que consultar el rol del usuario
+                   *  2.1 - si su rol dice teacher, lo rutea a Menu(usr_id) y le comparte el ID de ususario
+                   *  2.2 - si su rol dice student, lo rutea a MenuAlumno(usr_id) y le comparte el ID de ususario
+                   * Si no se comprueba el paso 1 o 2, se debe de bloquear el acceso
+                   */
+                  //caso del login de un alumno
+                  if (_emailController.text == _userTest) {
+                    if (_contraController.text == _passTest) {
+                      if(_userType == 'student'){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MenuAlumno()));
+                      }
+                      else{
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Menu()));
+                      }
+                    } else {
+                      _contraController.text = '';
+                      _errorDialog('La contraseña es incorrecta');
+                    }
+                  } else {
+                    _emailController.text = '';
+                    _contraController.text = '';
+                    _errorDialog('El ususario no existe o la contraseña es incorrecta');
+                  }
                 }
               }, //deja el acceso en caso de ser correcto****
             )),
       ],
     );
+  }
+
+  void _errorDialog(String mensaje) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Acceso denegado'),
+            content: Text(
+              '$mensaje',
+              textAlign: TextAlign.justify,
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    child: GestureDetector(
+                      child: Text('Aceptar', style: TextStyle(fontSize: 14, color: Colors.blue),),
+                      onTap: (){
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  )
+                ],
+              )
+            ],
+          );
+        });
   }
 
   Widget crearLinkCuenta() {
@@ -88,7 +148,8 @@ class LoginPageState extends State<LoginPage> {
                     decoration: TextDecoration.underline,
                     color: Colors.black)),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistryPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RegistryPage()));
             }));
   }
 
@@ -99,7 +160,7 @@ class LoginPageState extends State<LoginPage> {
         key: _keyForm,
         child: ListView(children: [
           Container(
-            height: MediaQuery.of(context).size.height/10,
+            height: MediaQuery.of(context).size.height / 10,
           ),
           crearEmail(),
           crearContra(),
