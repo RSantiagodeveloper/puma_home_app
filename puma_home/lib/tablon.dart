@@ -15,13 +15,19 @@ import 'package:flutter/material.dart';
 
 class TablonAnuncios extends StatefulWidget {
 
+  final String idGroup;
+  TablonAnuncios(this.idGroup);
+
   _TablonAnunciosState createState() {
-    return _TablonAnunciosState();
+    return _TablonAnunciosState(idGroup);
   }
 }
 
 class _TablonAnunciosState extends State<TablonAnuncios> {
   
+  String _idGrupo;
+  _TablonAnunciosState(this._idGrupo);
+
   String notice = 'Nueva Noticia generada y consultada desde Firebase';
   TextEditingController newNotice = new TextEditingController();
 
@@ -40,6 +46,7 @@ class _TablonAnunciosState extends State<TablonAnuncios> {
       children: <Widget>[
         Column(
           children: <Widget>[
+            Text('Estoy en el Grupo $_idGrupo'),
             Text('Tablon de Anuncios', style: TextStyle(fontSize: 30.0),),
             Container(
               width: _width/1.2,

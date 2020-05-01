@@ -16,10 +16,9 @@ Widget _grupo(BuildContext context, String nombre) {
     child: Column(
       children: <Widget>[
         ListTile(
-          leading: IconButton(icon: Icon(Icons.class_), onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> PantallaGrupo()));}),
+          leading: IconButton(icon: Icon(Icons.class_), onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> PantallaGrupo('userX','grpY')));}),
           title:  Text(nombre),
           subtitle: Text("clase virtual"),
-
         )
       ],
     )

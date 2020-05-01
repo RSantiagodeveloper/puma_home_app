@@ -11,19 +11,23 @@ import 'tablon.dart';
 
 //
 class PantallaGrupo extends StatelessWidget {
+  final String idUser; //id del usuario actual
+  final String idGroup; //id del Grupo Actual
+  PantallaGrupo(this.idUser, this.idGroup);
+
   final int bgColor = 0xFF040367;
   final int borderColor = 0xFFBEAF2A;
   final double widthBorder = 5.0;
 
   Widget createTareasButton(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width/1.2,
-        height: MediaQuery.of(context).size.height/6.67,
+        width: MediaQuery.of(context).size.width / 1.2,
+        height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-                  border: Border.all(width: widthBorder, color: Color(borderColor)),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(bgColor)),
+            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            borderRadius: BorderRadius.circular(20),
+            color: Color(bgColor)),
         child: FlatButton(
           textColor: Colors.white,
           child: Text('Tareas'),
@@ -38,13 +42,13 @@ class PantallaGrupo extends StatelessWidget {
 
   Widget createContactoButton(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width/1.2,
-        height: MediaQuery.of(context).size.height/6.67,
+        width: MediaQuery.of(context).size.width / 1.2,
+        height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-                  border: Border.all(width: widthBorder, color: Color(borderColor)),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(bgColor)),
+            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            borderRadius: BorderRadius.circular(20),
+            color: Color(bgColor)),
         child: FlatButton(
           textColor: Colors.white,
           child: Text('Contacto profesor'),
@@ -59,13 +63,13 @@ class PantallaGrupo extends StatelessWidget {
 
   Widget createMaterialButton(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width/1.2,
-        height: MediaQuery.of(context).size.height/6.67,
+        width: MediaQuery.of(context).size.width / 1.2,
+        height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-                  border: Border.all(width: widthBorder, color: Color(borderColor)),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(bgColor)),
+            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            borderRadius: BorderRadius.circular(20),
+            color: Color(bgColor)),
         child: FlatButton(
           textColor: Colors.white,
           child: Text('Material de apoyo'),
@@ -97,7 +101,8 @@ class PantallaGrupo extends StatelessWidget {
           decoration: BoxDecoration(color: Colors.white),
           child: ListView(
             children: [
-              TablonAnuncios(),
+              Text('Trabajo con el Usuario $idUser y con el Grupo $idGroup'),
+              TablonAnuncios(idGroup),
               Divider(),
               createTareasButton(context),
               Divider(),

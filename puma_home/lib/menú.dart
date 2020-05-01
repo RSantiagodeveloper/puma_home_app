@@ -4,7 +4,6 @@ import 'MenuApp.dart';
 import 'iconAppBar.dart';
 import 'mi_perfil.dart';
 import 'EliminarClase.dart';
-import 'misgrupos.dart';
 import 'addgrupo.dart';
 //
 class Menu extends StatelessWidget {
@@ -94,7 +93,7 @@ class Menu extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => MiPerfil()),
+          MaterialPageRoute(builder: (context) => MiPerfil('userX')),
           );
 
       },

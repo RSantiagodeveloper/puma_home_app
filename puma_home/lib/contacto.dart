@@ -17,7 +17,7 @@ class Contacto extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => PantallaGrupo())
+          MaterialPageRoute(builder: (context) => PantallaGrupo('userX','grpY'))
           );
       },
       )

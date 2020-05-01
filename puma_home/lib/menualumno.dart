@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:puma_home/mi_perfil_s.dart';
 import 'MenuApp.dart';
 import 'iconAppBar.dart';
-import 'mi_perfil.dart';
 import 'EliminarClase.dart';
 import 'misgrupos.dart';
 import 'alta.dart';
@@ -71,7 +71,7 @@ class MenuAlumno extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => MiPerfil()),
+          MaterialPageRoute(builder: (context) => MiPerfilS('userX')),
           );
 
       },

@@ -6,7 +6,7 @@ class Caratula extends StatefulWidget{
 }
 
 class _CaratulaState extends State<Caratula>{
-
+  
   void initState(){
     Future.delayed(
       Duration(seconds: 5),

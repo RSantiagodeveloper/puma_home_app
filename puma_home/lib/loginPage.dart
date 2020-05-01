@@ -29,6 +29,7 @@ class LoginPageState extends State<LoginPage> {
           if (value.isEmpty) {
             return 'Campo obligatorio';
           }
+          return null;
         },
       ),
     );
@@ -46,6 +47,7 @@ class LoginPageState extends State<LoginPage> {
           if (value.isEmpty) {
             return 'Campo obligatorio';
           }
+          return null;
         },
       ),
     );

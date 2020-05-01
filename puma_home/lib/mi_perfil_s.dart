@@ -3,6 +3,8 @@ import 'package:puma_home/MenuApp_S.dart';
 import 'iconAppBar.dart';
 
 class MiPerfilS extends StatelessWidget {
+  final String idUser;
+  MiPerfilS(this.idUser);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,24 +19,29 @@ class MiPerfilS extends StatelessWidget {
         ],
       ),
       drawer: MenuApps(),
-      body: FormMiPerfil(),
+      body: FormMiPerfil(idUser),
     );
   }
 }
 
 class FormMiPerfil extends StatefulWidget {
+  final String idUser;
+  FormMiPerfil(this.idUser);
   FormMiPerfilState createState() {
-    return FormMiPerfilState();
+    return FormMiPerfilState(idUser);
   }
 }
 
 class FormMiPerfilState extends State<FormMiPerfil> {
 
+  String idUserState;
+  FormMiPerfilState(this.idUserState);
+
   var colorElements = 0xFF040367;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController usrname = new TextEditingController();
-  TextEditingController usrmail = new TextEditingController();
-  TextEditingController usrphone = new TextEditingController();
+  TextEditingController usrname = new TextEditingController(text: 'Nombre Usuario');
+  TextEditingController usrmail = new TextEditingController(text: 'Correo@contacto');
+  TextEditingController usrphone = new TextEditingController(text: 'tel-user');
 
   @override
   Widget build(BuildContext context) {

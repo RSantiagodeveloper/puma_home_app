@@ -14,12 +14,17 @@
 import 'package:flutter/material.dart';
 
 class TablonAnunciosS extends StatefulWidget {
+  final String idGroup;
+  TablonAnunciosS(this.idGroup);
   _TablonAnunciosSState createState() {
-    return _TablonAnunciosSState();
+    return _TablonAnunciosSState(idGroup);
   }
 }
 
 class _TablonAnunciosSState extends State<TablonAnunciosS> {
+
+  String _idGrupo;
+  _TablonAnunciosSState(this._idGrupo);
   
   String notice = 'Nueva Noticia generada y consultada desde Firebase';
   TextEditingController newNotice = new TextEditingController();
