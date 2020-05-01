@@ -1,41 +1,94 @@
 import 'package:flutter/material.dart';
 import 'MenuApp.dart';
 import 'iconAppBar.dart';
+import 'menualumno.dart';
+import 'package:flutter/cupertino.dart';
 
-class AltaClase extends StatelessWidget {
-  final int bgColor = 0xFF040367;
-  final int borderColor = 0xFFBEAF2A;
-  final double widthBorder = 5.0;
+
+class AltaClase extends StatefulWidget {
+  _AltaClaseState createState() => _AltaClaseState();
+}
+
+
+class _AltaClaseState extends State<AltaClase> {
+
+  int bgColor = 0xFF040367;
+  int borderColor = 0xFFBEAF2A;
+  double widthBorder = 5.0;
+  
+  TextEditingController _codigoController =new TextEditingController();
+  TextEditingController _confirmaCodigoController =new TextEditingController();
+  
+  String rolUser = 'Estudiante';
+
+  GlobalKey<FormState> _keyForm = new GlobalKey();
+
+ 
 
 
 
   Widget createCodigoInput() {
     return Padding(
-              padding: const EdgeInsets.only(
-                top: 40),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Código'
-                ),
-                obscureText: true,
-              ),
-            );
+      padding: const EdgeInsets.only(top: 32),
+      child: TextFormField(
+        controller: _codigoController,
+        decoration: InputDecoration(
+          labelText: 'Codigo',
+        ),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Rellenar campo obligatorio';
+          }
+          return null;
+        },
+      ),
+    );
   }
+
+    Widget createConfirma() {
+    //Crea formato Contraseña
+    return Padding(
+      padding: const EdgeInsets.only(top: 32),
+      child: TextFormField(
+        controller: _confirmaCodigoController,
+        decoration: InputDecoration(labelText: 'Confirme Código'),
+        validator: (value) {
+          if (value != _codigoController.text) {
+            return 'Los codigos no coinciden';
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
+
   Widget createLoginButton(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width/1.2,
-        height: MediaQuery.of(context).size.height/6.67,
-        padding: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-                  border: Border.all(width: widthBorder, color: Color(borderColor)),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(bgColor)),
+      width: MediaQuery.of(context).size.width / 2,
+      height: MediaQuery.of(context).size.height / 6.67,
+      decoration: BoxDecoration(
+        color: Color(bgColor),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(width: 5, color: Color(borderColor))
+      ),
       child: FlatButton(
-        textColor: Colors.white,
-        child: Text('Darse de alta'),
-      onPressed: () {},
-      )
-      );
+        child: Text(
+          'Alta',
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: () {
+          if (_keyForm.currentState.validate()) {
+            print(
+                'Recibi ${_codigoController.text} y ${_confirmaCodigoController.text} $rolUser');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MenuAlumno()));
+          }
+        },
+      ),
+    );
   }
 
 
@@ -55,16 +108,20 @@ class AltaClase extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white
-        ),
+      body: Form(
+        key: _keyForm,
         child: ListView(
           children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white
+              ),
+            ),
             createCodigoInput(),
+            createConfirma(),
             Divider(),
             createLoginButton(context),
           ],
