@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/loginPage.dart';
+import 'package:puma_home/src/routes/servicios/loginPage.dart';
 
 class Caratula extends StatefulWidget{
   _CaratulaState createState() => _CaratulaState();

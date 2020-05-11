@@ -1,19 +1,19 @@
-/**
+/*
  * Pantalla de grupo del profesor
  */
 import 'package:flutter/material.dart';
-import 'MenuApp.dart';
-import 'iconAppBar.dart';
-import 'tareas.dart';
-import 'contacto.dart';
-import 'materialdeapoyo.dart';
-import 'tablon.dart';
+import 'package:puma_home/src/resources/MenuApp_tch.dart';
+import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/routes/profesor/material_Apoyo_tch.dart';
+import 'package:puma_home/src/routes/profesor/tablon_tch.dart';
+import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
+import 'package:puma_home/src/routes/servicios/contacto.dart';
 
 //
-class PantallaGrupo extends StatelessWidget {
+class PantallaGrupoTch extends StatelessWidget {
   final String idUser; //id del usuario actual
   final String idGroup; //id del Grupo Actual
-  PantallaGrupo(this.idUser, this.idGroup);
+  PantallaGrupoTch(this.idUser, this.idGroup);
 
   final int bgColor = 0xFF040367;
   final int borderColor = 0xFFBEAF2A;
@@ -34,7 +34,7 @@ class PantallaGrupo extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Tareas()),
+              MaterialPageRoute(builder: (context) => TareasTch()),
             );
           },
         ));
@@ -76,7 +76,7 @@ class PantallaGrupo extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MaterialApoyo()),
+              MaterialPageRoute(builder: (context) => MaterialApoyoTch()),
             );
           },
         ));
@@ -85,7 +85,7 @@ class PantallaGrupo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuApp(),
+      drawer: MenuAppTch(),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: Text('Grupo'),
@@ -102,7 +102,7 @@ class PantallaGrupo extends StatelessWidget {
           child: ListView(
             children: [
               Text('Trabajo con el Usuario $idUser y con el Grupo $idGroup'),
-              TablonAnuncios(idGroup),
+              TablonAnunciosTch(idGroup),
               Divider(),
               createTareasButton(context),
               Divider(),

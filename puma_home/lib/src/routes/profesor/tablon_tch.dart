@@ -1,5 +1,4 @@
-
-/**
+/*
  * Hasta este punto Tengo ya una version inicial del tablero.
  * Falta mejorar la responsividad del mismo, y alomejor mejorar el tema.
  * La funcionalidad basica ya esta.
@@ -13,27 +12,24 @@
 
 import 'package:flutter/material.dart';
 
-class TablonAnuncios extends StatefulWidget {
-
+class TablonAnunciosTch extends StatefulWidget {
   final String idGroup;
-  TablonAnuncios(this.idGroup);
+  TablonAnunciosTch(this.idGroup);
 
-  _TablonAnunciosState createState() {
-    return _TablonAnunciosState(idGroup);
+  _TablonAnunciosTchState createState() {
+    return _TablonAnunciosTchState(idGroup);
   }
 }
 
-class _TablonAnunciosState extends State<TablonAnuncios> {
-  
+class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
   String _idGrupo;
-  _TablonAnunciosState(this._idGrupo);
+  _TablonAnunciosTchState(this._idGrupo);
 
   String notice = 'Nueva Noticia generada y consultada desde Firebase';
   TextEditingController newNotice = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-  
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     var bgColor = 0xFF040367;
@@ -47,13 +43,17 @@ class _TablonAnunciosState extends State<TablonAnuncios> {
         Column(
           children: <Widget>[
             Text('Estoy en el Grupo $_idGrupo'),
-            Text('Tablon de Anuncios', style: TextStyle(fontSize: 30.0),),
+            Text(
+              'Tablon de Anuncios',
+              style: TextStyle(fontSize: 30.0),
+            ),
             Container(
-              width: _width/1.2,
-              height: (_width < _height)? _height/3.03 : _height/2,
+              width: _width / 1.2,
+              height: (_width < _height) ? _height / 3.03 : _height / 2,
               padding: EdgeInsets.all(_sizepadding),
               decoration: BoxDecoration(
-                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  border:
+                      Border.all(width: widthBorder, color: Color(borderColor)),
                   borderRadius: BorderRadius.circular(20),
                   color: Color(bgColor)),
               child: Column(
@@ -68,24 +68,23 @@ class _TablonAnunciosState extends State<TablonAnuncios> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Container(
-                        width: (_width < _height)? MediaQuery.of(context).size.width/1.78: MediaQuery.of(context).size.width/1.5,
+                        width: (_width < _height)
+                            ? MediaQuery.of(context).size.width / 1.78
+                            : MediaQuery.of(context).size.width / 1.5,
                         height: 30,
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4)
-                        ),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4)),
                         child: TextField(
-                          controller: newNotice,
-                          style: TextStyle(
-                            color: Colors.black
-                          ),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.announcement,
-                              color: Color(0xFF040367),
-                            ),
-                            border: OutlineInputBorder(),
-                        )),
+                            controller: newNotice,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.announcement,
+                                color: Color(0xFF040367),
+                              ),
+                              border: OutlineInputBorder(),
+                            )),
                       ),
                       IconButton(
                           icon: Icon(
@@ -94,7 +93,8 @@ class _TablonAnunciosState extends State<TablonAnuncios> {
                           ),
                           onPressed: () {
                             setState(() {
-                              notice = newNotice.text; //guarda el cambio-> este se va a la DB
+                              notice = newNotice
+                                  .text; //guarda el cambio-> este se va a la DB
                               newNotice.text = ''; //limpia el campo de texto
                             });
                           }),

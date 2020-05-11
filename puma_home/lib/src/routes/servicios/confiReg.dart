@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/Inicio.dart';
+
+import '../../Inicio.dart';
 
 class SuccessRegPage extends StatelessWidget {
   final String usuario;
@@ -25,9 +26,9 @@ class SuccessRegPage extends StatelessWidget {
               ),
             ),
             FloatingActionButton.extended(
-              icon: Icon(Icons.account_circle),
-              label: Text('Iniciar Sesión '),
-              backgroundColor: Color(0xFF040367),
+                icon: Icon(Icons.account_circle),
+                label: Text('Iniciar Sesión '),
+                backgroundColor: Color(0xFF040367),
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Caratula()));

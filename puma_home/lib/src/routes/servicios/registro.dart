@@ -1,8 +1,8 @@
-/**Este archivo solo es tomando de referencia al login desarrollado por Rich_cam*/
+/*Este archivo solo es tomando de referencia al login desarrollado por Rich_cam*/
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:puma_home/confiReg.dart';
+import 'package:puma_home/src/routes/servicios/confiReg.dart';
 
 class RegistryPage extends StatefulWidget {
   _RegistryPageState createState() => _RegistryPageState();
@@ -214,17 +214,17 @@ class _RegistryPageState extends State<RegistryPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => SuccessRegPage(_usrName.text)));
-              }else{
-               _showDialog('Estudiante', _keyComunity.text);
+              } else {
+                _showDialog('Estudiante', _keyComunity.text);
               }
-            }else if(rolUser == 'teacher'){
+            } else if (rolUser == 'teacher') {
               if (_keyComunity.text == _clvProfUNAMexample) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => SuccessRegPage(_usrName.text)));
-              }else{
-               _showDialog('Profesor', _keyComunity.text);
+              } else {
+                _showDialog('Profesor', _keyComunity.text);
               }
             }
           }
@@ -233,35 +233,36 @@ class _RegistryPageState extends State<RegistryPage> {
     );
   }
 
-  void _showDialog(String tipo, String clave){
+  void _showDialog(String tipo, String clave) {
     showDialog(
-      context: context,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text('aviso'),
-          content: Text(
-            'No se reconcio al $tipo con clave de comunidad $clave, verifique los datos',
-            textAlign: TextAlign.justify,
-          ),
-          actions: <Widget>[
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('aviso'),
+            content: Text(
+              'No se reconcio al $tipo con clave de comunidad $clave, verifique los datos',
+              textAlign: TextAlign.justify,
+            ),
+            actions: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Container(
-                    child: GestureDetector(
-                      child: Text('Aceptar', style: TextStyle(fontSize: 14, color: Colors.blue),),
-                      onTap: (){
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  )
+                      child: GestureDetector(
+                    child: Text(
+                      'Aceptar',
+                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ))
                 ],
               )
             ],
-        );
-      }
-    );
-  }  
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {

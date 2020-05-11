@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:puma_home/men%C3%BA.dart';
-import 'package:puma_home/menualumno.dart';
-import 'package:puma_home/registro.dart';
+import 'package:puma_home/src/routes/alumno/menu_stdn.dart';
+import 'package:puma_home/src/routes/profesor/menu_tch.dart';
+import 'package:puma_home/src/routes/servicios/registro.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
@@ -86,11 +86,14 @@ class LoginPageState extends State<LoginPage> {
                   //caso del login de un alumno
                   if (_emailController.text == _userTest) {
                     if (_contraController.text == _passTest) {
-                      if(_userType == 'student'){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MenuAlumno()));
-                      }
-                      else{
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Menu()));
+                      if (_userType == 'student') {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MenuAlumno()));
+                      } else {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MenuTch()));
                       }
                     } else {
                       _contraController.text = '';
@@ -99,7 +102,8 @@ class LoginPageState extends State<LoginPage> {
                   } else {
                     _emailController.text = '';
                     _contraController.text = '';
-                    _errorDialog('El ususario no existe o la contraseña es incorrecta');
+                    _errorDialog(
+                        'El ususario no existe o la contraseña es incorrecta');
                   }
                 }
               }, //deja el acceso en caso de ser correcto****
@@ -123,13 +127,15 @@ class LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Container(
-                    child: GestureDetector(
-                      child: Text('Aceptar', style: TextStyle(fontSize: 14, color: Colors.blue),),
-                      onTap: (){
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  )
+                      child: GestureDetector(
+                    child: Text(
+                      'Aceptar',
+                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ))
                 ],
               )
             ],

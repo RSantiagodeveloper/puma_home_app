@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/MenuApp_S.dart';
-import 'iconAppBar.dart';
+import 'package:puma_home/src/resources/MenuApp_stdn.dart';
+import 'package:puma_home/src/resources/iconAppBar.dart';
 
-class MiPerfilS extends StatelessWidget {
+class MiPerfilStdn extends StatelessWidget {
   final String idUser;
-  MiPerfilS(this.idUser);
+  MiPerfilStdn(this.idUser);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +18,7 @@ class MiPerfilS extends StatelessWidget {
               onPressed: null)
         ],
       ),
-      drawer: MenuApps(),
+      drawer: MenuAppStdn(),
       body: FormMiPerfil(idUser),
     );
   }
@@ -33,14 +33,15 @@ class FormMiPerfil extends StatefulWidget {
 }
 
 class FormMiPerfilState extends State<FormMiPerfil> {
-
   String idUserState;
   FormMiPerfilState(this.idUserState);
 
   var colorElements = 0xFF040367;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController usrname = new TextEditingController(text: 'Nombre Usuario');
-  TextEditingController usrmail = new TextEditingController(text: 'Correo@contacto');
+  TextEditingController usrname =
+      new TextEditingController(text: 'Nombre Usuario');
+  TextEditingController usrmail =
+      new TextEditingController(text: 'Correo@contacto');
   TextEditingController usrphone = new TextEditingController(text: 'tel-user');
 
   @override
@@ -51,47 +52,47 @@ class FormMiPerfilState extends State<FormMiPerfil> {
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height/10,
+            height: MediaQuery.of(context).size.height / 10,
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height/6.67,
+            height: MediaQuery.of(context).size.height / 6.67,
             padding: EdgeInsets.all(10.0),
             margin: EdgeInsets.only(top: 10),
             child: TextField(
               controller: usrname,
               decoration: InputDecoration(
-                  labelText: 'Nombre de Usuario',
-                  icon: Icon(Icons.account_circle, color: Color(colorElements)),
-                ),
+                labelText: 'Nombre de Usuario',
+                icon: Icon(Icons.account_circle, color: Color(colorElements)),
+              ),
             ),
           ),
           Divider(),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height/6.67,
+            height: MediaQuery.of(context).size.height / 6.67,
             padding: EdgeInsets.all(10.0),
             margin: EdgeInsets.only(top: 10),
             child: TextField(
               controller: usrmail,
               decoration: InputDecoration(
-                  labelText: 'Correo de Contacto',
-                  icon: Icon(Icons.contact_mail, color: Color(colorElements)),
-                ),
+                labelText: 'Correo de Contacto',
+                icon: Icon(Icons.contact_mail, color: Color(colorElements)),
+              ),
             ),
           ),
           Divider(),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height/6.67,
+            height: MediaQuery.of(context).size.height / 6.67,
             padding: EdgeInsets.all(10.0),
             margin: EdgeInsets.only(top: 10),
             child: TextField(
               controller: usrphone,
               decoration: InputDecoration(
-                  labelText: 'Telefono de Contacto',
-                  icon: Icon(Icons.phone, color: Color(colorElements)),
-                ),
+                labelText: 'Telefono de Contacto',
+                icon: Icon(Icons.phone, color: Color(colorElements)),
+              ),
             ),
           ),
           Divider(),

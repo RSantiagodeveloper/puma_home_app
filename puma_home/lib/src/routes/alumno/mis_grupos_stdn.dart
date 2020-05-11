@@ -1,40 +1,36 @@
-/**
+/*
  * En este archivo se define la pantalla correspondiente a los grupos en los que un alumno está incrito.
  * 
  */
 import 'package:flutter/material.dart';
-import 'package:puma_home/MenuApp.dart';
-import 'package:puma_home/addgrupo.dart';
-
+import 'package:puma_home/src/resources/MenuApp_stdn.dart';
+import 'alta_Grupo.dart';
 
 class MisGrupos extends StatefulWidget {
   @override
   _MisGruposState createState() => _MisGruposState();
 }
 
-
 ///este widget devuelve la tarjeta individual para cada grupo
 ///se le tiene que pasar un string nombre para que la pueda mostrar
 
-Widget _grupo(String nombre , String tipoClase) {
+Widget _grupo(String nombre, String tipoClase) {
   return Card(
-    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),  
-    color: Colors.blue,
-    child: Column(
-      children: <Widget>[
-        ListTile(
-          leading: Icon(Icons.class_),
-          title:  Text(nombre),
-          subtitle: Text(tipoClase),
-
-        )
-      ],
-    )
-  );
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+      color: Colors.blue,
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.class_),
+            title: Text(nombre),
+            subtitle: Text(tipoClase),
+          )
+        ],
+      ));
 }
 
 ///funcion que obtiene los datos de firebase para los grupos
-generarGrupo(){
+generarGrupo() {
 //obtenerDatosBase();
 //contarDatosBase();
 //crearArregloTarjetas();
@@ -52,7 +48,7 @@ class _MisGruposState extends State<MisGrupos> {
           child: Text('Mis Grupos'),
         ),
       ),
-      drawer: MenuApp(),
+      drawer: MenuAppStdn(),
       body: ListView(
           padding: EdgeInsets.symmetric(
             horizontal: 16,
@@ -60,15 +56,15 @@ class _MisGruposState extends State<MisGrupos> {
           ),
           children: [
             generarGrupo(),
-            _grupo("Historia","clase virtual"),
-            _grupo("Matematicas","clase prensencial"),
-            _grupo("Quimica","clase virtual"),
+            _grupo("Historia", "clase virtual"),
+            _grupo("Matematicas", "clase prensencial"),
+            _grupo("Quimica", "clase virtual"),
           ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Addgrupo()),
+            MaterialPageRoute(builder: (context) => AltaClase()),
           );
         },
         backgroundColor: Colors.blue,

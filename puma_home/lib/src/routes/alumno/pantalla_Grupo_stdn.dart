@@ -1,13 +1,13 @@
-/**
+/*
  * Pantalla de grupo del alumno
  */
 import 'package:flutter/material.dart';
-import 'package:puma_home/tablon_s.dart';
-import 'MenuApp.dart';
-import 'iconAppBar.dart';
-import 'tareas.dart';
-import 'contacto.dart';
-import 'materialdeapoyo.dart';
+import 'package:puma_home/src/routes/alumno/tablon_stdn.dart';
+import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/routes/alumno/material_Apoyo_stdn.dart';
+import 'package:puma_home/src/resources/MenuApp_stdn.dart';
+import 'package:puma_home/src/routes/alumno/tareas_stdn.dart';
+import 'package:puma_home/src/routes/servicios/contacto.dart';
 
 //
 class PantallaGrupoS extends StatelessWidget {
@@ -85,7 +85,7 @@ class PantallaGrupoS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuApp(),
+      drawer: MenuAppStdn(),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: Text('Grupo'),
@@ -101,7 +101,7 @@ class PantallaGrupoS extends StatelessWidget {
           decoration: BoxDecoration(color: Colors.white),
           child: ListView(
             children: [
-              TablonAnunciosS(idGroup),
+              TablonAnunciosStdn(idGroup),
               Divider(),
               createTareasButton(context),
               Divider(),

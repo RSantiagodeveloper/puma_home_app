@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/Inicio.dart';
+import 'package:puma_home/src/Inicio.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -7,20 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mini Menú',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        buttonTheme: ButtonThemeData(height: 70),
-        textTheme: TextTheme(
-          subhead: TextStyle(
-            fontSize: 18,
-          ),
-          button: TextStyle(
-            fontSize: 21
-          )
-        )
-      ),
-      //home: MiniMenu(),
+      title: 'Puma Home',
       home: Caratula(),
     );
   }
