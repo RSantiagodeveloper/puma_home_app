@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:puma_home/loginPage.dart';
 
 class Caratula extends StatefulWidget{
@@ -15,6 +16,10 @@ class _CaratulaState extends State<Caratula>{
       }
     );
   }
+=======
+import 'package:puma_home/registro.dart';
+
+>>>>>>> ricardojs
 
   Widget build(BuildContext context){
     return MaterialApp(

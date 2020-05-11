@@ -8,6 +8,10 @@ import 'iconAppBar.dart';
 import 'tareas.dart';
 import 'contacto.dart';
 import 'materialdeapoyo.dart';
+<<<<<<< HEAD
+=======
+
+>>>>>>> ricardojs
 
 //
 class PantallaGrupoS extends StatelessWidget {
