@@ -51,6 +51,7 @@ class MenuApp extends StatefulWidget{
 class _MenuAppState extends State<MenuApp>{
   final double sizeOption = 16.0;
   final double sizeTitle = 20.0;
+ 
   @override
   Widget build(BuildContext context) {
     return new Drawer(

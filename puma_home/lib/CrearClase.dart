@@ -5,13 +5,22 @@ import 'menú.dart';
 
 
 class CrearClase extends StatelessWidget {
+  final int bgColor = 0xFF040367;
+  final int borderColor = 0xFFBEAF2A;
+  final double widthBorder = 5.0;
 
 
     Widget createMenuButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
-      child: RaisedButton(
-        textColor: Colors.black,
+        width: MediaQuery.of(context).size.width/1.2,
+        height: MediaQuery.of(context).size.height/6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+                  border: Border.all(width: widthBorder, color: Color(borderColor)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(bgColor)),
+      child: FlatButton(
+        textColor: Colors.white,
         child: Text('Crear Clase'),
       onPressed: () {
         Navigator.push(
@@ -28,8 +37,8 @@ class CrearClase extends StatelessWidget {
     return Scaffold(
       drawer:MenuApp(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Crear Clase'),
+        backgroundColor: Color(bgColor),
+        title: Text('Crear Clase',style: TextStyle(color: Color(borderColor))),
         centerTitle: true,
         actions: [
           IconButton(
