@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 class MiPerfilTch extends StatelessWidget {
   final String idUser;
@@ -10,7 +11,7 @@ class MiPerfilTch extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Mi Perfil'),
+        title: Text(Elementos.btnMiPerf),
         centerTitle: true,
         actions: [
           IconButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 class MisGruposTch extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class MisGruposTch extends StatefulWidget {
 Widget _grupo(BuildContext context, String nombre) {
   return Card(
       margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-      color: Colors.blue,
+      color: Color(Elementos.contenedor),
       child: Column(
         children: <Widget>[
           ListTile(
@@ -36,7 +37,7 @@ class _MisGruposState extends State<MisGruposTch> {
     return Scaffold(
       appBar: AppBar(
         title: Title(
-          color: Colors.blue,
+          color: Color(Elementos.contenedor),
           child: Text('Mis Grupos'),
         ),
       ),
@@ -53,9 +54,8 @@ class _MisGruposState extends State<MisGruposTch> {
           ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //TODO: añadir clase que agregue grupos
         },
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(Elementos.contenedor),
         child: Icon(Icons.add),
       ),
     );

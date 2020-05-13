@@ -8,6 +8,7 @@ import 'package:puma_home/src/routes/alumno/material_Apoyo_stdn.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/routes/alumno/tareas_stdn.dart';
 import 'package:puma_home/src/routes/servicios/contacto.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 //
 class PantallaGrupoS extends StatelessWidget {
@@ -15,9 +16,6 @@ class PantallaGrupoS extends StatelessWidget {
   final String idGroup; //id del Grupo Actual
   PantallaGrupoS(this.idUser, this.idGroup);
 
-  final int bgColor = 0xFF040367;
-  final int borderColor = 0xFFBEAF2A;
-  final double widthBorder = 5.0;
 
   Widget createTareasButton(BuildContext context) {
     return Container(
@@ -25,12 +23,12 @@ class PantallaGrupoS extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
-          child: Text('Tareas'),
+          child: Text(Elementos.btnTareas),
           onPressed: () {
             Navigator.push(
               context,
@@ -46,12 +44,12 @@ class PantallaGrupoS extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
-          child: Text('Contacto profesor'),
+          child: Text(Elementos.btnContact),
           onPressed: () {
             Navigator.push(
               context,
@@ -67,12 +65,12 @@ class PantallaGrupoS extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
-          child: Text('Material de apoyo'),
+          child: Text(Elementos.btnStorage),
           onPressed: () {
             Navigator.push(
               context,
@@ -87,7 +85,7 @@ class PantallaGrupoS extends StatelessWidget {
     return Scaffold(
       drawer: MenuAppStdn(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(Elementos.contenedor),
         title: Text('Grupo'),
         centerTitle: true,
         actions: [

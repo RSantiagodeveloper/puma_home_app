@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 class MaterialApoyoTch extends StatelessWidget {
   Widget createMenuButton(BuildContext context) {
@@ -24,8 +25,8 @@ class MaterialApoyoTch extends StatelessWidget {
     return Scaffold(
       drawer: MenuAppTch(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Material de apoyo'),
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text(Elementos.btnStorage),
         centerTitle: true,
         actions: [
           IconButton(

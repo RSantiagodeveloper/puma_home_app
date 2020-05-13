@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'alta_Grupo.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 class MisGrupos extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class MisGrupos extends StatefulWidget {
 Widget _grupo(String nombre, String tipoClase) {
   return Card(
       margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-      color: Colors.blue,
+      color: Color(Elementos.contenedor),
       child: Column(
         children: <Widget>[
           ListTile(
@@ -44,7 +45,7 @@ class _MisGruposState extends State<MisGrupos> {
     return Scaffold(
       appBar: AppBar(
         title: Title(
-          color: Colors.blue,
+          color: Color(Elementos.contenedor),
           child: Text('Mis Grupos'),
         ),
       ),
@@ -67,7 +68,7 @@ class _MisGruposState extends State<MisGrupos> {
             MaterialPageRoute(builder: (context) => AltaClase()),
           );
         },
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(Elementos.contenedor),
         child: Icon(Icons.add),
       ),
     );

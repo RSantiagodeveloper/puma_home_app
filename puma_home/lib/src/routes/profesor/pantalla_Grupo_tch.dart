@@ -8,16 +8,14 @@ import 'package:puma_home/src/routes/profesor/material_Apoyo_tch.dart';
 import 'package:puma_home/src/routes/profesor/tablon_tch.dart';
 import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
 import 'package:puma_home/src/routes/servicios/contacto.dart';
-
+import 'package:puma_home/src/resources/App_Elements.dart';
 //
 class PantallaGrupoTch extends StatelessWidget {
   final String idUser; //id del usuario actual
   final String idGroup; //id del Grupo Actual
   PantallaGrupoTch(this.idUser, this.idGroup);
 
-  final int bgColor = 0xFF040367;
-  final int borderColor = 0xFFBEAF2A;
-  final double widthBorder = 5.0;
+
 
   Widget createTareasButton(BuildContext context) {
     return Container(
@@ -25,9 +23,9 @@ class PantallaGrupoTch extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
           child: Text('Tareas'),
@@ -46,9 +44,9 @@ class PantallaGrupoTch extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
           child: Text('Contacto profesor'),
@@ -67,9 +65,9 @@ class PantallaGrupoTch extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
           child: Text('Material de apoyo'),
@@ -87,7 +85,7 @@ class PantallaGrupoTch extends StatelessWidget {
     return Scaffold(
       drawer: MenuAppTch(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(Elementos.contenedor),
         title: Text('Grupo'),
         centerTitle: true,
         actions: [

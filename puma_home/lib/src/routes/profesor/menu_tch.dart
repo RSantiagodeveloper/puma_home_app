@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/routes/profesor/mis_Grupos_tch.dart';
-import 'package:puma_home/src/routes/profesor/mi_perfil_tch.dart';
+import 'package:puma_home/src/routes/profesor/MiPerfil.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 class MenuTch extends StatelessWidget {
-  final int bgColor = 0xFF040367;
-  final int borderColor = 0xFFBEAF2A;
-  final double widthBorder = 5.0;
 
   Widget createVerGruposButton(BuildContext context) {
     return Container(
@@ -15,12 +13,12 @@ class MenuTch extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
-          child: Text('Ver mis grupos'),
+          child: Text(Elementos.btnMiGrp),
           onPressed: () {
             Navigator.push(
               context,
@@ -36,12 +34,12 @@ class MenuTch extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
-          child: Text('Mi perfil'),
+          child: Text(Elementos.btnMiPerf),
           onPressed: () {
             Navigator.push(
               context,
@@ -56,9 +54,9 @@ class MenuTch extends StatelessWidget {
     return Scaffold(
       drawer: MenuAppTch(),
       appBar: AppBar(
-        backgroundColor: Color(bgColor),
-        title: Text('Administración (Profesor)',
-            style: TextStyle(color: Color(borderColor))),
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text(Elementos.appBarAdmon,
+            style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(

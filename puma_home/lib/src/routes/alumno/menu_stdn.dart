@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
-import 'package:puma_home/src/routes/alumno/mi_perfil_stdn.dart';
+import 'package:puma_home/src/routes/alumno/MiPerfil_stdn.dart';
 import 'package:puma_home/src/routes/alumno/mis_grupos_stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 import 'alta_Grupo.dart';
 
 //
 class MenuAlumno extends StatelessWidget {
-  final int bgColor = 0xFF040367;
-  final int borderColor = 0xFFBEAF2A;
-  final double widthBorder = 5.0;
+
 
   Widget createVerGruposButton(BuildContext context) {
     return Container(
@@ -17,12 +16,12 @@ class MenuAlumno extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
-          child: Text('Ver mis grupos'),
+          child: Text(Elementos.btnMiGrp),
           onPressed: () {
             Navigator.push(
               context,
@@ -38,12 +37,12 @@ class MenuAlumno extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
-          child: Text('Mi perfil'),
+          child: Text(Elementos.btnMiPerf),
           onPressed: () {
             Navigator.push(
               context,
@@ -59,9 +58,9 @@ class MenuAlumno extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: widthBorder, color: Color(borderColor)),
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
-            color: Color(bgColor)),
+            color: Color(Elementos.contenedor)),
         child: FlatButton(
           textColor: Colors.white,
           child: Text('Alta de clases'),
@@ -79,9 +78,9 @@ class MenuAlumno extends StatelessWidget {
     return Scaffold(
       drawer: MenuAppStdn(),
       appBar: AppBar(
-        backgroundColor: Color(bgColor),
-        title: Text('Administración (Alumno)',
-            style: TextStyle(color: Color(borderColor))),
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text(Elementos.titAdmon,
+            style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(

@@ -11,6 +11,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 class TablonAnunciosStdn extends StatefulWidget {
   final String idGroup;
@@ -31,9 +32,6 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
-    var bgColor = 0xFF040367;
-    var borderColor = 0xFFBEAF2A;
-    var widthBorder = 5.0;
     var _sizepadding = 5.0;
 
     return Row(
@@ -51,9 +49,9 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
               padding: EdgeInsets.all(_sizepadding),
               decoration: BoxDecoration(
                   border:
-                      Border.all(width: widthBorder, color: Color(borderColor)),
+                      Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
                   borderRadius: BorderRadius.circular(20),
-                  color: Color(bgColor)),
+                  color: Color(Elementos.contenedor)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

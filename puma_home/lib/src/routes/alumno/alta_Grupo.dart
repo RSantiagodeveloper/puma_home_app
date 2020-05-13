@@ -4,18 +4,33 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 import 'menu_stdn.dart';
 import 'package:flutter/cupertino.dart';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: MenuAlumno(),
+      appBar: AppBar(
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text('Inscripción', style: TextStyle(color: Color(Elementos.bordes))),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: IconAppBar(), //metodo donde se crea la referencia al icono
+              onPressed: null)
+        ],
+      ),
+    );
+  }
 
 class AltaClase extends StatefulWidget {
   _AltaClaseState createState() => _AltaClaseState();
 }
 
 class _AltaClaseState extends State<AltaClase> {
-  int bgColor = 0xFF040367;
-  int borderColor = 0xFFBEAF2A;
-  double widthBorder = 5.0;
-
+ 
   TextEditingController _codigoController = new TextEditingController();
   TextEditingController _confirmaCodigoController = new TextEditingController();
 
@@ -24,8 +39,11 @@ class _AltaClaseState extends State<AltaClase> {
   GlobalKey<FormState> _keyForm = new GlobalKey();
 
   Widget createCodigoInput() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 32),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 6.67,
+      padding: EdgeInsets.all(10.0),
+      margin: EdgeInsets.only(top: 10),
       child: TextFormField(
         controller: _codigoController,
         decoration: InputDecoration(
@@ -43,8 +61,11 @@ class _AltaClaseState extends State<AltaClase> {
 
   Widget createConfirma() {
     //Crea formato Contraseña
-    return Padding(
-      padding: const EdgeInsets.only(top: 32),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 6.67,
+      padding: EdgeInsets.all(10.0),
+      margin: EdgeInsets.only(top: 10),
       child: TextFormField(
         controller: _confirmaCodigoController,
         decoration: InputDecoration(labelText: 'Confirme Código'),
@@ -63,9 +84,9 @@ class _AltaClaseState extends State<AltaClase> {
       width: MediaQuery.of(context).size.width / 2,
       height: MediaQuery.of(context).size.height / 6.67,
       decoration: BoxDecoration(
-          color: Color(bgColor),
+          color: Color(Elementos.contenedor),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(width: 5, color: Color(borderColor))),
+          border: Border.all(width: 5, color: Color(Elementos.bordes))),
       child: FlatButton(
         child: Text(
           'Alta',
@@ -83,34 +104,23 @@ class _AltaClaseState extends State<AltaClase> {
     );
   }
 
+
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: MenuAlumno(),
-      appBar: AppBar(
-        backgroundColor: Color(bgColor),
-        title: Text('Inscripción', style: TextStyle(color: Color(borderColor))),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              icon: IconAppBar(), //metodo donde se crea la referencia al icono
-              onPressed: null)
+  Widget build(BuildContext context){
+    return Container(
+      key: _keyForm,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(color: Colors.white),
+      child: ListView(
+        children: [
+          createCodigoInput(),
+          createConfirma(),
+          Divider(),
+          createLoginButton(context),
         ],
-      ),
-      body: Form(
-          key: _keyForm,
-          child: ListView(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(color: Colors.white),
-              ),
-              createCodigoInput(),
-              createConfirma(),
-              Divider(),
-              createLoginButton(context),
-            ],
-          )),
+      )
     );
   }
+
 }
