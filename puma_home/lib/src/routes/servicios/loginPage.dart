@@ -1,8 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:puma_home/src/routes/alumno/menu_stdn.dart';
 import 'package:puma_home/src/routes/profesor/menu_tch.dart';
 import 'package:puma_home/src/routes/servicios/registro.dart';
+
+final dbreference = FirebaseDatabase.instance.reference().child('registroUsr'); //Referencia a la base de datos a utilizar
+String idUser = '';
+String emailUsr = '';
+String passUsr = '';
+String rolUsr = '';
 
 class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
@@ -73,8 +80,10 @@ class LoginPageState extends State<LoginPage> {
               ),
               onPressed: () {
                 if (_keyForm.currentState.validate()) {
+                  validar("ricardo@comunidad.com");
                   print(
                       'Recibi: ${_emailController.text} y ${_contraController.text}');
+                  print('Consultados $emailUsr  con clave $idUser ');
                   /**
                    * para hacer la autentificacion se recomiendan los pasos
                    * 1 - verifica que el correo y contraseña existen en el registro de ususarios, ademas comprueba que sean correctas
@@ -84,7 +93,7 @@ class LoginPageState extends State<LoginPage> {
                    * Si no se comprueba el paso 1 o 2, se debe de bloquear el acceso
                    */
                   //caso del login de un alumno
-                  if (_emailController.text == _userTest) {
+                 /* if (_emailController.text == _userTest) {
                     if (_contraController.text == _passTest) {
                       if (_userType == 'student') {
                         Navigator.push(
@@ -104,12 +113,16 @@ class LoginPageState extends State<LoginPage> {
                     _contraController.text = '';
                     _errorDialog(
                         'El ususario no existe o la contraseña es incorrecta');
-                  }
+                  }*/
                 }
               }, //deja el acceso en caso de ser correcto****
             )),
       ],
     );
+  }
+
+  void validar(String mail){
+    dbreference.orderByChild('Email').equalTo(mail);
   }
 
   void _errorDialog(String mensaje) {

@@ -1,5 +1,6 @@
 /*Este archivo solo es tomando de referencia al login desarrollado por Rich_cam*/
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/routes/servicios/confiReg.dart';
@@ -8,7 +9,8 @@ class RegistryPage extends StatefulWidget {
   _RegistryPageState createState() => _RegistryPageState();
 }
 
-// **** -falta tocar cosas
+final dbreference = FirebaseDatabase.instance.reference().child('registroUsr'); //referencia a la base de datos: tabla registroUsr
+
 class _RegistryPageState extends State<RegistryPage> {
   //variables para el tema de la pantalla
   int bgColor = 0xFF040367;
@@ -210,6 +212,7 @@ class _RegistryPageState extends State<RegistryPage> {
               //  comprobar la existencia del noCuenta
               //comprobar que los datos ingresados corresponden a los asociados a ese no de cuenta
               if (_keyComunity.text == _noCtaUNAMexample) {
+                crearRegistro(_usrName.text, _lastName.text, _mLastName.text, _email.text, _passwdUsr.text, rolUser);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -219,6 +222,7 @@ class _RegistryPageState extends State<RegistryPage> {
               }
             } else if (rolUser == 'teacher') {
               if (_keyComunity.text == _clvProfUNAMexample) {
+                crearRegistro(_usrName.text, _lastName.text, _mLastName.text, _email.text, _passwdUsr.text, rolUser);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -231,6 +235,20 @@ class _RegistryPageState extends State<RegistryPage> {
         },
       ),
     );
+  }
+
+  /*
+  *@method: En este metodo se lleva a cabo la insercion de datos del nuevo registro de usuarios
+  */
+  void crearRegistro(String name, String apt, String apm, String mail, String pass, String rol )async{
+    dbreference.push().set({
+      'Nombre': name,
+      'Ap_Paterno': apt,
+      'Ap_Materno': apm,
+      'Email': mail,
+      'passwd': pass,
+      'TipoUsuario': rol
+    });
   }
 
   void _showDialog(String tipo, String clave) {
