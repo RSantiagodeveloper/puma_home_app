@@ -1,20 +1,27 @@
-/*Este archivo solo es tomando de referencia al login desarrollado por Rich_cam*/
+/*
+ * @author: Ricardo_Santiago, Anibal_Medina.
+ * @desciption: Archivo dedicado a la creacion del formulario de registro
+ * y la conexion con los servicios de autentificacion y cloud_firestore
+*/
 
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/routes/servicios/confiReg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 class RegistryPage extends StatefulWidget {
   _RegistryPageState createState() => _RegistryPageState();
 }
 
-final dbreference = FirebaseDatabase.instance.reference().child('registroUsr'); //referencia a la base de datos: tabla registroUsr
-
 class _RegistryPageState extends State<RegistryPage> {
+
+  //Referencia a la base de datos 
+  final _registryrUsr = FirebaseAuth.instance;
+  final fireReference = Firestore.instance;
+
   //variables para el tema de la pantalla
-  int bgColor = 0xFF040367;
-  int borderColor = 0xFFBEAF2A;
 
   TextEditingController _lastName = new TextEditingController();
   TextEditingController _mLastName = new TextEditingController();
@@ -194,39 +201,49 @@ class _RegistryPageState extends State<RegistryPage> {
       width: MediaQuery.of(context).size.width / 2,
       height: MediaQuery.of(context).size.height / 6.67,
       decoration: BoxDecoration(
-          color: Color(bgColor),
+          color: Color(Elementos.contenedor),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(width: 5, color: Color(borderColor))),
+          border: Border.all(width: 5, color: Color(Elementos.bordes))),
       child: FlatButton(
         child: Text(
           'Registrarme',
           style: TextStyle(color: Colors.white),
         ),
-        onPressed: () {
+        onPressed: () async{
           if (keyForm.currentState.validate()) {
             print(
                 'Recibi ${_usrName.text} ${_lastName.text} ${_mLastName.text} ${_email.text} ${_passwdUsr.text} $rolUser ${_keyComunity.text}');
             if (rolUser == 'student') {
-              //si escogio rol de estudiante debe consultar y comprobar que el numero de cuenta sea valido
-              //nota: para que sea valido el campo se debe de:
-              //  comprobar la existencia del noCuenta
-              //comprobar que los datos ingresados corresponden a los asociados a ese no de cuenta
               if (_keyComunity.text == _noCtaUNAMexample) {
-                crearRegistro(_usrName.text, _lastName.text, _mLastName.text, _email.text, _passwdUsr.text, rolUser);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SuccessRegPage(_usrName.text)));
+                try{
+                  final newUser = await _registryrUsr.createUserWithEmailAndPassword(email: _email.text, password: _passwdUsr.text);
+                  if(newUser != null){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessRegPage(_usrName.text)));
+                  }
+                }catch(e){
+                  print(e);
+                }
               } else {
                 _showDialog('Estudiante', _keyComunity.text);
               }
             } else if (rolUser == 'teacher') {
               if (_keyComunity.text == _clvProfUNAMexample) {
-                crearRegistro(_usrName.text, _lastName.text, _mLastName.text, _email.text, _passwdUsr.text, rolUser);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SuccessRegPage(_usrName.text)));
+                try{
+                  final newUser = await _registryrUsr.createUserWithEmailAndPassword(email: _email.text, password: _passwdUsr.text);
+                  fireReference.collection('Usuarios').document(newUser.user.uid).setData({
+                    'Nombre': _usrName.text,
+                    'ApPat': _lastName.text,
+                    'ApMat': _mLastName.text,
+                    'Email': _email.text,
+                    'Passwd': _passwdUsr.text,
+                    'RolUser': rolUser
+                  });
+                  if(newUser != null){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessRegPage(_usrName.text)));
+                  }
+                }catch(e){
+                  print(e);
+                }
               } else {
                 _showDialog('Profesor', _keyComunity.text);
               }
@@ -237,19 +254,8 @@ class _RegistryPageState extends State<RegistryPage> {
     );
   }
 
-  /*
-  *@method: En este metodo se lleva a cabo la insercion de datos del nuevo registro de usuarios
-  */
-  void crearRegistro(String name, String apt, String apm, String mail, String pass, String rol )async{
-    dbreference.push().set({
-      'Nombre': name,
-      'Ap_Paterno': apt,
-      'Ap_Materno': apm,
-      'Email': mail,
-      'passwd': pass,
-      'TipoUsuario': rol
-    });
-  }
+//HANIBAL SE LA COME
+//CON PAPAS Y REFRESCO
 
   void _showDialog(String tipo, String clave) {
     showDialog(
@@ -269,7 +275,7 @@ class _RegistryPageState extends State<RegistryPage> {
                       child: GestureDetector(
                     child: Text(
                       'Aceptar',
-                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                      style: TextStyle(fontSize: 14, color: Color(Elementos.contenedor)),
                     ),
                     onTap: () {
                       Navigator.of(context).pop();

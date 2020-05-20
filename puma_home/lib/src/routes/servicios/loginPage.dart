@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:puma_home/src/routes/alumno/menu_stdn.dart';
-import 'package:puma_home/src/routes/profesor/menu_tch.dart';
+//import 'package:puma_home/src/routes/alumno/menu_stdn.dart';
+//import 'package:puma_home/src/routes/profesor/menu_tch.dart';
 import 'package:puma_home/src/routes/servicios/registro.dart';
 
 final dbreference = FirebaseDatabase.instance.reference().child('registroUsr'); //Referencia a la base de datos a utilizar
@@ -18,10 +18,12 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contraController = TextEditingController();
-
+  /*
   String _userTest = 'ricardo@comunidad.unam.mx';
   String _passTest = 'hola1234';
   String _userType = 'teacher';
+  */
+  
 
   GlobalKey<FormState> _keyForm = new GlobalKey();
 
@@ -124,7 +126,7 @@ class LoginPageState extends State<LoginPage> {
   void validar(String mail){
     dbreference.orderByChild('Email').equalTo(mail);
   }
-
+  /*
   void _errorDialog(String mensaje) {
     showDialog(
         context: context,
@@ -155,7 +157,8 @@ class LoginPageState extends State<LoginPage> {
           );
         });
   }
-
+  */
+  
   Widget crearLinkCuenta() {
     //Crea el link al menu para registrar****
     return Container(

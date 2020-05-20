@@ -52,7 +52,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
   Widget createNombreUsuarioInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 6.67,
+      height: MediaQuery.of(context).size.height / 4.67,
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.only(top: 10),
       child: TextField(
@@ -68,7 +68,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
   Widget createCorreoInput(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 6.67,
+      height: MediaQuery.of(context).size.height / 4.67,
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.only(top: 10),
       child: TextField(
@@ -84,7 +84,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
   Widget createTelefonoInput(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 6.67,
+      height: MediaQuery.of(context).size.height / 4.67,
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.only(top: 10),
       child: TextField(
@@ -100,7 +100,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
   Widget createGuardarButton(){
     return Container(
       width: MediaQuery.of(context).size.width / 2,
-      height: MediaQuery.of(context).size.height / 6.67,
+      height: MediaQuery.of(context).size.height / 4.67,
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
           color: Color(Elementos.contenedor),
