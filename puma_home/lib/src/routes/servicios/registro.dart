@@ -217,6 +217,14 @@ class _RegistryPageState extends State<RegistryPage> {
               if (_keyComunity.text == _noCtaUNAMexample) {
                 try{
                   final newUser = await _registryrUsr.createUserWithEmailAndPassword(email: _email.text, password: _passwdUsr.text);
+                  fireReference.collection('Usuarios').document(newUser.user.uid).setData({
+                    'Nombre': _usrName.text,
+                    'ApPat': _lastName.text,
+                    'ApMat': _mLastName.text,
+                    'Email': _email.text,
+                    'Passwd': _passwdUsr.text,
+                    'RolUser': rolUser
+                  });
                   if(newUser != null){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessRegPage(_usrName.text)));
                   }
@@ -292,7 +300,8 @@ class _RegistryPageState extends State<RegistryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registro'),
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text('Registro', style: TextStyle(color: Color(Elementos.bordes))),
       ),
       body: Form(
         key: keyForm,
