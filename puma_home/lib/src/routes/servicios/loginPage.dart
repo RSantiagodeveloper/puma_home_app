@@ -1,29 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-//import 'package:puma_home/src/routes/alumno/menu_stdn.dart';
-//import 'package:puma_home/src/routes/profesor/menu_tch.dart';
+import 'package:puma_home/src/routes/alumno/menu_stdn.dart';
+import 'package:puma_home/src/routes/profesor/menu_tch.dart';
 import 'package:puma_home/src/routes/servicios/registro.dart';
-
-final dbreference = FirebaseDatabase.instance.reference().child('registroUsr'); //Referencia a la base de datos a utilizar
-String idUser = '';
-String emailUsr = '';
-String passUsr = '';
-String rolUsr = '';
+import 'package:puma_home/src/resources/App_Elements.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
 }
 
 class LoginPageState extends State<LoginPage> {
+
+  final _auth = FirebaseAuth.instance;
+  final dbReference = Firestore.instance;
+  
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contraController = TextEditingController();
-  /*
-  String _userTest = 'ricardo@comunidad.unam.mx';
-  String _passTest = 'hola1234';
-  String _userType = 'teacher';
-  */
-  
 
   GlobalKey<FormState> _keyForm = new GlobalKey();
 
@@ -62,8 +57,8 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  // Crea el Boton de Enviar datos
   Widget crearBoton(BuildContext context) {
-    // Crea el Boton de Enviar
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -72,21 +67,18 @@ class LoginPageState extends State<LoginPage> {
             height: MediaQuery.of(context).size.height / 6,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Color(0xFF040367),
+                color: Color(Elementos.contenedor),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(width: 5, color: Color(0xFFBEAF2A))),
+                border: Border.all(width: 5, color: Color(Elementos.bordes))),
             child: FlatButton(
-              child: Text(
-                'Entrar',
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                if (_keyForm.currentState.validate()) {
-                  validar("ricardo@comunidad.com");
-                  print(
-                      'Recibi: ${_emailController.text} y ${_contraController.text}');
-                  print('Consultados $emailUsr  con clave $idUser ');
-                  /**
+                child: Text(
+                  'Entrar',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  if (_keyForm.currentState.validate()) {
+                    print('Recibi: ${_emailController.text} y ${_contraController.text}');
+                    /**
                    * para hacer la autentificacion se recomiendan los pasos
                    * 1 - verifica que el correo y contraseña existen en el registro de ususarios, ademas comprueba que sean correctas
                    * 2 - si se valida el paso anterior, entonces hay que consultar el rol del usuario
@@ -94,39 +86,52 @@ class LoginPageState extends State<LoginPage> {
                    *  2.2 - si su rol dice student, lo rutea a MenuAlumno(usr_id) y le comparte el ID de ususario
                    * Si no se comprueba el paso 1 o 2, se debe de bloquear el acceso
                    */
-                  //caso del login de un alumno
-                 /* if (_emailController.text == _userTest) {
-                    if (_contraController.text == _passTest) {
-                      if (_userType == 'student') {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MenuAlumno()));
-                      } else {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => MenuTch()));
+                    //caso del login de un alumno
+                    try{
+                      final userLoged = await _auth.signInWithEmailAndPassword(email: _emailController.text, password: _contraController.text);
+                      if(userLoged != null){
+                        final String usrID = userLoged.user.uid;
+
+                        var data = await dbReference.collection('Usuarios').document(usrID).get().then((DocumentSnapshot ds){
+                          Map<String, dynamic> valor = ds.data;
+                          print('Mi campo ${valor['RolUser']}');
+                          if (valor['RolUser'] == 'student') {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MenuAlumno()));
+                            } else {
+                              print('Logeando Profesor');
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => MenuTch()));
+                          }
+                        });
                       }
-                    } else {
-                      _contraController.text = '';
-                      _errorDialog('La contraseña es incorrecta');
+                    }catch(e){
+                      print('Exception: $e');
+                      var errorcode=e.code;
+                      var errorMessage = e.message;
+                      if(errorcode == 'ERROR_WRONG_PASSWORD'){ //ERROR_WRONG_PASSWORD
+                        _errorDialog("Contraseña incorrecta");
+                      }
+                      else if(errorcode == 'ERROR_INVALID_EMAIL'){ //ERROR_INVALID_EMAIL
+                         _errorDialog("Email invalido");
+                      }
+                      else if(errorcode == 'ERROR_USER_NOT_FOUND'){ //ERROR_USER_NOT_FOUND
+                         _errorDialog("Usario no encontrado");
+                      }
+                                                        
+                      else{
+                        _errorDialog(errorMessage); //cualquier otro mensaje de error va a aparecer aqui
+                      }
                     }
-                  } else {
-                    _emailController.text = '';
-                    _contraController.text = '';
-                    _errorDialog(
-                        'El ususario no existe o la contraseña es incorrecta');
-                  }*/
-                }
-              }, //deja el acceso en caso de ser correcto****
-            )),
+                    
+                  }
+                })),
       ],
     );
   }
-
-  void validar(String mail){
-    dbreference.orderByChild('Email').equalTo(mail);
-  }
-  /*
+  //widget que muestra un dialogo con un mensaje de error.
   void _errorDialog(String mensaje) {
     showDialog(
         context: context,
@@ -157,8 +162,7 @@ class LoginPageState extends State<LoginPage> {
           );
         });
   }
-  */
-  
+
   Widget crearLinkCuenta() {
     //Crea el link al menu para registrar****
     return Container(

@@ -79,7 +79,7 @@ class MenuAlumno extends StatelessWidget {
       drawer: MenuAppStdn(),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text(Elementos.titAdmon,
+        title: Text('Administración (LOS MORROS)',
             style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [

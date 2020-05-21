@@ -302,7 +302,7 @@ class _RegistryPageState extends State<RegistryPage> {
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Registro', style: TextStyle(color: Color(Elementos.bordes))),
-      ),
+      ), //hola buapo :3
       body: Form(
         key: keyForm,
         child: new ListView(

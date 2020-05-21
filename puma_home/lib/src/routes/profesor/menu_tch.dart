@@ -55,7 +55,7 @@ class MenuTch extends StatelessWidget {
       drawer: MenuAppTch(),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text(Elementos.appBarAdmon,
+        title: Text('Admistración (EL MASTER)',
             style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
