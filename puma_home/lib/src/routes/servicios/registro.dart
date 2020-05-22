@@ -1,7 +1,7 @@
 /*
  * @author: Ricardo_Santiago, Anibal_Medina.
  * @desciption: Archivo dedicado a la creacion del formulario de registro
- * y la conexion con los servicios de autentificacion y cloud_firestore
+ * y la conexion con los servicios de autenticacion y cloud_firestore
 */
 
 import 'package:flutter/cupertino.dart';
@@ -18,10 +18,10 @@ class RegistryPage extends StatefulWidget {
 class _RegistryPageState extends State<RegistryPage> {
 
   //Referencia a la base de datos 
-  final _registryrUsr = FirebaseAuth.instance;
-  final fireReference = Firestore.instance;
+  final _registryrUsr = FirebaseAuth.instance; //referencia al servicio de autenticacion
+  final fireReference = Firestore.instance; //referencia al DB Firestore
 
-  //variables para el tema de la pantalla
+  //Controladores para los campos del formulario
 
   TextEditingController _lastName = new TextEditingController();
   TextEditingController _mLastName = new TextEditingController();
@@ -93,6 +93,7 @@ class _RegistryPageState extends State<RegistryPage> {
       child: TextFormField(
         controller: _email,
         decoration: InputDecoration(labelText: 'correo'),
+        keyboardType: TextInputType.emailAddress,
         validator: (value) {
           if (value.isEmpty) {
             return 'Rellenar campo obligatorio';
@@ -143,6 +144,7 @@ class _RegistryPageState extends State<RegistryPage> {
     );
   }
 
+  //radioButtom
   Widget userType() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
@@ -195,6 +197,16 @@ class _RegistryPageState extends State<RegistryPage> {
     );
   }
 
+  /*
+   * @authors: Ricardo_santilo, Anibal Medina
+   * @method: crearBoton
+   * @param: BuildContext
+   * @descrption: Se encarga de validar los datos en los campos del formulario y genera errores si hay algun
+   * campo vacio, o no se cumplen con las caracteristicas de algunas cadenas
+   * Ademas se encarga de activar las llamadas de Auth y Firestore para añadir nuevos usuarios a la DB
+   * y relacionar los usuarios con sus respectivos Documentos en la Coleccion "Usuarios"
+   */
+
   Widget crearBoton(BuildContext context) {
     // Crea el Boton de Enviar
     return Container(
@@ -211,13 +223,16 @@ class _RegistryPageState extends State<RegistryPage> {
         ),
         onPressed: () async{
           if (keyForm.currentState.validate()) {
-            print(
-                'Recibi ${_usrName.text} ${_lastName.text} ${_mLastName.text} ${_email.text} ${_passwdUsr.text} $rolUser ${_keyComunity.text}');
-            if (rolUser == 'student') {
+            if (rolUser == 'student') { //aqui se lleva acabo el registro en modalidad de estudiante
+              //TODO: Agregar consultas desde una base de datos 'UNAM' donde se tengan las claves comunidad para validad estudiantes
               if (_keyComunity.text == _noCtaUNAMexample) {
+                //bloque try-Catch para manejar los servicios de Auth y Cloud-firestore
                 try{
+                  //Se crea un usuario con Correo y contraseña. Se tiene que activar el Servico en Firebase_Auth
                   final newUser = await _registryrUsr.createUserWithEmailAndPassword(email: _email.text, password: _passwdUsr.text);
-                  fireReference.collection('Usuarios').document(newUser.user.uid).setData({
+                  //Se crea una referencia a la coleccion 'Usuarios' en el servicio Firestore, y se le añade un nuevo documento cuyo id
+                  //sea el UID del Usuario en Auth-FireBase
+                  fireReference.collection('Usuarios').document(newUser.user.uid).setData({ //se recupera el UID mediante Objetos Anonimos
                     'Nombre': _usrName.text,
                     'ApPat': _lastName.text,
                     'ApMat': _mLastName.text,
@@ -226,15 +241,16 @@ class _RegistryPageState extends State<RegistryPage> {
                     'RolUser': rolUser
                   });
                   if(newUser != null){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessRegPage(_usrName.text)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessRegPage(_usrName.text))); //redirecionando a pantalla de Bienvenida
                   }
                 }catch(e){
-                  print(e);
+                  print(e); //TODO: Hay que añadir manejadores para los diferentes errores que nos lleguen a generar Firebase_Auth
                 }
               } else {
                 _showDialog('Estudiante', _keyComunity.text);
               }
             } else if (rolUser == 'teacher') {
+              //Mismo Proseso que en alumno
               if (_keyComunity.text == _clvProfUNAMexample) {
                 try{
                   final newUser = await _registryrUsr.createUserWithEmailAndPassword(email: _email.text, password: _passwdUsr.text);
@@ -261,9 +277,6 @@ class _RegistryPageState extends State<RegistryPage> {
       ),
     );
   }
-
-//HANIBAL SE LA COME
-//CON PAPAS Y REFRESCO
 
   void _showDialog(String tipo, String clave) {
     showDialog(
@@ -305,19 +318,23 @@ class _RegistryPageState extends State<RegistryPage> {
       ), //hola buapo :3
       body: Form(
         key: keyForm,
-        child: new ListView(
-          children: <Widget>[
-            usrNameField(),
-            lastNameField(),
-            mLastNameField(),
-            emailField(),
-            passwdField(),
-            passwdCheckField(),
-            userType(),
-            keyComunityField(),
-            Divider(),
-            crearBoton(context),
-          ],
+        //TODO: Ajustar el Listview dentro de un container
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: new ListView(
+            children: <Widget>[
+              usrNameField(),
+              lastNameField(),
+              mLastNameField(),
+              emailField(),
+              passwdField(),
+              passwdCheckField(),
+              userType(),
+              keyComunityField(),
+              Divider(),
+              crearBoton(context),
+            ],
+          ),
         ),
       ),
     );

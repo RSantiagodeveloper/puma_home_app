@@ -1,3 +1,10 @@
+/*
+ * @authors: Ricardo_S, Anibal_M, David_G, @Ricardo_J
+ * @description: pantalla dedicada a mostrar el formulario de login
+ * el cual, a travez de los servicios de Firebase_Auth y Cloud_Firestore
+ * validara al usuario que desee ingresar a la app
+ */
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/routes/alumno/menu_stdn.dart';
@@ -13,10 +20,11 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
 
+  //referencias a los servicios de Backend Firebase_auth y Colud_firestore respectivamente
   final _auth = FirebaseAuth.instance;
   final dbReference = Firestore.instance;
   
-
+  //Controladores de los campos de texto del formulario
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contraController = TextEditingController();
 
@@ -29,6 +37,7 @@ class LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: _emailController,
         decoration: InputDecoration(labelText: 'Usuario o Email'),
+        keyboardType: TextInputType.emailAddress,
         validator: (value) {
           if (value.isEmpty) {
             return 'Campo obligatorio';
@@ -57,7 +66,15 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Crea el Boton de Enviar datos
+  /*
+   * @Method: crearBoton
+   * @Param: BuildContext
+   * @description: Metodo dedicado a crear el boton de ingreso y a validar datos en el formulario de login
+   * Verificando que se cumplan con los valores de entrada requeridos, y que activa eventos de error cuando
+   * no se cumplen con las condiciones de las cadenas de entrada, o no se identifica al usuario por x razon
+   * (email invalido, usuario no existente, pass incorrecta). Ademas, se encarga de enviar los datos
+   * correspondientes a la pantalla de admon.
+   */
   Widget crearBoton(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -77,8 +94,7 @@ class LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: () async {
                   if (_keyForm.currentState.validate()) {
-                    print('Recibi: ${_emailController.text} y ${_contraController.text}');
-                    /**
+                  /** Algoritmo de Ingreso
                    * para hacer la autentificacion se recomiendan los pasos
                    * 1 - verifica que el correo y contraseña existen en el registro de ususarios, ademas comprueba que sean correctas
                    * 2 - si se valida el paso anterior, entonces hay que consultar el rol del usuario
@@ -87,15 +103,16 @@ class LoginPageState extends State<LoginPage> {
                    * Si no se comprueba el paso 1 o 2, se debe de bloquear el acceso
                    */
                     //caso del login de un alumno
+                    //bloque try-catch para manejar eventos de error generados por el servicio de Auth
                     try{
+                      //validacion mediante email y passwd
                       final userLoged = await _auth.signInWithEmailAndPassword(email: _emailController.text, password: _contraController.text);
-                      if(userLoged != null){
+                      if(userLoged != null){ //si hay respuesta del servidor
                         final String usrID = userLoged.user.uid;
-
+                        //recuperamos el UID del usuario autenticado y accedemos a su Document en la coleccion usuario
                         var data = await dbReference.collection('Usuarios').document(usrID).get().then((DocumentSnapshot ds){
-                          Map<String, dynamic> valor = ds.data;
-                          print('Mi campo ${valor['RolUser']}');
-                          if (valor['RolUser'] == 'student') {
+                          Map<String, dynamic> valor = ds.data; //consultado un solo campo del Documento
+                          if (valor['RolUser'] == 'student') { //se verifica el rol del usuario y se decide a que pantalla accede y con que permisos
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -108,7 +125,7 @@ class LoginPageState extends State<LoginPage> {
                         });
                       }
                     }catch(e){
-                      print('Exception: $e');
+                      //Se verifican los errores arrojados y se muestra un alert para cada caso
                       var errorcode=e.code;
                       var errorMessage = e.message;
                       if(errorcode == 'ERROR_WRONG_PASSWORD'){ //ERROR_WRONG_PASSWORD
@@ -164,7 +181,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Widget crearLinkCuenta() {
-    //Crea el link al menu para registrar****
+    //Enlace al form de registro
     return Container(
         padding: const EdgeInsets.only(top: 6, right: 8),
         child: GestureDetector(
