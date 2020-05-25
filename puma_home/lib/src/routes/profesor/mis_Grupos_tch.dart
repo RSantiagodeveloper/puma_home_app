@@ -69,8 +69,9 @@ class _MisGruposState extends State<MisGruposTch> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(Elementos.contenedor),
         title: Title(
-          color: Color(Elementos.contenedor),
+          color: Color(Elementos.bordes),
           child: Text('Mis Grupos'),
         ),
       ),

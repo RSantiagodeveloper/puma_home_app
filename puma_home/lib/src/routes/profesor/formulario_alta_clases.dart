@@ -56,10 +56,15 @@ class _FormularioAltaClaseState extends State<FormularioAltaClase>{
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 6.67,
       padding: EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        color: Color(Elementos.contenedor),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(width: 5, color: Color(Elementos.bordes))
+      ),
       margin: EdgeInsets.only(top: 10),
       child: FlatButton(
         child: Text(
-          'Registrar y generar Clave',
+          'Registrar y generar clave',
            style: TextStyle(color: Colors.white),          
           ),
           onPressed: () async {
