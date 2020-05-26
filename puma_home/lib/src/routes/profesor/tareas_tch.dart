@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
+import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/resources/App_Elements.dart';
 
 class TareasTch extends StatefulWidget {
   @override
@@ -40,16 +42,19 @@ class _TareasState extends State<TareasTch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(icon: const Icon(Icons.list), onPressed: () {})
-        ],
-        title: Title(
-          color: Colors.blue,
-          child: Text('Tareas Pendientes'),
-        ),
-      ),
       drawer: MenuAppTch(),
+      appBar: AppBar(
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text('Tareas pendientes', 
+        style: TextStyle(color: Color(Elementos.bordes))),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: IconAppBar(), //metodo donde se crea la referencia al icono
+              onPressed: null)
+        ],
+      ),
+
       body: ListView(
           padding: EdgeInsets.symmetric(
             horizontal: 16,

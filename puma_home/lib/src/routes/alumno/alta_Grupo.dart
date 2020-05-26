@@ -2,28 +2,12 @@
 //Pantall
 
 import 'package:flutter/material.dart';
-import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/resources/iconAppBar.dart'; 
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
-import 'menu_stdn.dart';
+import 'menu_stdn.dart'; 
 import 'package:flutter/cupertino.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: MenuAlumno(),
-      appBar: AppBar(
-        backgroundColor: Color(Elementos.contenedor),
-        title: Text('Inscripción', style: TextStyle(color: Color(Elementos.bordes))),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              icon: IconAppBar(), //metodo donde se crea la referencia al icono
-              onPressed: null)
-        ],
-      ),
-    );
-  }
 
 class AltaClase extends StatefulWidget {
   _AltaClaseState createState() => _AltaClaseState();
@@ -97,7 +81,7 @@ class _AltaClaseState extends State<AltaClase> {
             print(
                 'Recibi ${_codigoController.text} y ${_confirmaCodigoController.text} $rolUser');
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MenuAppStdn()));
+                MaterialPageRoute(builder: (context) => MenuAlumno()));
           }
         },
       ),
@@ -108,18 +92,33 @@ class _AltaClaseState extends State<AltaClase> {
 
   @override
   Widget build(BuildContext context){
-    return Container(
-      key: _keyForm,
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(color: Colors.white),
-      child: ListView(
-        children: [
-          createCodigoInput(),
-          createConfirma(),
-          Divider(),
-          createLoginButton(context),
+    return Scaffold(
+      drawer: MenuAppStdn(),
+      appBar: AppBar(
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text('Alta de Clases', 
+        style: TextStyle(color: Color(Elementos.bordes))),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: IconAppBar(), //metodo donde se crea la referencia al icono
+              onPressed: null)
         ],
-      )
+      ),
+      body: Form(
+        key: _keyForm,
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: ListView(
+          children: [
+            createCodigoInput(),
+            createConfirma(),
+            Divider(),
+            createLoginButton(context),
+          ],
+          )
+        ),
+      ),
     );
   }
 

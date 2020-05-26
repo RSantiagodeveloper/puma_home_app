@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'alta_Grupo.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
+import 'package:puma_home/src/resources/iconAppBar.dart';
 
 class MisGrupos extends StatefulWidget {
   @override
@@ -43,13 +44,19 @@ class _MisGruposState extends State<MisGrupos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Title(
-          color: Color(Elementos.contenedor),
-          child: Text('Mis Grupos'),
-        ),
-      ),
       drawer: MenuAppStdn(),
+      appBar: AppBar(
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text('Mis Grupos', 
+        style: TextStyle(color: Color(Elementos.bordes))),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: IconAppBar(), //metodo donde se crea la referencia al icono
+              onPressed: null)
+        ],
+      ),
+
       body: ListView(
           padding: EdgeInsets.symmetric(
             horizontal: 16,

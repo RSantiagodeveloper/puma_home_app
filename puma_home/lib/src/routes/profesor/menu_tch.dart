@@ -6,7 +6,7 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 
 class MenuTch extends StatelessWidget {
-
+  
   Widget createVerGruposButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
@@ -43,7 +43,7 @@ class MenuTch extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MiPerfilTch('userX')),
+              MaterialPageRoute(builder: (context) => FormMiPerfil('userX')),
             );
           },
         ));

@@ -8,10 +8,17 @@ class MaterialApoyo extends StatelessWidget {
 
   Widget createMenuButton(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.only(top: 40),
-        child: RaisedButton(
-          textColor: Colors.black,
-          child: Text('Pantalla Grupo'),
+      width: MediaQuery.of(context).size.width / 2,
+      height: MediaQuery.of(context).size.height / 6.67,
+      decoration: BoxDecoration(
+          color: Color(Elementos.contenedor),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(width: 5, color: Color(Elementos.bordes))),
+      child: FlatButton(
+          child: Text(
+            'Pantalla Grupo',
+             style: TextStyle(color: Colors.white),
+            ),
           onPressed: () {
             Navigator.push(
                 context,
@@ -27,7 +34,8 @@ class MaterialApoyo extends StatelessWidget {
       drawer: MenuAppStdn(),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Material de apoyo'),
+        title: Text('Material de apoyo', 
+        style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(
@@ -35,6 +43,7 @@ class MaterialApoyo extends StatelessWidget {
               onPressed: null)
         ],
       ),
+
       body: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(color: Colors.white),
@@ -46,3 +55,4 @@ class MaterialApoyo extends StatelessWidget {
     );
   }
 }
+ 

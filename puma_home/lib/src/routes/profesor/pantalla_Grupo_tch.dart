@@ -86,7 +86,8 @@ class PantallaGrupoTch extends StatelessWidget {
       drawer: MenuAppTch(),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Grupo'),
+        title: Text('Pantalla Grupo', 
+        style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(
@@ -94,6 +95,7 @@ class PantallaGrupoTch extends StatelessWidget {
               onPressed: null)
         ],
       ),
+
       body: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(color: Colors.white),

@@ -1,31 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/src/resources/MenuApp_tch.dart';
+import 'package:puma_home/src/resources/MenuApp_Stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:flutter/cupertino.dart';
 
-class MiPerfilStdn extends StatelessWidget {
-  final String idUser;
-  MiPerfilStdn(this.idUser);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: MenuAppTch(),
-      appBar: AppBar(
-        backgroundColor: Color(Elementos.contenedor),
-        title: Text(Elementos.btnMiPerf),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              icon: IconAppBar(), //metodo donde se crea la referencia al icono
-              onPressed: null)
-        ],
-      ),
-      body: FormMiPerfil(idUser),
-      
-    );
-  }
-}
+
 
 class FormMiPerfil extends StatefulWidget {
   final String idUser;
@@ -127,22 +106,39 @@ class FormMiPerfilState extends State<FormMiPerfil> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-          key: _keyForm,
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(color: Colors.white),
+    return Scaffold(
+      drawer: MenuAppStdn(),
+      appBar: AppBar(
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text('Alta de Clases', 
+        style: TextStyle(color: Color(Elementos.bordes))),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: IconAppBar(), //metodo donde se crea la referencia al icono
+              onPressed: null)
+        ],
+      ),
+      body: Form(
+        key: _keyForm,
+        child: Container(
+          padding: const EdgeInsets.all(20),
           child: ListView(
-            children: [
-              Divider(),
-              createNombreUsuarioInput(),
-              Divider(),
-              createCorreoInput(),
-              Divider(),
-              createTelefonoInput(),
-              Divider(),
-              createGuardarButton(),
-            ],
+          children: [
+            createNombreUsuarioInput(),
+            Divider(),
+            createCorreoInput(),
+            Divider(),
+            createTelefonoInput(),
+            Divider(),
+            createGuardarButton(),
+            Divider(),
+          ],
           )
+        ),
+      ),
     );
+
+
   }
 }

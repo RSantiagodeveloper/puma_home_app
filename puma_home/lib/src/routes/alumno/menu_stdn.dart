@@ -46,7 +46,7 @@ class MenuAlumno extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MiPerfilStdn('userX')),
+              MaterialPageRoute(builder: (context) => FormMiPerfil('userX')),
             );
           },
         ));
@@ -80,7 +80,7 @@ class MenuAlumno extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Administración (LOS MORROS)',
-            style: TextStyle(color: Color(Elementos.bordes))),
+        style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(
