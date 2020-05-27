@@ -91,21 +91,28 @@ Widget grupo(BuildContext context, DocumentSnapshot ds) {
 
 class _MisGruposState extends State<MisGruposTch>  {
 
-  List<TchGrupos> grupos;
   ///referencia a la base de datos de firebase
   final _auth = FirebaseAuth.instance;
   FirebaseUser usuario;
 
-  void getReferenceUsr() async{
-    final resp = await _auth.currentUser();
-    usuario = resp;
-  }
-  
+  @override
   void initState(){
     super.initState();
     getReferenceUsr();
   }
 
+  void getReferenceUsr() async{
+    try{
+      final resp = await _auth.currentUser();
+      if(resp != null){
+        usuario = resp;
+        print('ID ${usuario.uid} Email ${usuario.email}');
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+  
   /* Future<void> listGrup(String iduser) async {
     Map<String, dynamic> valor;
     var data = await fireReference.collection('Mis').where("idteacher",isEqualTo:iduser).getDocuments().then((value){
@@ -137,7 +144,6 @@ class _MisGruposState extends State<MisGruposTch>  {
         ],
       ),
       body: StreamBuilder(
-
           stream: Firestore.instance.collection('Grupo').where('Id_profesor', isEqualTo: usuario.uid).snapshots(),
           builder: (context, snapshot){
             if(!snapshot.hasData){
