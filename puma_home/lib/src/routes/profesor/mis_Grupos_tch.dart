@@ -4,115 +4,23 @@ import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/routes/profesor/formulario_alta_clases.dart';
-import 'package:puma_home/model/tchgrupos.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class MisGruposTch extends StatefulWidget {
   @override
   _MisGruposState createState() => _MisGruposState();
 }
+
 /// widget que devuelve una tarjeta. Esta contiene la informacion de un grupo
 /// parametro nombre recibe el nombre de la clase
-/*
-class ListaGrupos extends StatefulWidget{
+
+class _MisGruposState extends State<MisGruposTch> {
   @override
-  _ListaGruposEstado createState() => _ListaGruposEstado();
-}
-
-final referenciaGrupo = FirebaseDatabase.instance.reference().child('Grupo');
-
-class _ListaGruposEstado extends State<ListaGrupos>{
-  List<Grupo> items;
-  StreamSubscription<Event> _onGrupoAddedSub;
-  StreamSubscription<Event> _onGrupoChangedSub;
-
-  @override
-  void initState(){
+  void initState() {
     super.initState();
-    items = List();
-    _onGrupoAddedSub = referenciaGrupo.onChildAdded.listen(_onGrupoAdded);
-    _onGrupoChangedSub = referenciaGrupo.onChildChanged.listen(_onGrupoUpdate);
-    
+    print('iniciado el init');
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _onGrupoAddedSub.cancel();
-    _onGrupoChangedSub.cancel();
-  }
-
-  void _onGrupoAdded(Event event) {
-    setstate(() {
-      items.add(Grupo.fromSnapShot(event.snapshot));
-    });
-  }
-
-  void _onGrupoUpdate(Event event) {
-    grupoAnterior = items.singleWhere((Grupo) => Grupo.id == event.snapshot.key);
-    setState(() {
-      items[items.indexOf(grupoAnterior)] = Grupo.fromSnapShot(event.snapshot);
-    });
-  }
-}
-*/
-Widget grupo(BuildContext context, DocumentSnapshot ds) {
-  return Card(
-      margin: EdgeInsets.all(10.0),
-      child: Column(
-        children: <Widget>[
-          ListTile(
-              leading: Icon(Icons.album),
-              title: Text(ds['Nombre']),
-              subtitle: Text('Clave'),
-            ),   
-          InkWell(
-            splashColor: Color(Elementos.contenedor),
-            onTap: (){
-              Navigator.push(context,MaterialPageRoute(
-                          builder: (context) =>
-                              PantallaGrupoTch('userX', 'grpY')));
-            },
-          ),
-          ButtonBar(
-            children: <Widget>[
-              FlatButton(
-                child: 
-                  //Icon(Icons.delete),
-                  Text('Borrar'),
-                onPressed: () {/*borrar*/},
-              ),
-            ],
-          ),
-        ],
-      ));
-}
-
-class _MisGruposState extends State<MisGruposTch>  {
-
-  ///referencia a la base de datos de firebase
-  final _auth = FirebaseAuth.instance;
-  FirebaseUser usuario;
-
-  @override
-  void initState(){
-    super.initState();
-    getReferenceUsr();
-  }
-
-  void getReferenceUsr() async{
-    try{
-      final resp = await _auth.currentUser();
-      if(resp != null){
-        usuario = resp;
-        print('ID ${usuario.uid} Email ${usuario.email}');
-      }
-    }catch(e){
-      print(e);
-    }
-  }
-  
   /* Future<void> listGrup(String iduser) async {
     Map<String, dynamic> valor;
     var data = await fireReference.collection('Mis').where("idteacher",isEqualTo:iduser).getDocuments().then((value){
@@ -125,17 +33,61 @@ class _MisGruposState extends State<MisGruposTch>  {
   /* TODO: arreglar el delete
   Future<void> DelateGroup(String iduser, String nombreMat) async {
     var erase = await fireReference.collection('MisGrupos').where("idteacher",isEqualTo:iduser).where("nombreClase",isEqualTo:nombreMat).delete();
+ 
+  //delete
+  agregar el boton para delete
+  void delete_group(String iduser, String nombreMat, int position) async{
+    await fireReference.child(iduser).remove().then((_){
+      setState(){
+      //aquí estaria el quitar el boton del grupo
+      //en el then, donde se esta seleccionando(position), ese es el que se elimina
+    }
+  });
+  //
   }
  */
 
+//widget que muestra un dialogo con un mensaje de error.
+  void _confirmationMassage() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Alerta'),
+            content: Text(
+              '¿Seguro que desea Borrar este grupo?',
+              textAlign: TextAlign.justify,
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                      child: GestureDetector(
+                    child: Text(
+                      'Aceptar',
+                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ))
+                ],
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    //print('BUILD ID ${usuario.uid} Email ${usuario.email}');
     return Scaffold(
       drawer: MenuAppTch(),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Mis Grupos', 
-        style: TextStyle(color: Color(Elementos.bordes))),
+        title: Text('Mis Grupos',
+            style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(
@@ -144,30 +96,108 @@ class _MisGruposState extends State<MisGruposTch>  {
         ],
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Grupo').where('Id_profesor', isEqualTo: usuario.uid).snapshots(),
-          builder: (context, snapshot){
-            if(!snapshot.hasData){
-              return Text('No hay datos');
-            }else{
-              //<DocumentSnapshot> datos = snapshot.data.documents;
-              
-              return new ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index){
-                  return grupo(context, snapshot.data.documents[index]);
-                }
+          stream: Firestore.instance.collection('Grupo').snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Text(
+                'No hay datos... Esperando',
+                style: TextStyle(color: Colors.white),
+              );
+            } else {
+              return new ListView(
+                children: snapshot.data.documents.map((document) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width / 1.25,
+                    height: MediaQuery.of(context).size.height / 6.6667,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Color(Elementos.contenedor),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                            width: 5, color: Color(Elementos.bordes))),
+                    margin: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width / 12.5,
+                          height: MediaQuery.of(context).size.height / 6.6667,
+                          child: Icon(
+                            Icons.book,
+                            size: MediaQuery.of(context).size.height / 13.3333,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.5625,
+                          height: MediaQuery.of(context).size.height / 6.6667,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  document['Nombre'],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(
+                                  document.documentID,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                )
+                              ]),
+                        ),
+                        ButtonBar(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                size: MediaQuery.of(context).size.height /
+                                    26.666666,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PantallaGrupoTch(
+                                                'userX', 'grpY')));
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.delete,
+                                size: MediaQuery.of(context).size.height /
+                                    26.666666,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                _confirmationMassage();
+                              },
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
               );
             }
-          }
-          
-      ),
+          }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {   
-         Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              FormularioAltaClase())); //aqui va la llamada a la pantalla formulario_alta_clases
+        onPressed: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      FormularioAltaClase())); //aqui va la llamada a la pantalla formulario_alta_clases
         },
         backgroundColor: Color(Elementos.contenedor),
         child: Icon(Icons.add),
@@ -175,49 +205,3 @@ class _MisGruposState extends State<MisGruposTch>  {
     );
   }
 }
-
-
-///ricardo
-///hanibal
-///angel
-///espejel
-///todos ellos en esta pantalla
-///
-///
-///
-///
-/*Widget _grupo(BuildContext context, String nombre) {
-  return Card(
-      margin: EdgeInsets.all(10.0), 
-      color: Color(Elementos.contenedor),
-      child: Column(
-        children: <Widget>[
-          const ListTile(
-            leading: Icon(Icons.class_),
-            title: Text('Clase '),
-            //subtitle: Text('Profesor ')
-          ),
-          ButtonBar(
-            children: <Widget>[
-              FlatButton(
-                child: const Text('Detalles'),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              PantallaGrupoTch('userX', 'grpY')));
-                  }
-                ),
-                FlatButton(
-                  child: 
-                    //Icon(Icons.delete),
-                    Text('Borrar'),
-                onPressed: () {/*borrar*/},
-              ),
-            ],
-          ),
-        ],
-      ));
-}
-*/

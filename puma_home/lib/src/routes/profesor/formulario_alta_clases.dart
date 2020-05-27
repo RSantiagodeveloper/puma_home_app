@@ -3,6 +3,7 @@ import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:puma_home/src/resources/iconAppBar.dart';
 
 class FormularioAltaClase extends StatefulWidget{
   _FormularioAltaClaseState createState() => _FormularioAltaClaseState();
@@ -122,8 +123,15 @@ class _FormularioAltaClaseState extends State<FormularioAltaClase>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-      backgroundColor: Color(Elementos.contenedor),
-      title: Text('Alta de Clases', style: TextStyle(color: Color(Elementos.bordes))),
+        backgroundColor: Color(Elementos.contenedor),
+        title: Text('Alta de clases', 
+        style: TextStyle(color: Color(Elementos.bordes))),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: IconAppBar(), //metodo donde se crea la referencia al icono
+              onPressed: null)
+        ],
       ),
       body: Form(
        key: keyForm,
