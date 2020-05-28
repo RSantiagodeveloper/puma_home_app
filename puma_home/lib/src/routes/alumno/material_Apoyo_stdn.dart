@@ -4,7 +4,18 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/alumno/pantalla_Grupo_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 
-class MaterialApoyo extends StatelessWidget {
+class MaterialApoyo extends StatefulWidget {
+  final String idUser;
+  MaterialApoyo(this.idUser);
+  MaterialApoyoState createState() {
+    return MaterialApoyoState(idUser);
+  }
+}
+
+
+class MaterialApoyoState extends State<MaterialApoyo> {
+  String idUserState;
+  MaterialApoyoState(this.idUserState);
 
   Widget createMenuButton(BuildContext context) {
     return Container(

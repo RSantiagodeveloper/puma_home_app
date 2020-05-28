@@ -3,9 +3,14 @@ import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 
+
 class TareasTch extends StatefulWidget {
-  @override
-  _TareasState createState() => _TareasState();
+
+final String idUser;
+  TareasTch(this.idUser);
+  _TareasState createState() {
+    return _TareasState(idUser);
+  }
 }
 
 seleccionarColor(materia) {
@@ -39,7 +44,9 @@ Widget _tarea(nombre, clase, entrega) {
 }
 
 class _TareasState extends State<TareasTch> {
-  @override
+  String idUserState;
+ _TareasState(this.idUserState);
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MenuAppTch(),

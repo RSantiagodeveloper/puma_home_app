@@ -32,7 +32,7 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Tareas()),
+              MaterialPageRoute(builder: (context) => Tareas('')),
             );
           },
         ));
@@ -74,7 +74,7 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MaterialApoyo()),
+              MaterialPageRoute(builder: (context) => MaterialApoyo('')),
             );
           },
         ));

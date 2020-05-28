@@ -81,7 +81,7 @@ class _AltaClaseState extends State<AltaClase> {
             print(
                 'Recibi ${_codigoController.text} y ${_confirmaCodigoController.text} $rolUser');
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MenuAlumno()));
+                MaterialPageRoute(builder: (context) => MenuAlumno('')));
           }
         },
       ),

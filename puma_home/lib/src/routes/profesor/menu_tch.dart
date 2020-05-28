@@ -5,7 +5,18 @@ import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 
-class MenuTch extends StatelessWidget {
+class MenuTch extends StatefulWidget {
+  final String idUser;
+  MenuTch(this.idUser);
+  MenuTchState createState() {
+    return MenuTchState(idUser);
+  }
+}
+
+
+class MenuTchState extends State<MenuTch> {
+  String idUserState;
+  MenuTchState(this.idUserState);
   
   Widget createVerGruposButton(BuildContext context) {
     return Container(
@@ -22,7 +33,7 @@ class MenuTch extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MisGruposTch()),
+              MaterialPageRoute(builder: (context) => MisGruposTch(idUserState)),
             );
           },
         ));

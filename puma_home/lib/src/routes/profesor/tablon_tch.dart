@@ -67,6 +67,7 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
                     children: <Widget>[
                       Container(
                         width: (_width < _height)
+                        
                             ? MediaQuery.of(context).size.width / 1.78
                             : MediaQuery.of(context).size.width / 1.5,
                         height: 30,

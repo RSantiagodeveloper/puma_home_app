@@ -5,11 +5,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 
+
 class FormularioAltaClase extends StatefulWidget{
-  _FormularioAltaClaseState createState() => _FormularioAltaClaseState();
+
+  FormularioAltaClaseState createState() {
+    return FormularioAltaClaseState();
+  }
 }
 
-class _FormularioAltaClaseState extends State<FormularioAltaClase>{
+class FormularioAltaClaseState extends State<FormularioAltaClase>{
+
 
   //Referencia a la base de datos en firestore
   final dbReference = Firestore.instance;

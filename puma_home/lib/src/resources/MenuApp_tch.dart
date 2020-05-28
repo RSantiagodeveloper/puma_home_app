@@ -76,7 +76,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MenuTch()),
+              MaterialPageRoute(builder: (context) => MenuTch('')),
             );
           },
         ),

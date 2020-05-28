@@ -7,18 +7,23 @@ import 'package:puma_home/src/routes/profesor/formulario_alta_clases.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 
 class MisGruposTch extends StatefulWidget {
+  final String idUser;
+  MisGruposTch(this.idUser);
   @override
-  _MisGruposState createState() => _MisGruposState();
+  _MisGruposState createState() => _MisGruposState(idUser);
 }
 
 /// widget que devuelve una tarjeta. Esta contiene la informacion de un grupo
 /// parametro nombre recibe el nombre de la clase
 
 class _MisGruposState extends State<MisGruposTch> {
+  final String idUserstate;
+  _MisGruposState(this.idUserstate);
+
   @override
   void initState() {
     super.initState();
-    print('iniciado el init');
+    print('recibi al usuario $idUserstate');
   }
 
   /* Future<void> listGrup(String iduser) async {
@@ -33,7 +38,7 @@ class _MisGruposState extends State<MisGruposTch> {
   /* TODO: arreglar el delete
   Future<void> DelateGroup(String iduser, String nombreMat) async {
     var erase = await fireReference.collection('MisGrupos').where("idteacher",isEqualTo:iduser).where("nombreClase",isEqualTo:nombreMat).delete();
- 
+  
   //delete
   agregar el boton para delete
   void delete_group(String iduser, String nombreMat, int position) async{
@@ -46,16 +51,21 @@ class _MisGruposState extends State<MisGruposTch> {
   //
   }
  */
-
-//widget que muestra un dialogo con un mensaje de error.
-  void _confirmationMassage() {
+  void deleteGroup(String idGroup){
+   
+    Firestore.instance.collection('Grupo').document(idGroup).delete().then((_) => {
+      statusMessage("El grupo ha sido eliminado")
+    });
+  }
+  ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
+  void statusMessage(String mensaje){
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Alerta'),
+            title: Text('Noticia'),
             content: Text(
-              '¿Seguro que desea Borrar este grupo?',
+              mensaje,
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
@@ -67,6 +77,51 @@ class _MisGruposState extends State<MisGruposTch> {
                     child: Text(
                       'Aceptar',
                       style: TextStyle(fontSize: 14, color: Colors.blue),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ))
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
+  void _confirmationMessage(String idGroup) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Alerta'),
+            content: Text(
+              'Estas aṕunto de eliminar el grupo.\n Todos los datos se perderan.\n ¿Seguro que deseas continuar?',
+              textAlign: TextAlign.justify,
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    color: Colors.red,
+                    child: GestureDetector(
+                    child: Text(
+                      'Borrar',
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      deleteGroup(idGroup); //funcion que elimina el grupo con el id que lleva como parametro                     
+                    },
+                  )),
+                  Container(
+                    color: Colors.green,
+                    child: GestureDetector(
+                    child: Text(
+                      'Conservar',
+                      style: TextStyle(fontSize: 14, color: Colors.white),
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
@@ -96,7 +151,7 @@ class _MisGruposState extends State<MisGruposTch> {
         ],
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Grupo').snapshots(),
+          stream: Firestore.instance.collection('Grupo').where("Clave_Profesor", isEqualTo: idUserstate).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -121,8 +176,8 @@ class _MisGruposState extends State<MisGruposTch> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          width: MediaQuery.of(context).size.width / 12.5,
-                          height: MediaQuery.of(context).size.height / 6.6667,
+                          width: MediaQuery.of(context).size.width / 6.667,
+                          //height: MediaQuery.of(context).size.height / 6.6667,
                           child: Icon(
                             Icons.book,
                             size: MediaQuery.of(context).size.height / 13.3333,
@@ -130,8 +185,9 @@ class _MisGruposState extends State<MisGruposTch> {
                           ),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width / 1.5625,
-                          height: MediaQuery.of(context).size.height / 6.6667,
+                          //width: MediaQuery.of(context).size.width / 1.5625,
+                          width: MediaQuery.of(context).size.width / 1.81,
+                          //height: MediaQuery.of(context).size.height / 6.6667,
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -152,8 +208,67 @@ class _MisGruposState extends State<MisGruposTch> {
                                   ),
                                 )
                               ]),
-                        ),
-                        ButtonBar(
+                        ), //end container
+                        Container(
+                          width: MediaQuery.of(context).size.width / 3.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              IconButton(
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                size: MediaQuery.of(context).size.height /
+                                    26.666666,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PantallaGrupoTch(
+                                                'userX', 'grpY')));
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.delete,
+                                size: MediaQuery.of(context).size.height /
+                                    26.666666,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                _confirmationMessage(document.documentID);
+                              },
+                            )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }).toList(),
+              );
+            }
+          }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      FormularioAltaClase())); //aqui va la llamada a la pantalla formulario_alta_clases
+        },
+        backgroundColor: Color(Elementos.contenedor),
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+
+/*
+     ButtonBar(
                           children: <Widget>[
                             IconButton(
                               icon: Icon(
@@ -183,25 +298,5 @@ class _MisGruposState extends State<MisGruposTch> {
                               },
                             )
                           ],
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              );
-            }
-          }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      FormularioAltaClase())); //aqui va la llamada a la pantalla formulario_alta_clases
-        },
-        backgroundColor: Color(Elementos.contenedor),
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-}
+                        ),//end buttonbar                   
+*/ 

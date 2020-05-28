@@ -1,4 +1,4 @@
-/*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        /*
  * @authors: Ricardo_S, Anibal_M, David_G, @Ricardo_J
  * @description: pantalla dedicada a mostrar el formulario de login
  * el cual, a travez de los servicios de Firebase_Auth y Cloud_Firestore
@@ -116,11 +116,11 @@ class LoginPageState extends State<LoginPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MenuAlumno()));
+                                    builder: (context) => MenuAlumno(usrID)));
                             } else {
                               print('Logeando Profesor');
                               Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => MenuTch()));
+                                  MaterialPageRoute(builder: (context) => MenuTch(usrID)));
                           }
                         });
                       }

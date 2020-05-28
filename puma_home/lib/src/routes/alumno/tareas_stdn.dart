@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 
 class Tareas extends StatefulWidget {
-  @override
-  _TareasState createState() => _TareasState();
-}
+final String idUser;
+Tareas(this.idUser);
+_TareasState createState() {
+    return _TareasState(idUser);
+  }
+} 
 
 seleccionarColor(materia) {
   var sistemasOperativos = "sistemas operativos";
@@ -37,6 +40,8 @@ Widget _tarea(nombre, clase, entrega) {
 }
 
 class _TareasState extends State<Tareas> {
+  String idUserState;
+ _TareasState(this.idUserState);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

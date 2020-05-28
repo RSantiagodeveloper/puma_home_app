@@ -4,8 +4,22 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 
-class MaterialApoyoTch extends StatelessWidget {
+
+class MaterialApoyoTch extends StatefulWidget {
+  final String idUser;
+  MaterialApoyoTch(this.idUser);
+  MaterialApoyoTchState createState() {
+    return MaterialApoyoTchState(idUser);
+  }
+}
+
+
+class MaterialApoyoTchState extends State<MaterialApoyoTch> {
+  String idUserState;
+  MaterialApoyoTchState(this.idUserState);
+
   Widget createMenuButton(BuildContext context) {
+ 
     return Container(
         padding: const EdgeInsets.only(top: 40),
         child: RaisedButton(

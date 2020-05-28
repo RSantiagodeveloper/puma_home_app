@@ -38,7 +38,7 @@ class _MenuAppStdnState extends State<MenuAppStdn> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MenuAlumno()),
+              MaterialPageRoute(builder: (context) => MenuAlumno('')),
             );
           },
         ),

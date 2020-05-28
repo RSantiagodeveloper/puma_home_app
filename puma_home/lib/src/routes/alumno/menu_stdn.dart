@@ -6,8 +6,18 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'alta_Grupo.dart';
 
-//
-class MenuAlumno extends StatelessWidget {
+class MenuAlumno extends StatefulWidget {
+  final String idUser;
+  MenuAlumno(this.idUser);
+  MenuAlumnoState createState() {
+    return MenuAlumnoState(idUser);
+  }
+}
+
+
+class MenuAlumnoState extends State<MenuAlumno> {
+  String idUserState;
+  MenuAlumnoState(this.idUserState);
 
 
   Widget createVerGruposButton(BuildContext context) {
