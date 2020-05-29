@@ -175,8 +175,8 @@ class _MisGruposState extends State<MisGruposTch> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width / 6.667,
+                        Expanded(
+                          //width: MediaQuery.of(context).size.width / 6.667,
                           //height: MediaQuery.of(context).size.height / 6.6667,
                           child: Icon(
                             Icons.book,
@@ -184,9 +184,9 @@ class _MisGruposState extends State<MisGruposTch> {
                             color: Colors.white,
                           ),
                         ),
-                        Container(
+                        Expanded(
                           //width: MediaQuery.of(context).size.width / 1.5625,
-                          width: MediaQuery.of(context).size.width / 1.81,
+                          //width: MediaQuery.of(context).size.width / 1.81,
                           //height: MediaQuery.of(context).size.height / 6.6667,
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -209,8 +209,8 @@ class _MisGruposState extends State<MisGruposTch> {
                                 )
                               ]),
                         ), //end container
-                        Container(
-                          width: MediaQuery.of(context).size.width / 3.0,
+                        Expanded(
+                          //width: MediaQuery.of(context).size.width / 3.0,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
