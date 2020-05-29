@@ -224,7 +224,7 @@ class _RegistryPageState extends State<RegistryPage> {
         onPressed: () async{
           if (keyForm.currentState.validate()) {
             if (rolUser == 'student') { //aqui se lleva acabo el registro en modalidad de estudiante
-              //TODO: Agregar consultas desde una base de datos 'UNAM' donde se tengan las claves comunidad para validad estudiantes
+              //TODO: Agregar consultas desde una base de datos 'UNAM' donde se tengan las claves comunidad para validar estudiantes
               if (_keyComunity.text == _noCtaUNAMexample) {
                 //bloque try-Catch para manejar los servicios de Auth y Cloud-firestore
                 try{
@@ -318,7 +318,6 @@ class _RegistryPageState extends State<RegistryPage> {
       ), //hola buapo :3
       body: Form(
         key: keyForm,
-        //TODO: Ajustar el Listview dentro de un container
         child: Container(
           padding: const EdgeInsets.all(20),
           child: new ListView(

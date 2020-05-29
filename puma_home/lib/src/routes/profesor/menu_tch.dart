@@ -54,7 +54,7 @@ class MenuTchState extends State<MenuTch> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FormMiPerfil('userX')),
+              MaterialPageRoute(builder: (context) => FormMiPerfil(idUserState)),
             );
           },
         ));

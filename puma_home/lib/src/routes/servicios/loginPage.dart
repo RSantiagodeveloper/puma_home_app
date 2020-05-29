@@ -110,7 +110,7 @@ class LoginPageState extends State<LoginPage> {
                       if(userLoged != null){ //si hay respuesta del servidor
                         final String usrID = userLoged.user.uid;
                         //recuperamos el UID del usuario autenticado y accedemos a su Document en la coleccion usuario
-                        var data = await dbReference.collection('Usuarios').document(usrID).get().then((DocumentSnapshot ds){
+                        dbReference.collection('Usuarios').document(usrID).get().then((DocumentSnapshot ds){
                           Map<String, dynamic> valor = ds.data; //consultado un solo campo del Documento
                           if (valor['RolUser'] == 'student') { //se verifica el rol del usuario y se decide a que pantalla accede y con que permisos
                             Navigator.push(

@@ -26,68 +26,50 @@ class _MisGruposState extends State<MisGruposTch> {
     print('recibi al usuario $idUserstate');
   }
 
-  /* Future<void> listGrup(String iduser) async {
-    Map<String, dynamic> valor;
-    var data = await fireReference.collection('Mis').where("idteacher",isEqualTo:iduser).getDocuments().then((value){
-      value.documents.forEach((result){
-            valor = result.data;
-             grupos.add(valor['NombreClase']);
-       });
-    });
-  } */
-  /* TODO: arreglar el delete
-  Future<void> DelateGroup(String iduser, String nombreMat) async {
-    var erase = await fireReference.collection('MisGrupos').where("idteacher",isEqualTo:iduser).where("nombreClase",isEqualTo:nombreMat).delete();
-  
-  //delete
-  agregar el boton para delete
-  void delete_group(String iduser, String nombreMat, int position) async{
-    await fireReference.child(iduser).remove().then((_){
-      setState(){
-      //aquí estaria el quitar el boton del grupo
-      //en el then, donde se esta seleccionando(position), ese es el que se elimina
-    }
-  });
-  //
-  }
- */
+  /// funcion vacia que elimina el grupo [idGroup] en firestore
   void deleteGroup(String idGroup){
-   
     Firestore.instance.collection('Grupo').document(idGroup).delete().then((_) => {
       statusMessage("El grupo ha sido eliminado")
     });
   }
   ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
-  void statusMessage(String mensaje){
+///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
+   void statusMessage(String mensaje){
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Noticia'),
+            title: Row(
+                children: <Widget>[
+                  Icon(Icons.check, color: Colors.green),
+                  Text('Completado'),
+                ],
+            ),
             content: Text(
               mensaje,
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                      child: GestureDetector(
-                    child: Text(
-                      'Aceptar',
-                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                //mainAxisAlignment: MainAxisAlignment.end,
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              padding: EdgeInsets.all(3.0),
+              child: Container(
+                decoration:BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 3, color: Colors.blue),
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ))
-                ],
-              )
-            ],
+                padding: EdgeInsets.all(1.0),
+                child: Text('Aceptar', style: TextStyle(color: Colors.blue)),
+              ),      
+            )],
           );
         });
   }
+
 
 ///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
   void _confirmationMessage(String idGroup) {
@@ -95,21 +77,31 @@ class _MisGruposState extends State<MisGruposTch> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Alerta'),
+
+            title: Row(
+                children: <Widget>[
+                  Icon(Icons.warning, color: Colors.red,),
+                  Text('Alerta'),
+                ],
+            ),
             content: Text(
               'Estas aṕunto de eliminar el grupo.\n Todos los datos se perderan.\n ¿Seguro que deseas continuar?',
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    color: Colors.red,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 3, color: Colors.red)
+                    ),
                     child: GestureDetector(
                     child: Text(
                       'Borrar',
-                      style: TextStyle(fontSize: 14, color: Colors.white),
+                      style: TextStyle(fontSize: 14, color: Colors.red),
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
@@ -117,11 +109,16 @@ class _MisGruposState extends State<MisGruposTch> {
                     },
                   )),
                   Container(
-                    color: Colors.green,
+                    //color: Colors.green,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 3, color: Colors.green),
+                    ),
                     child: GestureDetector(
                     child: Text(
                       'Conservar',
-                      style: TextStyle(fontSize: 14, color: Colors.white),
+                      style: TextStyle(fontSize: 14, color: Colors.green),
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
@@ -241,6 +238,24 @@ class _MisGruposState extends State<MisGruposTch> {
               );
             }
           }),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          //aqui podemos meter mas items a la BNB
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            title: Text('Business'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            title: Text('School'),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Navigator.push(
@@ -249,44 +264,9 @@ class _MisGruposState extends State<MisGruposTch> {
                   builder: (context) =>
                       FormularioAltaClase())); //aqui va la llamada a la pantalla formulario_alta_clases
         },
-        backgroundColor: Color(Elementos.contenedor),
+        backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.add),
       ),
     );
   }
 }
-
-
-/*
-     ButtonBar(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.remove_red_eye,
-                                size: MediaQuery.of(context).size.height /
-                                    26.666666,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PantallaGrupoTch(
-                                                'userX', 'grpY')));
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                size: MediaQuery.of(context).size.height /
-                                    26.666666,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                _confirmationMassage();
-                              },
-                            )
-                          ],
-                        ),//end buttonbar                   
-*/ 
