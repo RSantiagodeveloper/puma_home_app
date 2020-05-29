@@ -163,85 +163,75 @@ class _MisGruposState extends State<MisGruposTch> {
               return new ListView(
                 children: snapshot.data.documents.map((document) {
                   return Container(
-                    width: MediaQuery.of(context).size.width / 1.25,
-                    height: MediaQuery.of(context).size.height / 6.6667,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: Color(Elementos.contenedor),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            width: 5, color: Color(Elementos.bordes))),
+                        border: Border.all(width: 5, color: Color(Elementos.bordes))),
                     margin: EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width / 6.667,
-                          //height: MediaQuery.of(context).size.height / 6.6667,
-                          child: Icon(
-                            Icons.book,
-                            size: MediaQuery.of(context).size.height / 13.3333,
-                            color: Colors.white,
+                        Expanded(
+                          child: Container( //container del icono libro
+                            child: Icon(
+                              Icons.book,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        Container(
-                          //width: MediaQuery.of(context).size.width / 1.5625,
-                          width: MediaQuery.of(context).size.width / 1.81,
-                          //height: MediaQuery.of(context).size.height / 6.6667,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                        Expanded(
+                          child: Container(//container del nombre + ID del grupo
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    document['Nombre'],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    document.documentID,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                ]),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(//container de los iconos de ver grupo y eliminar grupo
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Text(
-                                  document['Nombre'],
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
+                                IconButton(
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.white,
                                 ),
-                                Text(
-                                  document.documentID,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
-                                )
-                              ]),
-                        ), //end container
-                        Container(
-                          width: MediaQuery.of(context).size.width / 3.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>PantallaGrupoTch('userX', 'grpY')
+                                          )
+                                    );
+                                },
+                              ),
                               IconButton(
-                              icon: Icon(
-                                Icons.remove_red_eye,
-                                size: MediaQuery.of(context).size.height /
-                                    26.666666,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PantallaGrupoTch(
-                                                'userX', 'grpY')));
-                              },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  _confirmationMessage(document.documentID);
+                                },
+                              )
+                              ],
                             ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                size: MediaQuery.of(context).size.height /
-                                    26.666666,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                _confirmationMessage(document.documentID);
-                              },
-                            )
-                            ],
                           ),
                         )
                       ],
