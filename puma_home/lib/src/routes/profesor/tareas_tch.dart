@@ -28,14 +28,16 @@ seleccionarColor(materia) {
 
 Widget _tarea(nombre, clase, entrega) {
   return Card(
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-      color: seleccionarColor(clase),
+      elevation:15.0,
+      margin: EdgeInsets.all(10),
+      //color: seleccionarColor(clase), //color asignado para diferenciar materias en la pantalla de tareas_std
+      color: Color(Elementos.contenedor),
       child: Column(
         children: <Widget>[
           ListTile(
-            leading: Icon(Icons.fiber_new),
-            title: Text(nombre),
-            subtitle: Text(clase + "\n" + "Entrega: " + entrega),
+            leading: Icon(Icons.fiber_new, color: Color(Elementos.bordes),),
+            title: Text(nombre, style: TextStyle(color: Color(Elementos.bordes)),),
+            subtitle: Text(clase + "\n" + "Entrega: " + entrega,style: TextStyle(color: Colors.white), ),
             isThreeLine: true,
             onTap: () {},
           )
@@ -64,8 +66,8 @@ class _TareasState extends State<TareasTch> {
 
       body: ListView(
           padding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
+            //horizontal: 16,
+            //vertical: 16,
           ),
           children: [
             //aqui se crean las tarjetas de las tareas
