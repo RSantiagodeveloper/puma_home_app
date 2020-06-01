@@ -9,6 +9,7 @@ import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/routes/alumno/tareas_stdn.dart';
 import 'package:puma_home/src/routes/servicios/contacto.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
+import 'package:puma_home/src/routes/alumno/vista_perfil_profesor.dart';
 
 //
 class PantallaGrupoS extends StatelessWidget {
@@ -79,6 +80,26 @@ class PantallaGrupoS extends StatelessWidget {
           },
         ));
   }
+    Widget createPerfilProfesor(BuildContext context) {
+    return Container(
+        width: MediaQuery.of(context).size.width / 1.2,
+        height: MediaQuery.of(context).size.height / 6.67,
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            borderRadius: BorderRadius.circular(20),
+            color: Color(Elementos.contenedor)),
+        child: FlatButton(
+          textColor: Colors.white,
+          child: Text('Perfil del Profesor'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => VistaPerfil('')),
+            );
+          },
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +127,8 @@ class PantallaGrupoS extends StatelessWidget {
               createContactoButton(context),
               Divider(),
               createMaterialButton(context),
+              Divider(),
+              createPerfilProfesor(context),
             ],
           )),
     );

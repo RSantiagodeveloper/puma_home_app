@@ -4,7 +4,6 @@ import 'package:puma_home/src/routes/alumno/MiPerfil_stdn.dart';
 import 'package:puma_home/src/routes/alumno/mis_grupos_stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
-import 'alta_Grupo.dart';
 
 class MenuAlumno extends StatefulWidget {
   final String idUser;
@@ -19,6 +18,10 @@ class MenuAlumnoState extends State<MenuAlumno> {
   String idUserState;
   MenuAlumnoState(this.idUserState);
 
+  void initState(){
+    super.initState();
+    print('$idUserState');
+  }
 
   Widget createVerGruposButton(BuildContext context) {
     return Container(
@@ -35,7 +38,7 @@ class MenuAlumnoState extends State<MenuAlumno> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MisGrupos()),
+              MaterialPageRoute(builder: (context) => MisGruposStdn(idUserState)), //TODO: pasarle el id de usuario
             );
           },
         ));
@@ -56,28 +59,7 @@ class MenuAlumnoState extends State<MenuAlumno> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FormMiPerfil('userX')),
-            );
-          },
-        ));
-  }
-
-  Widget createAltaButton(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 6.67,
-        padding: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
-            borderRadius: BorderRadius.circular(20),
-            color: Color(Elementos.contenedor)),
-        child: FlatButton(
-          textColor: Colors.white,
-          child: Text('Alta de clases'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AltaClase()),
+              MaterialPageRoute(builder: (context) => FormMiPerfil(idUserState)),
             );
           },
         ));
@@ -107,8 +89,6 @@ class MenuAlumnoState extends State<MenuAlumno> {
               createVerGruposButton(context),
               Divider(),
               createMiPerfilButton(context),
-              Divider(),
-              createAltaButton(context),
             ],
           )),
     );
