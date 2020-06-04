@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/src/resources/MenuApp_tch.dart';
-import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
+import 'package:puma_home/src/resources/MenuApp_stdn.dart';
+import 'package:puma_home/src/routes/alumno/pantalla_Grupo_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/routes/alumno/alta_Grupo.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
+
+//const eventKey =  'Zrqc3afJbCewrccdcdX0';
+//const grupo_alumnoRef = rootRef.child('grupo_alumno');
+//const usuarioRef= rootRef.child('usuarios');
 
 class MisGruposStdn extends StatefulWidget {
   final String idUser;
@@ -16,6 +20,7 @@ class MisGruposStdn extends StatefulWidget {
 class _MisGruposState extends State<MisGruposStdn> {
   final String idUserstate;
   _MisGruposState(this.idUserstate);
+  String nombreClass = '';
 
   @override
   void initState() {
@@ -25,7 +30,7 @@ class _MisGruposState extends State<MisGruposStdn> {
 
   /// funcion vacia que elimina el grupo [idGroup] en firestore
   void deleteGroup(String idGroup){
-    Firestore.instance.collection('Grupo').document(idGroup).delete().then((_) => {
+    Firestore.instance.collection('Grupo_Alumno').document(idGroup).delete().then((_) => {
       statusMessage("El grupo ha sido eliminado")
     });
   }
@@ -127,12 +132,19 @@ class _MisGruposState extends State<MisGruposStdn> {
           );
         });
   }
+ /// funcion vacia que inserta el [grupoid] en un map
+  Future<String> obtenerNombre(String grupoid) async{
+    final db = await Firestore.instance.collection('Grupo').document(grupoid).get();
+    Map<String, dynamic> valor = db.data;
+    String nombreClase = valor['Nombre'];
+    return nombreClase;
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     //print('BUILD ID ${usuario.uid} Email ${usuario.email}');
     return Scaffold(
-      drawer: MenuAppTch(),
+      drawer: MenuAppStdn(),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Mis Grupos',
@@ -155,9 +167,10 @@ class _MisGruposState extends State<MisGruposStdn> {
                 style: TextStyle(color: Colors.white),
               );
             } else {
+              
               return new ListView(
-                children: snapshot.data.documents.map((document) {
-                  return Container(
+                children: snapshot.data.documents.map((document){
+                    return Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: Color(Elementos.contenedor),
@@ -181,22 +194,16 @@ class _MisGruposState extends State<MisGruposStdn> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    document['Nombre'],
+                                    '${document['NombreGrupo']}',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Text(
-                                    document.documentID,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  )
                                 ]),
                           ),
                         ),
+                       
                         Expanded(
                           child: Container(//container de los iconos de ver grupo y eliminar grupo
                             child: Row(
@@ -207,11 +214,11 @@ class _MisGruposState extends State<MisGruposStdn> {
                                   Icons.remove_red_eye,
                                   color: Colors.white,
                                 ),
-                                onPressed: () {
+                                onPressed: () { //ver grupo
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoTch('userX', 'grpY')
+                                          builder: (context) =>PantallaGrupoS('userX', 'grpY')
                                           )
                                     );
                                 },
@@ -221,7 +228,7 @@ class _MisGruposState extends State<MisGruposStdn> {
                                   Icons.delete,
                                   color: Colors.red,
                                 ),
-                                onPressed: () {
+                                onPressed: () { //eliminar grupo
                                   _confirmationMessage(document.documentID);
                                 },
                               )
@@ -232,28 +239,11 @@ class _MisGruposState extends State<MisGruposStdn> {
                       ],
                     ),
                   );
-                }).toList(),
+                }).toList(), 
               );
             }
           }),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          //aqui podemos meter mas items a la BNB
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Navigator.push(

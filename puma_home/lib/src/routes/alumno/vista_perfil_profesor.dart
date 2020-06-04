@@ -19,19 +19,19 @@ class VistaPerfilState extends State <VistaPerfil>{
   String idUserState;
   VistaPerfilState(this.idUserState);
   final dbReference = Firestore.instance;
+  final bdRef = Firestore.instance.collection('Usuarios');
 
-  var name1;
-  var mail1;
-  var phone1;
+  String name1;
+  String mail1;
+  String phone1;
+
   var idtch = '879X5dPcpsQ0HqW3Yox4JanREkW2';
-  void bdProf(String idprof)async{
+  void bdProf(String idprof){
       dbReference.collection('Usuarios').document(idprof).get().then((DocumentSnapshot ds){
           Map<String, dynamic> valor = ds.data;
-          name1=valor['Nombre'];
-          mail1=valor['EContactoEmailContacto'];
-          phone1=valor['PhoneContactoContacto'];
-
-
+          name1=valor[''];
+          mail1=valor['EmailContacto'];
+          phone1=valor['PhoneContacto'];    
       }
     );
   }
@@ -39,22 +39,21 @@ class VistaPerfilState extends State <VistaPerfil>{
 
   Widget createNombre(BuildContext context){
     return Card(
-        child:ListView(
-            children: <Widget>[
+            child: Column(
+              children: <Widget>[
                 ListTile(
                     leading:Icon(Icons.account_circle, color: Color(Elementos.contenedor)),
-                    title:Text(name1)
+                    title:Text('$name1')
                 ),
                  ListTile(
                     leading:Icon(Icons.contact_mail, color: Color(Elementos.contenedor)),
-                    title:Text(mail1)
+                    title:Text('$mail1')
                 ),
                  ListTile(
                     leading:Icon(Icons.phone, color: Color(Elementos.contenedor)),
-                    title:Text(phone1)
+                    title:Text('$phone1')
                 ),
-            ],
-        ),
+            ]),  
     );
 
   }
@@ -79,22 +78,22 @@ class VistaPerfilState extends State <VistaPerfil>{
               onPressed: null)
         ],
       ),
-      body: Form(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          child: ListView(
-          children: [
-     
-            Divider(),
-            createNombre(context),
-
-          ],
-          )
-        ),
-      ),
+      body: createNombre(context)
     );
   } 
-
-
-
 }
+
+/* FutureBuilder(
+        future: Firestore.instance.collection('Usuario').document(idUserState).get(),
+        builder: (context, snapshot){
+          if(!snapshot.hasData){
+            return Text('No hay Datos');
+          }
+          else{
+            print(snapshot.data['UserName']);
+            print(snapshot.data['EmailContact']);
+            print(snapshot.data['PhoneContacto']);
+            return createNombre(context, 'User', 'email', 'phone');
+          }
+        }
+      ) */

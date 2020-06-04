@@ -75,25 +75,25 @@ class _AltaClaseState extends State<AltaClase> {
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () async {
-          //TODO: corregir la verificación de la existencia del documento
           if (_keyForm.currentState.validate()) {
             print('Recibi ${_codigoController.text}');
             final usuario = FirebaseAuth.instance;
             final rescate = await usuario.currentUser();
             FirebaseUser conejo = rescate;
-            final resp = await dbReference  //posiblemente falle xD
-                .collection('Grupo')
-                .document(_codigoController.text) //TODO: Probar si hay excepciones con el null (lo resolveria un try)
-                .get();
-            print('respuesta: ${resp.documentID}');
-            if (resp != null) { //en caso de que falle por null, aqui es donde está meter try catch
+            final resp = await dbReference.collection('Grupo').document(_codigoController.text).get();
+            Map<String, dynamic> datos = resp.data;
+            print('respuesta: ${resp.exists}');
+            if (resp.exists != false) { //en caso de que falle por null, aqui es donde está meter try catch
               dbReference.collection('Grupo_Alumno').add({
-                'Grupo_id': _codigoController.text,
+                'Grupo_id': resp.documentID,
                 'Alumno_id': conejo.uid,
-                'Aviso': ''
+                'Aviso': '',
+                'NombreGrupo': datos['Nombre'],
+                'Profesor_Id': datos['Clave_Profesor']
               });
               statusMessage('Completado', 'Has sido Registrado en el Grupo');
-              Navigator.pop(context);
+              _codigoController.text = '';
+              //Navigator.pop(context);
             } else {
               statusMessage(
                   'Error', 'No exite el Grupo que buscas. Verifica los datos');
@@ -112,11 +112,11 @@ class _AltaClaseState extends State<AltaClase> {
             title: Row(
               children: <Widget>[
                 Icon(Icons.check, color: Colors.green),
-                Text(opStat),
+                Text('$opStat'),
               ],
             ),
             content: Text(
-              mensaje,
+              '$mensaje',
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
