@@ -7,15 +7,16 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/alumno/material_Apoyo_stdn.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/routes/alumno/tareas_stdn.dart';
-import 'package:puma_home/src/routes/servicios/contacto.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:puma_home/src/routes/alumno/vista_perfil_profesor.dart';
 
 //
 class PantallaGrupoS extends StatelessWidget {
   final String idUser; //id del usuario actual
+  final String idProfe;
   final String idGroup; //id del Grupo Actual
-  PantallaGrupoS(this.idUser, this.idGroup);
+
+  PantallaGrupoS(this.idUser, this.idGroup, this.idProfe);
 
 
   Widget createTareasButton(BuildContext context) {
@@ -33,33 +34,13 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Tareas('')),
+              MaterialPageRoute(builder: (context) => Tareas(idUser)),
             );
           },
         ));
   }
 
-  Widget createContactoButton(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 6.67,
-        padding: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
-            borderRadius: BorderRadius.circular(20),
-            color: Color(Elementos.contenedor)),
-        child: FlatButton(
-          textColor: Colors.white,
-          child: Text(Elementos.btnContact),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Contacto()),
-            );
-          },
-        ));
-  }
-
+ 
   Widget createMaterialButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
@@ -75,7 +56,7 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MaterialApoyo('')),
+              MaterialPageRoute(builder: (context) => MaterialApoyo(idUser)),
             );
           },
         ));
@@ -95,7 +76,7 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VistaPerfil('')),
+              MaterialPageRoute(builder: (context) => VistaPerfil(idUser,idProfe)),
             );
           },
         ));
@@ -103,8 +84,9 @@ class PantallaGrupoS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(idProfe);
     return Scaffold(
-      drawer: MenuAppStdn(),
+      drawer: MenuAppStdn(idUser),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Grupo'),
@@ -123,8 +105,6 @@ class PantallaGrupoS extends StatelessWidget {
               TablonAnunciosStdn(idGroup),
               Divider(),
               createTareasButton(context),
-              Divider(),
-              createContactoButton(context),
               Divider(),
               createMaterialButton(context),
               Divider(),

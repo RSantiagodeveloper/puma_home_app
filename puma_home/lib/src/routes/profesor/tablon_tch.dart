@@ -12,6 +12,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TablonAnunciosTch extends StatefulWidget {
   final String idGroup;
@@ -23,6 +24,9 @@ class TablonAnunciosTch extends StatefulWidget {
 }
 
 class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
+
+  final dbReference = Firestore.instance;
+
   String _idGrupo;
   _TablonAnunciosTchState(this._idGrupo);
 
@@ -67,7 +71,6 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
                     children: <Widget>[
                       Container(
                         width: (_width < _height)
-                        
                             ? MediaQuery.of(context).size.width / 1.78
                             : MediaQuery.of(context).size.width / 1.5,
                         height: 30,
@@ -95,6 +98,15 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
                               notice = newNotice
                                   .text; //guarda el cambio-> este se va a la DB
                               newNotice.text = ''; //limpia el campo de texto
+                              dbReference.collection('Grupo_Alumno').where('Grupo_id', isEqualTo:_idGrupo).getDocuments().then((QuerySnapshot value){
+                                value.documents.map((document){
+                                  print(document.documentID);
+                                  print(newNotice.text);
+                                  dbReference.collection('Grupo_Alumno').document(document.documentID).updateData({
+                                    'Aviso': notice,  
+                                  });
+                                } );
+                              });
                             });
                           }),
                     ],

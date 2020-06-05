@@ -51,7 +51,7 @@ class _TareasState extends State<TareasTch> {
 @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppTch(),
+      drawer: MenuAppTch(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Tareas pendientes', 

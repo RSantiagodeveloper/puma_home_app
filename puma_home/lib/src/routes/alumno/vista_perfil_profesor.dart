@@ -5,95 +5,64 @@ import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class VistaPerfil extends StatefulWidget{
+class VistaPerfil extends StatefulWidget {
   final String idUser;
-  VistaPerfil(this.idUser);
+  final String idProfe;
+  VistaPerfil(this.idUser, this.idProfe);
   VistaPerfilState createState() {
-    return VistaPerfilState(idUser);
+    return VistaPerfilState(idUser, idProfe);
   }
-
 }
 
-
-class VistaPerfilState extends State <VistaPerfil>{
+class VistaPerfilState extends State<VistaPerfil> {
   String idUserState;
-  VistaPerfilState(this.idUserState);
+  String idProfeState;
+  VistaPerfilState(this.idUserState, this.idProfeState);
   final dbReference = Firestore.instance;
-  final bdRef = Firestore.instance.collection('Usuarios');
-
-  String name1;
-  String mail1;
-  String phone1;
-
-  var idtch = '879X5dPcpsQ0HqW3Yox4JanREkW2';
-  void bdProf(String idprof){
-      dbReference.collection('Usuarios').document(idprof).get().then((DocumentSnapshot ds){
-          Map<String, dynamic> valor = ds.data;
-          name1=valor[''];
-          mail1=valor['EmailContacto'];
-          phone1=valor['PhoneContacto'];    
-      }
-    );
-  }
-
-
-  Widget createNombre(BuildContext context){
-    return Card(
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                    leading:Icon(Icons.account_circle, color: Color(Elementos.contenedor)),
-                    title:Text('$name1')
-                ),
-                 ListTile(
-                    leading:Icon(Icons.contact_mail, color: Color(Elementos.contenedor)),
-                    title:Text('$mail1')
-                ),
-                 ListTile(
-                    leading:Icon(Icons.phone, color: Color(Elementos.contenedor)),
-                    title:Text('$phone1')
-                ),
-            ]),  
-    );
-
-  }
-
-@override
-  void initState() {
-    super.initState();
-    bdProf(idtch);
-  }
+  final bdRef = Firestore.instance;
 
   Widget build(BuildContext context) {
+    print(idProfeState);
     return Scaffold(
-      drawer: MenuAppStdn(),
-      appBar: AppBar(
-        backgroundColor: Color(Elementos.contenedor),
-        title: Text('Perfil del profesor', 
-        style: TextStyle(color: Color(Elementos.bordes))),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              icon: IconAppBar(), //metodo donde se crea la referencia al icono
-              onPressed: null)
-        ],
-      ),
-      body: createNombre(context)
-    );
-  } 
+        drawer: MenuAppStdn(idUserState),
+        appBar: AppBar(
+          backgroundColor: Color(Elementos.contenedor),
+          title: Text('Perfil del profesor',
+              style: TextStyle(color: Color(Elementos.bordes))),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                icon:
+                    IconAppBar(), //metodo donde se crea la referencia al icono
+                onPressed: null)
+          ],
+        ),
+        body: FutureBuilder(
+          future: dbReference.collection('Usuarios').document(idProfeState).get(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.hasData) {
+              Map<String, dynamic> datos = snapshot.data.data;
+              return Card(
+                child: Column(children: <Widget>[
+                  ListTile(
+                      leading: Icon(Icons.account_circle,
+                          color: Color(Elementos.contenedor)),
+                      title: Text('${datos['UsrName']}')),
+                  ListTile(
+                      leading: Icon(Icons.contact_mail,
+                          color: Color(Elementos.contenedor)),
+                      title: Text('${datos['EmailContacto']}')),
+                  ListTile(
+                      leading:
+                          Icon(Icons.phone, color: Color(Elementos.contenedor)),
+                      title: Text('${datos['PhoneContacto']}')),
+                ]),
+              );
+            } else {
+              return CircularProgressIndicator(strokeWidth: 10);
+            }
+          },
+        ));
+  }
 }
-
-/* FutureBuilder(
-        future: Firestore.instance.collection('Usuario').document(idUserState).get(),
-        builder: (context, snapshot){
-          if(!snapshot.hasData){
-            return Text('No hay Datos');
-          }
-          else{
-            print(snapshot.data['UserName']);
-            print(snapshot.data['EmailContact']);
-            print(snapshot.data['PhoneContacto']);
-            return createNombre(context, 'User', 'email', 'phone');
-          }
-        }
-      ) */

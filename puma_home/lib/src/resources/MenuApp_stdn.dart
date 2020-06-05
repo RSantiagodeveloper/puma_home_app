@@ -7,10 +7,14 @@ import 'package:flutter/widgets.dart';
 import 'package:puma_home/src/routes/alumno/menu_stdn.dart';
 
 class MenuAppStdn extends StatefulWidget {
-  _MenuAppStdnState createState() => _MenuAppStdnState();
+  final String userID;
+  MenuAppStdn(this.userID);
+  _MenuAppStdnState createState() => _MenuAppStdnState(userID);
 }
 
 class _MenuAppStdnState extends State<MenuAppStdn> {
+  final String userIDstate;
+  _MenuAppStdnState(this.userIDstate);
   final double sizeOption = 16.0;
   final double sizeTitle = 20.0;
 
@@ -38,7 +42,7 @@ class _MenuAppStdnState extends State<MenuAppStdn> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MenuAlumno('')),
+              MaterialPageRoute(builder: (context) => MenuAlumno(userIDstate)),
             );
           },
         ),

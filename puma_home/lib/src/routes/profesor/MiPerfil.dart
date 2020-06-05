@@ -30,9 +30,9 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     super.initState();
     dbReference.collection('Usuarios').document(idUserState).get().then((DocumentSnapshot ds){
       Map<String, dynamic> valor = ds.data;
-      usrname.text = valor['Nombre'] + ' ' + valor['ApPat'] + ' ' + valor['ApMat'];
-      usrmail.text = valor['Email'];
-      usrphone.text = 'insertar nuevo numero';
+      usrname.text = valor['UsrName'];
+      usrmail.text = valor['EmailContacto'];
+      usrphone.text = valor['PhoneContacto'];
     });
   }
 
@@ -79,6 +79,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
         controller: usrphone,
         decoration: InputDecoration(
           labelText: 'Telefono de Contacto',
+          hintText: '(opcional) Agrega tu numero',
           icon: Icon(Icons.phone, color: Color(Elementos.contenedor)),
         ),
       ),
@@ -148,7 +149,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppTch(),
+      drawer: MenuAppTch(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Mi perfil', 
@@ -180,12 +181,4 @@ class FormMiPerfilState extends State<FormMiPerfil> {
       ),
     );
   }
-
-
-
-
-
-
-
-
 }

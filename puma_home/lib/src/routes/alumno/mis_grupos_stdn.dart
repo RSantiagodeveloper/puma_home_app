@@ -71,8 +71,6 @@ class _MisGruposState extends State<MisGruposStdn> {
           );
         });
   }
-
-
 ///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
   void _confirmationMessage(String idGroup) {
     showDialog(
@@ -139,12 +137,11 @@ class _MisGruposState extends State<MisGruposStdn> {
     String nombreClase = valor['Nombre'];
     return nombreClase;
   }
-
   @override
   Widget build(BuildContext context) { 
     //print('BUILD ID ${usuario.uid} Email ${usuario.email}');
     return Scaffold(
-      drawer: MenuAppStdn(),
+      drawer: MenuAppStdn(idUserstate),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Mis Grupos',
@@ -203,7 +200,6 @@ class _MisGruposState extends State<MisGruposStdn> {
                                 ]),
                           ),
                         ),
-                       
                         Expanded(
                           child: Container(//container de los iconos de ver grupo y eliminar grupo
                             child: Row(
@@ -218,7 +214,7 @@ class _MisGruposState extends State<MisGruposStdn> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoS('userX', 'grpY')
+                                          builder: (context) =>PantallaGrupoS(idUserstate, document.documentID, document['Profesor_Id'])
                                           )
                                     );
                                 },

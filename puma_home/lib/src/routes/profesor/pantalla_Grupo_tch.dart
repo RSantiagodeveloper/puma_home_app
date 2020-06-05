@@ -7,7 +7,6 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/profesor/material_Apoyo_tch.dart';
 import 'package:puma_home/src/routes/profesor/tablon_tch.dart';
 import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
-import 'package:puma_home/src/routes/servicios/contacto.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 //
 class PantallaGrupoTch extends StatelessWidget {
@@ -32,28 +31,7 @@ class PantallaGrupoTch extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TareasTch('')),
-            );
-          },
-        ));
-  }
-
-  Widget createContactoButton(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 6.67,
-        padding: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
-            borderRadius: BorderRadius.circular(20),
-            color: Color(Elementos.contenedor)),
-        child: FlatButton(
-          textColor: Colors.white,
-          child: Text('Contacto profesor'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Contacto()),
+              MaterialPageRoute(builder: (context) => TareasTch(idUser)),
             );
           },
         ));
@@ -74,7 +52,7 @@ class PantallaGrupoTch extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MaterialApoyoTch('')),
+              MaterialPageRoute(builder: (context) => MaterialApoyoTch(idUser)),
             );
           },
         ));
@@ -83,7 +61,7 @@ class PantallaGrupoTch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppTch(),
+      drawer: MenuAppTch(idUser),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Pantalla Grupo', 

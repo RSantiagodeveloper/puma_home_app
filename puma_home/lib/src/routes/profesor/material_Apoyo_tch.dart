@@ -37,7 +37,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppTch(),
+      drawer: MenuAppTch(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text(Elementos.btnStorage),

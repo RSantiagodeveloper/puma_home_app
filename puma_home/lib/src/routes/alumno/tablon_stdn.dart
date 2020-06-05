@@ -9,9 +9,10 @@
  * TablonAnuncios()
  * en el lugar donde lo vas a acomodar fijate en RutaEjemplo.dart
  */
-
+//TODO: ordenar código
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TablonAnunciosStdn extends StatefulWidget {
   final String idGroup;
@@ -34,38 +35,85 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
     var _height = MediaQuery.of(context).size.height;
     var _sizepadding = 5.0;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Column(
-          children: <Widget>[
-            Text(
-              'Tablon de Anuncios',
-              style: TextStyle(fontSize: 30.0),
-            ),
-            Container(
-              width: _width / 1.2,
-              height: (_width < _height) ? _height / 3.03 : _height / 2,
-              padding: EdgeInsets.all(_sizepadding),
-              decoration: BoxDecoration(
-                  border:
-                      Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(Elementos.contenedor)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    notice,
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
+    return FutureBuilder(
+        future: Firestore.instance
+            .collection('Grupo_Alumno')
+            .document(_idGrupo)
+            .get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasData) {
+            Map<String, dynamic> datos = snapshot.data.data;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Tablon de Anuncios',
+                      style: TextStyle(fontSize: 30.0),
+                    ),
+                    Container(
+                      width: _width / 1.2,
+                      height: (_width < _height) ? _height / 3.03 : _height / 2,
+                      padding: EdgeInsets.all(_sizepadding),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: Elementos.widthBorder,
+                              color: Color(Elementos.bordes)),
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color(Elementos.contenedor)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            datos['Aviso'],
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          } else {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Tablon de Anuncios',
+                      style: TextStyle(fontSize: 30.0),
+                    ),
+                    Container(
+                      width: _width / 1.2,
+                      height: (_width < _height) ? _height / 3.03 : _height / 2,
+                      padding: EdgeInsets.all(_sizepadding),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: Elementos.widthBorder,
+                              color: Color(Elementos.bordes)),
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color(Elementos.contenedor)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'No hay tortillas',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }
+        });
   }
 }

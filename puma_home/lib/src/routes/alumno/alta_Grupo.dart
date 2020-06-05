@@ -144,7 +144,7 @@ class _AltaClaseState extends State<AltaClase> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppStdn(),
+      drawer: MenuAppStdn(iduserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Alta de Clases',

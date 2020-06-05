@@ -34,7 +34,7 @@ class MaterialApoyoState extends State<MaterialApoyo> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => PantallaGrupoS('userX', 'grpY')));
+                    builder: (context) => PantallaGrupoS('userX', 'grpY', '')));
           },
         ));
   }
@@ -42,7 +42,7 @@ class MaterialApoyoState extends State<MaterialApoyo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppStdn(),
+      drawer: MenuAppStdn(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Material de apoyo', 

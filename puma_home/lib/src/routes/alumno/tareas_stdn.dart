@@ -54,7 +54,7 @@ class _TareasState extends State<Tareas> {
           child: Text('Tareas Pendientes'),
         ),
       ),
-      drawer: MenuAppStdn(),
+      drawer: MenuAppStdn(idUserState),
       body: ListView(
           padding: EdgeInsets.symmetric(
             horizontal: 16,

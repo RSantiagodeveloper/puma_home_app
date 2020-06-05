@@ -223,6 +223,7 @@ class _RegistryPageState extends State<RegistryPage> {
         ),
         onPressed: () async{
           if (keyForm.currentState.validate()) {
+            String username = '${_usrName.text + ' ' + _lastName.text + ' ' +_mLastName.text}';
             if (rolUser == 'student') { //aqui se lleva acabo el registro en modalidad de estudiante
               //TODO: Agregar consultas desde una base de datos 'UNAM' donde se tengan las claves comunidad para validar estudiantes
               if (_keyComunity.text == _noCtaUNAMexample) {
@@ -238,7 +239,10 @@ class _RegistryPageState extends State<RegistryPage> {
                     'ApMat': _mLastName.text,
                     'Email': _email.text,
                     'Passwd': _passwdUsr.text,
-                    'RolUser': rolUser
+                    'RolUser': rolUser,
+                    'EmailContacto': _email.text,
+                    'PhoneContacto': '',
+                    'UsrName': username,
                   });
                   if(newUser != null){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessRegPage(_usrName.text))); //redirecionando a pantalla de Bienvenida
@@ -260,7 +264,10 @@ class _RegistryPageState extends State<RegistryPage> {
                     'ApMat': _mLastName.text,
                     'Email': _email.text,
                     'Passwd': _passwdUsr.text,
-                    'RolUser': rolUser
+                    'RolUser': rolUser,
+                    'EmailContacto': _email.text,
+                    'PhoneContacto': '',
+                    'UsrName': username,
                   });
                   if(newUser != null){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessRegPage(_usrName.text)));

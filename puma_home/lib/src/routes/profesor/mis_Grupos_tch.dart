@@ -135,7 +135,7 @@ class _MisGruposState extends State<MisGruposTch> {
   Widget build(BuildContext context) {
     //print('BUILD ID ${usuario.uid} Email ${usuario.email}');
     return Scaffold(
-      drawer: MenuAppTch(),
+      drawer: MenuAppTch(idUserstate),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Mis Grupos',
@@ -213,7 +213,7 @@ class _MisGruposState extends State<MisGruposTch> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoTch('userX', 'grpY')
+                                          builder: (context) =>PantallaGrupoTch(idUserstate, document.documentID)
                                           )
                                     );
                                 },

@@ -45,10 +45,14 @@ import 'package:flutter/widgets.dart';
 import 'package:puma_home/src/routes/profesor/menu_tch.dart';
 
 class MenuAppTch extends StatefulWidget {
-  _MenuAppTchState createState() => _MenuAppTchState();
+  final String userID;
+  MenuAppTch(this.userID);
+  _MenuAppTchState createState() => _MenuAppTchState(userID);
 }
 
 class _MenuAppTchState extends State<MenuAppTch> {
+  String userIDState;
+  _MenuAppTchState(this.userIDState);
   final double sizeOption = 16.0;
   final double sizeTitle = 20.0;
 
@@ -76,7 +80,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MenuTch('')),
+              MaterialPageRoute(builder: (context) => MenuTch(userIDState)),
             );
           },
         ),

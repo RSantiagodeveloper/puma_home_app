@@ -68,7 +68,7 @@ class MenuAlumnoState extends State<MenuAlumno> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppStdn(),
+      drawer: MenuAppStdn(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Administración (LOS MORROS)',

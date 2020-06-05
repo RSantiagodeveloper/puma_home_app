@@ -63,7 +63,7 @@ class MenuTchState extends State<MenuTch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppTch(),
+      drawer: MenuAppTch(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Admistración (EL MASTER)',
