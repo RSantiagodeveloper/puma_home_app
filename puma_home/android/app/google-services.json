@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "48427036336",
+    "firebase_url": "https://puma-home-app.firebaseio.com",
+    "project_id": "puma-home-app",
+    "storage_bucket": "puma-home-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48427036336:android:ae797b6fe6a9337a745575",
+        "android_client_info": {
+          "package_name": "com.example.puma_home"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48427036336-r8b1mo2mja3s6jo8pnja8pjkgdc49as3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1oH4YBQPVoJtmdsCU0_TQ1EBDTHg0HJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48427036336-r8b1mo2mja3s6jo8pnja8pjkgdc49as3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
