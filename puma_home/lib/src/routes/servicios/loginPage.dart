@@ -80,8 +80,8 @@ class LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.height / 6,
+            //width: MediaQuery.of(context).size.width / 2,
+            //height: MediaQuery.of(context).size.height / 6,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Color(Elementos.contenedor),
@@ -93,6 +93,8 @@ class LoginPageState extends State<LoginPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
+                  cargandoSesion(); //TODO: revisar como se maneja la navegacion. Cuando se presiona "atras" el showDialog se queda atorado.
+                        
                   if (_keyForm.currentState.validate()) {
                   /** Algoritmo de Ingreso
                    * para hacer la autentificacion se recomiendan los pasos
@@ -113,6 +115,7 @@ class LoginPageState extends State<LoginPage> {
                         dbReference.collection('Usuarios').document(usrID).get().then((DocumentSnapshot ds){
                           Map<String, dynamic> valor = ds.data; //consultado un solo campo del Documento
                           if (valor['RolUser'] == 'student') { //se verifica el rol del usuario y se decide a que pantalla accede y con que permisos
+                             print('Logeado Alumno');
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -148,7 +151,7 @@ class LoginPageState extends State<LoginPage> {
       ],
     );
   }
-  //widget que muestra un dialogo con un mensaje de error.
+  //widget que muestra un dialogo con un [mensaje] de error.
   void _errorDialog(String mensaje) {
     showDialog(
         context: context,
@@ -197,7 +200,19 @@ class LoginPageState extends State<LoginPage> {
                   MaterialPageRoute(builder: (context) => RegistryPage()));
             }));
   }
-
+//metood vacion que muestra un dialog con una LinearProgressIndicator para el tiempo de carge del login
+void cargandoSesion() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Iniciando Sesión...'),
+            content: LinearProgressIndicator(value: null,), 
+          );
+        });
+        print('iniciando sesion...');
+        Navigator.of(context).pop();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,7 +220,7 @@ class LoginPageState extends State<LoginPage> {
         key: _keyForm,
         child: ListView(children: [
           Container(
-            height: MediaQuery.of(context).size.height / 10,
+          height: MediaQuery.of(context).size.height / 4,
           ),
           crearEmail(),
           crearContra(),

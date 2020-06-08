@@ -1,3 +1,10 @@
+/*
+ * 
+ * codigo que hace la splash screen provisional
+ * eventualmente será descartado
+ */
+
+
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/routes/servicios/loginPage.dart';
 
