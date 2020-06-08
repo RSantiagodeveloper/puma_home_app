@@ -214,7 +214,7 @@ class _MisGruposState extends State<MisGruposStdn> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoS(idUserstate, document.documentID, document['Profesor_Id'])
+                                          builder: (context) =>PantallaGrupoS(idUserstate, document['Grupo_id'], document['Profesor_Id'])
                                           )
                                     );
                                 },

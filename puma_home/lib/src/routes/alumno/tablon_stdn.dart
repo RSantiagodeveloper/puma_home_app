@@ -35,85 +35,64 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
     var _height = MediaQuery.of(context).size.height;
     var _sizepadding = 5.0;
 
-    return FutureBuilder(
-        future: Firestore.instance
-            .collection('Grupo_Alumno')
-            .document(_idGrupo)
-            .get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasData) {
-            Map<String, dynamic> datos = snapshot.data.data;
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'Tablon de Anuncios',
-                      style: TextStyle(fontSize: 30.0),
-                    ),
-                    Container(
-                      width: _width / 1.2,
-                      height: (_width < _height) ? _height / 3.03 : _height / 2,
-                      padding: EdgeInsets.all(_sizepadding),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: Elementos.widthBorder,
-                              color: Color(Elementos.bordes)),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color(Elementos.contenedor)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            datos['Aviso'],
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          } else {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'Tablon de Anuncios',
-                      style: TextStyle(fontSize: 30.0),
-                    ),
-                    Container(
-                      width: _width / 1.2,
-                      height: (_width < _height) ? _height / 3.03 : _height / 2,
-                      padding: EdgeInsets.all(_sizepadding),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: Elementos.widthBorder,
-                              color: Color(Elementos.bordes)),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color(Elementos.contenedor)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'No hay tortillas',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          }
-        });
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            Text(
+              'Tablon de Anuncios',
+              style: TextStyle(fontSize: 30.0),
+            ),
+            Container(
+              width: _width / 1.2,
+              height: (_width < _height) ? _height / 3.03 : _height / 2,
+              padding: EdgeInsets.all(_sizepadding),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: Elementos.widthBorder,
+                      color: Color(Elementos.bordes)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(Elementos.contenedor)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  StreamBuilder(
+                      stream: Firestore.instance
+                          .collection('Avisos')
+                          .where('Id_Grupo', isEqualTo: _idGrupo)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return Expanded(
+                            flex: 2,
+                            child: ListView(
+                              children: snapshot.data.documents.map((document) {
+                                return ListTile(
+                                  leading: Icon(
+                                    Icons.chat_bubble,
+                                    color: Colors.white,
+                                  ),
+                                  title: Text('${document['Notice']}' ,style: TextStyle(color: Colors.white)),
+                                );
+                              }).toList(),
+                            ),
+                          );
+                        } else {
+                          return Expanded(
+                              child: Text(
+                            "Cagando...", 
+                            style: TextStyle(color: Colors.white),
+                          ));
+                        }
+                      }),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
