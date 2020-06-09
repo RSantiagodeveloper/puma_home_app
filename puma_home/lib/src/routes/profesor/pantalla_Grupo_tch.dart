@@ -37,7 +37,7 @@ class PantallaGrupoTch extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CrearTarea()),
+              MaterialPageRoute(builder: (context) => CrearTarea(idUser, idGroup)),
             );
           },
         ));

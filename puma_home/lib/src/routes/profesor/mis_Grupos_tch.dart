@@ -28,8 +28,8 @@ class _MisGruposState extends State<MisGruposTch> {
 
   /// funcion vacia que elimina el grupo [idGroup] en firestore
   void deleteGroup(String idGroup){
-    Firestore.instance.collection('Grupo').document(idGroup).delete().then((_) => {
-      statusMessage("El grupo ha sido eliminado")
+    Firestore.instance.collection('Grupo').document(idGroup).delete().then((_)  {
+      statusMessage("El grupo ha sido eliminado");
     });
   }
   ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro

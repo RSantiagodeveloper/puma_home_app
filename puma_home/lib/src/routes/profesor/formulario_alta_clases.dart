@@ -92,8 +92,8 @@ class FormularioAltaClaseState extends State<FormularioAltaClase>{
               dbReference.collection('Grupo').add({
                 'Nombre': _nombreclase.text,
                 'Clave_Profesor': usuario.uid
-              }).then((value) => {
-                _claveGrupo.text = value.documentID
+              }).then((value) {
+                _claveGrupo.text = value.documentID;
               });
               
             }
