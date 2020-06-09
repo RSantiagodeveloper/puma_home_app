@@ -57,8 +57,8 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   StreamBuilder(
-                      stream: Firestore.instance.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).orderBy('Fecha').snapshots(),
-                      builder: (BuildContext context,
+                      stream: Firestore.instance.collection('Avisos').orderBy('Fecha',descending: true).where('Id_Grupo', isEqualTo: _idGrupo).snapshots(),
+                      builder: (BuildContext context,//que nada mas uno dise:v
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return Expanded(
@@ -79,7 +79,7 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
                         } else {
                           return Expanded(
                               child: Text(
-                            "Cargando...", 
+                            "No hay avisos", 
                             style: TextStyle(color: Colors.white),
                           ));
                         }

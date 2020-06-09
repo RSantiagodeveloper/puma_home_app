@@ -54,7 +54,7 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               StreamBuilder(
-                  stream: dbReference.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).orderBy('Fecha').snapshots(), //orderBy() ordena por fecha los avisos
+                  stream: dbReference.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).orderBy('Fecha', descending: true).snapshots(), //orderBy() ordena por fecha los avisos
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasData) {
