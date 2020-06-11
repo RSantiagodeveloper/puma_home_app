@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
+import 'package:puma_home/src/routes/profesor/lista_tareas_alumnos.dart';
 import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -208,8 +209,8 @@ class _TareastchState extends State<Tareastch> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        //Se tiene que cambiar a pantalla de Tareas el pantallaGrupoTch
-                                          builder: (context) =>PantallaGrupoTch(idUserstate, document.documentID)
+                                        
+                                          builder: (context) =>ListaAlumnos(idUserstate, document['Id_grupo'])
                                           )
                                     );
                                 },
