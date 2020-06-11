@@ -80,8 +80,8 @@ class LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.height / 6,
+            width: MediaQuery.of(context).size.width / 2.5,
+            height: MediaQuery.of(context).size.height / 7,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Color(Elementos.contenedor),
@@ -207,7 +207,7 @@ class LoginPageState extends State<LoginPage> {
           child: Form(
         key: _keyForm,
         child: ListView(children: [
-          Image.asset('images/logos/LogoOF2.png')
+          Image.asset('images/logos/LogoOF2.png'),
           Container(
             height: MediaQuery.of(context).size.height / 10,
           ),
@@ -217,9 +217,9 @@ class LoginPageState extends State<LoginPage> {
           crearLinkCuenta(),
         ]),
       ),
-    );
+    ),
         )
       
-      )
+      );
   }
 }
