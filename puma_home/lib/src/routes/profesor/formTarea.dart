@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
-
+import '';
 
 class CrearTarea extends StatefulWidget{
     final String id_Usr;
@@ -131,7 +131,11 @@ Widget botonUp(BuildContext context) {
                 style: TextStyle(color: Colors.white),
             ),
             onPressed: () async {
-              
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      CrearTarea(id_usr_s, id_grupo_s)));
             }
         ),
     );

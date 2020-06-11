@@ -3,7 +3,8 @@ import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 
-
+///metodo con colores previos de las tareas
+///version en desuso
 
 
 

@@ -6,6 +6,8 @@ import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/routes/profesor/formTarea.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/routes/profesor/uptareas.dart';
+import 'package:puma_home/src/routes/profesor/uptareas.dart';
 
 class Tareastch extends StatefulWidget {
   final String idUser;
@@ -242,7 +244,7 @@ class _TareastchState extends State<Tareastch> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      CrearTarea(idUserstate, idgrupoState))); //aqui va la llamada a la pantalla formulario_alta_clases
+                      SubirArchivo())); //aqui va la llamada a la pantalla formulario_alta_clases
         },
         backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.add),
