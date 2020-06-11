@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart'; //import del PlatformException
 import 'package:puma_home/src/resources/App_Elements.dart';
 
 
-class CrearTarea extends StatefulWidget{
-    _CrearTareaStatet createState() => _CrearTareaStatet();
+class SubirArchivo extends StatefulWidget{
+    _SubirArchivoState createState() => _SubirArchivoState();
 }
 
-class _CrearTareaStatet extends State< CrearTarea>{
+class _SubirArchivoState extends State< SubirArchivo>{
     TextEditingController nombreTarea = new TextEditingController();
     TextEditingController descripcionTarea = new TextEditingController();
     TextEditingController _date = new TextEditingController();
@@ -25,21 +26,15 @@ class _CrearTareaStatet extends State< CrearTarea>{
     GlobalKey<ScaffoldState> _scaffoldKey= GlobalKey();
     List<StorageUploadTask> _task = <StorageUploadTask>[];
 
-     
+/*     hace falta modificarlo para subir varios archivos a la vez
 void openFileExplorer() async {
 	try{
-		_path = null;
+
 		if(_multiPick){
-			_path = await FilePicker.getMultiFile(
-				type:_pickType,
-				fileExtension:_extension
-			);
+			_path = await FilePicker.getMultiFilePath(allowedExtensions:_paths, type: _pickType);
 		}
 		else{
-			_path = await FilePicker.getFilePath(
-				type:_pickType,
-				fileExtension:_extension
-			);
+			_path = await FilePicker.getFilePath(type: FileType.any);
 		}
 		uploadToFirebase();  
 	} on PlatformException catch (e){
@@ -49,11 +44,25 @@ void openFileExplorer() async {
 		return;
 	}
 }
+*/
+/// metodo para abrir el explorador de archivos y cargar un archivo
+void openFileExplorer() async {
+  try{
+    _path = await FilePicker.getFilePath(type: _pickType);
+    uploadToFirebase(); 
+  }
+  on PlatformException catch (e){
+    print('operacion no soportada: '+e.toString());
+  } 
+  if(!mounted){
+    return;
+  }
+}
 
 void uploadToFirebase(){
 	if(_multiPick){
-		_paths.forEach((fileName, filePath)=>{
-			upload(fileName,filePath)
+		_paths.forEach((fileName, filePath){
+			upload(fileName,filePath);
 		});
 	}
 	else{
@@ -67,7 +76,7 @@ void upload(fileName, filePath){
 	_extension = fileName.toString().split('.').last;
 	StorageReference storageRef =FirebaseStorage.instance.ref().child(fileName);
 	final StorageUploadTask uploadTask =
-		storageRef.putFile(File(filePath).StorageMetadata(
+		storageRef.putFile(File(filePath),StorageMetadata(
 				contentType: '$_pickType/$_extension',
 			)
 		);
@@ -146,20 +155,20 @@ Widget botonTypeFile() {
     	hint:Text('selecciona'),
     	items: <DropdownMenuItem>[
     		DropdownMenuItem(
-    			child:Text('Audio');
-    			value:FileType.AUDIO,
+    			child:Text('Audio'),
+    			value:FileType.audio,
     		),
     		DropdownMenuItem(
-    			child:Text('Imagen');
-    			value:FileType.IMAGE,
+    			child:Text('Imagen'),
+    			value:FileType.image,
     		),
     		DropdownMenuItem(
-    			child:Text('Video');
-    			value:FileType.VIDEO,
+    			child:Text('Video'),
+    			value:FileType.video,
     		),
     		DropdownMenuItem(
-    			child:Text('Otro');
-    			value:FileType.ANY,
+    			child:Text('Otro'),
+    			value:FileType.any,
     		),
 
     	],
@@ -200,7 +209,7 @@ Widget botonFind(){
               dateField(),
               Divider(),
               botonTypeFile(),
-              SwitchListTile.adaptive(
+              /*SwitchListTile.adaptive(
               	title:Text('multiple archivos',
               		textAlign:TextAlign.left,
               	),
@@ -210,7 +219,7 @@ Widget botonFind(){
               		});
               	},
               	value:_multiPick,
-              ),
+              ),*/
               Divider(),
               botonFind(),
               Divider(),
@@ -224,4 +233,3 @@ Widget botonFind(){
 
 
 }
-
