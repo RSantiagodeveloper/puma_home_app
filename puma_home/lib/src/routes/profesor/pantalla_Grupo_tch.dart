@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
-import 'package:puma_home/src/routes/profesor/formTarea.dart';
+import 'package:puma_home/src/routes/profesor/tareas.dart';
 import 'package:puma_home/src/routes/profesor/material_Apoyo_tch.dart';
 import 'package:puma_home/src/routes/profesor/tablon_tch.dart';
 //import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
@@ -37,7 +37,7 @@ class PantallaGrupoTch extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CrearTarea()),
+              MaterialPageRoute(builder: (context) => Tareastch(idUser, idGroup)),
             );
           },
         ));

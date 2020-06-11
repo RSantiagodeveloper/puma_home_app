@@ -54,7 +54,7 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               StreamBuilder(
-                  stream: dbReference.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).snapshots(),
+                  stream: dbReference.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).orderBy('Fecha', descending: true).snapshots(), //orderBy() ordena por fecha los avisos
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasData) {
@@ -94,7 +94,7 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
                           decoration: InputDecoration(
                             prefixIcon: Icon(
                               Icons.announcement,
-                              color: Color(0xFF040367),
+                              color: Color(Elementos.contenedor),
                             ),
                             border: OutlineInputBorder(),
                           )),
@@ -105,11 +105,13 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
                           color: Colors.white,
                         ),
                         onPressed: () async {
+                          var fecha = new DateTime.now(); 
                           try {
-                            final resp =
+                            //final resp =
                                 await dbReference.collection('Avisos').add({
                               'Id_Grupo': _idGrupo,
                               'Notice': newNotice.text,
+                              'Fecha': fecha, //inserta fecha actual con zona horaria
                             });
                           } catch (e) {
                             print("Errozote prro!!!!!!!!: " + e);

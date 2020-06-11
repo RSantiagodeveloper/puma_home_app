@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/src/resources/MenuApp_tch.dart';
-import 'package:puma_home/src/resources/iconAppBar.dart';
-import 'package:puma_home/src/resources/App_Elements.dart';
+//import 'package:puma_home/src/resources/MenuApp_tch.dart';
+//import 'package:puma_home/src/resources/iconAppBar.dart';
+//import 'package:puma_home/src/resources/App_Elements.dart';
 
 
 
 
   //Controladores para los campos del formulario
 
-  TextEditingController Nombre_tarea = new TextEditingController();
-  TextEditingController Descripcion_tarea = new TextEditingController();
-  TextEditingController _date = new TextEditingController();
+  TextEditingController nombreTarea = new TextEditingController();
+  TextEditingController descripcionTarea = new TextEditingController();
+  //TextEditingController _date = new TextEditingController();
   GlobalKey<FormState> keyForm = new GlobalKey();
 
 //EDITAR PARA QUE TENGA UNA VISTA MÁS BONITA :3
-Widget Nombre_tareaField() {
+Widget nombreTareaField() {
     //campo para almacenar el nombre de la tarea
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: TextFormField(
-        controller: Nombre_tarea,
+        controller: nombreTarea,
         decoration: InputDecoration(
           labelText: 'Nombre de la Tarea:',
         ),
@@ -34,12 +34,12 @@ Widget Nombre_tareaField() {
   }
 
 //EDITAR PARA QUE TENGA UNA VISTA MÁS BONITA :3
-Widget Nombre_descripcionField() {
+Widget nombreDescripcionField() {
     //campo para almacenar la descripción de la tarea
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: TextFormField(
-        controller: Descripcion_tarea,
+        controller: descripcionTarea,
         decoration: InputDecoration(
           labelText: 'Descripcion de la tarea de la Tarea:',
         ),

@@ -1,22 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:puma_home/src/routes/servicios/confiReg.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 
 
 class CrearTarea extends StatefulWidget{
-    _CrearTareaStatet createState() => _CrearTareaStatet();
+    final String id_Usr;
+    final String id_grupo;
+    CrearTarea(this.id_Usr, this.id_grupo);
+    _CrearTareaStatet createState() => _CrearTareaStatet(id_Usr,id_grupo);
 }
 
-class _CrearTareaStatet extends State< CrearTarea>{
+class _CrearTareaStatet extends State<CrearTarea>{
+
+    String id_usr_s;
+    String id_grupo_s;
+    _CrearTareaStatet(this.id_usr_s, this.id_grupo_s);
+
+    final dbReference = Firestore.instance;
+    final authRef = FirebaseAuth.instance;
     TextEditingController nombreTarea = new TextEditingController();
     TextEditingController descripcionTarea = new TextEditingController();
     TextEditingController _date = new TextEditingController();
     GlobalKey<FormState> keyForm = new GlobalKey();
      
-
+void initState(){
+  super.initState();
+  print('Usuario: $id_usr_s Grupo: $id_grupo_s');
+}
 //EDITAR PARA QUE TENGA UNA VISTA MÁS BONITA :3
 Widget nombreTareaField() {
     //campo para almacenar el nombre de la tarea
@@ -45,7 +58,7 @@ Widget nombreDescripcionField() {
       child: TextFormField(
         controller: descripcionTarea,
         decoration: InputDecoration(
-          labelText: 'Descripcion de la tarea de la Tarea:',
+          labelText: 'Descripcion de la tarea:',
         ),
       ),
     );
@@ -78,7 +91,27 @@ Widget crearBoton(BuildContext context) {
                 'Subir tarea',
                 style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {}
+            onPressed: () async {
+              if(keyForm.currentState.validate()){
+                final usuario = await authRef.currentUser();
+                FirebaseUser usrAct = usuario;
+                dbReference.collection('Tareas').add({
+                  'Id_profesor': usrAct.uid,
+                  'Id_grupo': id_grupo_s,
+                  'Id_alumno': '',
+                  'Nombre':nombreTarea.text,
+                  'Descripción':descripcionTarea.text,
+                  'Archivo':'',
+                  'FechaEntrega':_date.text,
+                  'Calificacion': '',
+                  'Comentario':'',
+                  'Status':'',
+                  'Archivo_Alumno':'',
+                  'Comentario_Alumno':''
+
+                });
+              }
+            }
         ),
     );
 }
@@ -97,7 +130,9 @@ Widget botonUp(BuildContext context) {
                 'Subir archivo',
                 style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {}
+            onPressed: () async {
+              
+            }
         ),
     );
 }

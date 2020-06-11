@@ -9,7 +9,6 @@
  * TablonAnuncios()
  * en el lugar donde lo vas a acomodar fijate en RutaEjemplo.dart
  */
-//TODO: ordenar código
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -58,11 +57,8 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('Avisos')
-                          .where('Id_Grupo', isEqualTo: _idGrupo)
-                          .snapshots(),
-                      builder: (BuildContext context,
+                      stream: Firestore.instance.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).orderBy('Fecha', descending: true).snapshots(),
+                      builder: (BuildContext context,//que nada mas uno dise:v
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return Expanded(
@@ -75,6 +71,7 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
                                     color: Colors.white,
                                   ),
                                   title: Text('${document['Notice']}' ,style: TextStyle(color: Colors.white)),
+                                  subtitle: Text('${DateTime.parse(document['Fecha'].toDate().toString())}', style: TextStyle(color: Colors.white)),
                                 );
                               }).toList(),
                             ),
@@ -82,7 +79,7 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
                         } else {
                           return Expanded(
                               child: Text(
-                            "Cagando...", 
+                            "No hay avisos", 
                             style: TextStyle(color: Colors.white),
                           ));
                         }
