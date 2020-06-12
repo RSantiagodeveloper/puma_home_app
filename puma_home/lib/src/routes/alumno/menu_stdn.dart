@@ -38,7 +38,7 @@ class MenuAlumnoState extends State<MenuAlumno> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MisGruposStdn(idUserState)), //TODO: pasarle el id de usuario
+              MaterialPageRoute(builder: (context) => MisGruposStdn(idUserState)),
             );
           },
         ));

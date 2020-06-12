@@ -6,10 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/routes/alumno/alta_Grupo.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 
-//const eventKey =  'Zrqc3afJbCewrccdcdX0';
-//const grupo_alumnoRef = rootRef.child('grupo_alumno');
-//const usuarioRef= rootRef.child('usuarios');
-
 class MisGruposStdn extends StatefulWidget {
   final String idUser;
   MisGruposStdn(this.idUser);
@@ -30,8 +26,8 @@ class _MisGruposState extends State<MisGruposStdn> {
 
   /// funcion vacia que elimina el grupo [idGroup] en firestore
   void deleteGroup(String idGroup){
-    Firestore.instance.collection('Grupo_Alumno').document(idGroup).delete().then((_) => {
-      statusMessage("El grupo ha sido eliminado")
+    Firestore.instance.collection('Grupo_Alumno').document(idGroup).delete().then((_){
+      statusMessage("El grupo ha sido eliminado");
     });
   }
   ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
@@ -130,13 +126,7 @@ class _MisGruposState extends State<MisGruposStdn> {
           );
         });
   }
- /// funcion vacia que inserta el [grupoid] en un map
-  Future<String> obtenerNombre(String grupoid) async{
-    final db = await Firestore.instance.collection('Grupo').document(grupoid).get();
-    Map<String, dynamic> valor = db.data;
-    String nombreClase = valor['Nombre'];
-    return nombreClase;
-  }
+
   @override
   Widget build(BuildContext context) { 
     //print('BUILD ID ${usuario.uid} Email ${usuario.email}');
@@ -153,7 +143,7 @@ class _MisGruposState extends State<MisGruposStdn> {
               onPressed: null)
         ],
       ),
-      //TODO: falta verificar que se haga bien la consulta en la base de datos
+      
       body: StreamBuilder(
           stream: Firestore.instance.collection('Grupo_Alumno').where("Alumno_id", isEqualTo: idUserstate).snapshots(),
           builder:
@@ -214,7 +204,7 @@ class _MisGruposState extends State<MisGruposStdn> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoS(idUserstate, document.documentID, document['Profesor_Id'])
+                                          builder: (context) =>PantallaGrupoS(idUserstate, document['Grupo_id'], document['Profesor_Id'])
                                           )
                                     );
                                 },
