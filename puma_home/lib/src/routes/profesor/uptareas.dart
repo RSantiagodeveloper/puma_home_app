@@ -19,25 +19,19 @@ class _SubirArchivoState extends State< SubirArchivo>{
     GlobalKey<FormState> keyForm = new GlobalKey();
 
     String _path;
-    Map<String, String> _paths;
+    //Map<String, String> _paths;
     String _extension;
     FileType _pickType;
-    bool _multiPick = false;
-    GlobalKey<ScaffoldState> _scaffoldKey= GlobalKey();
+    //bool _multiPick = false;
     List<StorageUploadTask> _task = <StorageUploadTask>[];
 
 /*     hace falta modificarlo para subir varios archivos a la vez
 void openFileExplorer() async {
-	try{
-
-		if(_multiPick){
-			_path = await FilePicker.getMultiFilePath(allowedExtensions:_paths, type: _pickType);
-		}
-		else{
-			_path = await FilePicker.getFilePath(type: FileType.any);
-		}
+	
+			
+    _path = await FilePicker.getFilePath(type: _pickType);
 		uploadToFirebase();  
-	} on PlatformException catch (e){
+ fileExtension: _ fileExtension: _ fileExtension: _ fileExtension: _ fileExtension:  fileExtension:  fileExtension fileExtension fileExtension fileExtensio,	} on PlatformException catch (e){
 		print('operacion no soportada'+e.toString());
 	}
 	if(!mounted){
@@ -48,9 +42,9 @@ void openFileExplorer() async {
 /// metodo para abrir el explorador de archivos y cargar un archivo
 void openFileExplorer() async {
   try{
-    _path = await FilePicker.getFilePath(type: _pickType);
-    uploadToFirebase(); 
-  }
+    _path = await FilePicker.getFilePath(type: _pickType/*, allowedFileExtension: _extension*/);
+     
+ }
   on PlatformException catch (e){
     print('operacion no soportada: '+e.toString());
   } 
@@ -58,23 +52,17 @@ void openFileExplorer() async {
     return;
   }
 }
-
+///funciona que sube el archivo seleccionado al storage
 void uploadToFirebase(){
-	if(_multiPick){
-		_paths.forEach((fileName, filePath){
-			upload(fileName,filePath);
-		});
-	}
-	else{
-		String fileName= _path.split('.').last;
+		String fileName= _path.toString().split('/').last;
 		String filePath = _path;
 		upload(fileName, filePath);
-	}
 }
 
+/// funcion vacia que recibe el [fileName] y el [filePath] para subir el archivo al storage
 void upload(fileName, filePath){
-	_extension = fileName.toString().split('.').last;
-	StorageReference storageRef =FirebaseStorage.instance.ref().child(fileName);
+	_extension = fileName.split('.').last;
+	StorageReference storageRef =FirebaseStorage.instance.ref().child("prueba/"+fileName);
 	final StorageUploadTask uploadTask =
 		storageRef.putFile(File(filePath),StorageMetadata(
 				contentType: '$_pickType/$_extension',
@@ -84,6 +72,7 @@ void upload(fileName, filePath){
 		_task.add(uploadTask);
 	});
 }
+
 //EDITAR PARA QUE TENGA UNA VISTA MÁS BONITA :3
 Widget nombreTareaField() {
     //campo para almacenar el nombre de la tarea
@@ -112,7 +101,7 @@ Widget nombreDescripcionField() {
       child: TextFormField(
         controller: descripcionTarea,
         decoration: InputDecoration(
-          labelText: 'Descripcion de la tarea de la Tarea:',
+          labelText: 'Descripcion de la tarea:',
         ),
       ),
     );
@@ -145,11 +134,11 @@ Widget crearBoton(BuildContext context) {
                 'Subir tarea',
                 style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {}
+            onPressed: () {uploadToFirebase();}
         ),
     );
 }
-
+/// widget que devuelve un DropdownButton para seleccionar el filtro del archivos
 Widget botonTypeFile() {
     return DropdownButton(
     	hint:Text('selecciona'),
@@ -175,13 +164,13 @@ Widget botonTypeFile() {
     	onChanged:(value){
     		setState(
     			(){
-    				_pickType=value;
+    				_pickType=value; //le asigna el valor seleccionado al _pickType
     			}
     		);
     	},
     );
 }
-
+///widget que devuelve un boton para abrir el explorador de archivos nativo
 Widget botonFind(){
 	return OutlineButton(
 		child:Text('Buscar Archivo'),
