@@ -17,6 +17,12 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
   String grupoid;
   _ListaAlumnosState(this.idUser, this.grupoid);
 
+  initState(){
+    super.initState();
+    print('$idUser , $grupoid');
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +40,7 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
       body: StreamBuilder(
           stream: Firestore.instance
               .collection('Tareas')
-              .where("Grupo", isEqualTo: grupoid)
+              .where("Id_grupo", isEqualTo: grupoid)
               .where("Status", isEqualTo: 'entregado')
               .snapshots(),
           builder:
