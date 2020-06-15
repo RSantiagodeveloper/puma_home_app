@@ -2,21 +2,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart'; //import del PlatformException
 import 'package:puma_home/src/resources/App_Elements.dart';
 
 
 class SubirArchivo extends StatefulWidget{
-    _SubirArchivoState createState() => _SubirArchivoState();
+    final String idUser;
+    final String idGrupo;
+    SubirArchivo(this.idUser, this.idGrupo);
+
+    _SubirArchivoState createState() => _SubirArchivoState(idUser,idGrupo);
 }
 
 class _SubirArchivoState extends State< SubirArchivo>{
+    final String idUserstate;
+    final String idgrupoState;
+    _SubirArchivoState(this.idUserstate, this.idgrupoState);
     TextEditingController nombreTarea = new TextEditingController();
     TextEditingController descripcionTarea = new TextEditingController();
     TextEditingController _date = new TextEditingController();
     GlobalKey<FormState> keyForm = new GlobalKey();
+    final fireReference = Firestore.instance;
+    String fileName;
+
+    /*List<FileType> _tipoDeArchivo=<FileType>[
+      FileType.audio
+
+    ];*/
+    
 
     String _path;
     //Map<String, String> _paths;
@@ -39,11 +54,14 @@ void openFileExplorer() async {
 	}
 }
 */
+void intentarConectar(){
+  uploadToFirebase(); //este sube al storage
+  baseForm(fileName); //este sube a la firestore
+}
 /// metodo para abrir el explorador de archivos y cargar un archivo
 void openFileExplorer() async {
   try{
-    _path = await FilePicker.getFilePath(type: _pickType/*, allowedFileExtension: _extension*/);
-     
+    _path = await FilePicker.getFilePath(type: _pickType/*, allowedFileExtension: _extension*/);   
  }
   on PlatformException catch (e){
     print('operacion no soportada: '+e.toString());
@@ -54,15 +72,15 @@ void openFileExplorer() async {
 }
 ///funciona que sube el archivo seleccionado al storage
 void uploadToFirebase(){
-		String fileName= _path.toString().split('/').last;
+		fileName= _path.toString().split('/').last;
 		String filePath = _path;
 		upload(fileName, filePath);
-}
+} 
 
 /// funcion vacia que recibe el [fileName] y el [filePath] para subir el archivo al storage
 void upload(fileName, filePath){
 	_extension = fileName.split('.').last;
-	StorageReference storageRef =FirebaseStorage.instance.ref().child("prueba/"+fileName);
+	StorageReference storageRef =FirebaseStorage.instance.ref().child(idgrupoState+"/"+fileName);
 	final StorageUploadTask uploadTask =
 		storageRef.putFile(File(filePath),StorageMetadata(
 				contentType: '$_pickType/$_extension',
@@ -72,7 +90,28 @@ void upload(fileName, filePath){
 		_task.add(uploadTask);
 	});
 }
-
+///funcion vacia que manda los datos de la tarea a la base de datos
+void baseForm(fileName) async {
+	StorageReference ref =FirebaseStorage.instance.ref().child(idgrupoState+"/"+fileName);
+	final String url = await ref.getDownloadURL();
+	//fireReference.collection('Tareas').document().setData({ 
+  Firestore.instance.collection('Tareas').add({
+        'Nombre': nombreTarea.text,
+        'Descripcion': descripcionTarea.text,
+        'FechaEntrega': _date.text,
+        'Ids_alumnos':"",
+        'Id_profesor':idUserstate,
+        'Status':"NoEntregado",
+        'Id_Grupo':idgrupoState,
+        'Comentario_Alumno':"",
+        'Comentario':"",
+        'calificacion':"",
+        'Archivo':url,
+        'Archivos_Alumnos':"",
+        
+    });
+    
+} 
 //EDITAR PARA QUE TENGA UNA VISTA MÁS BONITA :3
 Widget nombreTareaField() {
     //campo para almacenar el nombre de la tarea
@@ -119,7 +158,7 @@ Widget dateField() {
       ),
     );
   }
-
+///widget que devuelve un container con un flatbutton para 
 Widget crearBoton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 2,
@@ -134,13 +173,19 @@ Widget crearBoton(BuildContext context) {
                 'Subir tarea',
                 style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {uploadToFirebase();}
+            onPressed: () {
+              //uploadToFirebase(); //manda los archivos al storage
+              //baseForm(fileName);
+              intentarConectar();
+            }
         ),
     );
 }
 /// widget que devuelve un DropdownButton para seleccionar el filtro del archivos
+//TODO: Mejorar vista
 Widget botonTypeFile() {
     return DropdownButton(
+      //value: _pickType.toString(), //el valor del dropdownbutton se vuelve el del picktype?
     	hint:Text('selecciona'),
     	items: <DropdownMenuItem>[
     		DropdownMenuItem(
@@ -164,6 +209,8 @@ Widget botonTypeFile() {
     	onChanged:(value){
     		setState(
     			(){
+            //que seleccione el nombre del tipo y lo delvuelva al DropdownButton
+            //aqui hacemos el case
     				_pickType=value; //le asigna el valor seleccionado al _pickType
     			}
     		);
@@ -219,6 +266,4 @@ Widget botonFind(){
       ),
     );
   }
-
-
 }
