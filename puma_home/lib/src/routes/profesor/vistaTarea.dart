@@ -42,22 +42,38 @@ class _VistaTareaState extends State <VistaTarea>{
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if(snapshot.hasData){
             Map<String, dynamic> datos = snapshot.data.data;
+            comentarioProf.text = datos['Comentario'];
+            calificacion.text = datos['Calificacion'];
             return ListView(
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.assessment),
+                    Expanded(
+                      flex: 2,
+                      child: Icon(Icons.assessment),
+                    ),
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('El Alumno Comentó', style: TextStyle(fontSize: 14)),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
                       width: MediaQuery.of(context).size.width/1.1765,
                       height: MediaQuery.of(context).size.height/4,
-                      child: Text(
-                        '${datos["Comentario"]}'
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Color(Elementos.bordes),
+                        borderRadius: BorderRadius.circular(30)
                       ),
+                      
+                      child: (datos["Comentario_Alumno"] != '')?Text('${datos["Comentario_Alumno"]}'):Text('No Hay Comentario del Alumno'),
                     ),
                   ],
                 ),
@@ -103,15 +119,19 @@ class _VistaTareaState extends State <VistaTarea>{
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(11.0),
                             side: BorderSide(
-                              color: Colors.blue,
+                              color: Color(Elementos.bordes),
                               width: 3,
                             )
                           ),
-                          color: Colors.white,
+                          color: Color(Elementos.contenedor),
                           onPressed: (){
                             if(keyFormulario.currentState.validate()){
                               Firestore.instance.collection('Tareas').document(idTarea).updateData({
-                                //TODO: Terminar y probar funcionalidad de la pantalla
+                                'Comentario': comentarioProf.text,
+                                'Calificacion': calificacion.text,
+                                'Calificado': 1,
+                              }).then((value){
+                                Navigator.pop(context);
                               });
                             }
                           },

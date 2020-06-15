@@ -3,6 +3,7 @@ import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/routes/profesor/vistaTarea.dart';
 
 class ListaAlumnos extends StatefulWidget {
   final String idUser;
@@ -15,6 +16,7 @@ class ListaAlumnos extends StatefulWidget {
 class _ListaAlumnosState extends State<ListaAlumnos> {
   String idUser;
   String grupoid;
+  String nombreTarea;
   _ListaAlumnosState(this.idUser, this.grupoid);
 
   initState(){
@@ -28,7 +30,7 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Pantalla Tarea'),
+        title: Text('Tareas Entregadas'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -38,11 +40,7 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
       ),
       drawer: MenuAppTch(idUser),
       body: StreamBuilder(
-          stream: Firestore.instance
-              .collection('Tareas')
-              .where("Id_grupo", isEqualTo: grupoid)
-              .where("Status", isEqualTo: 'entregado')
-              .snapshots(),
+          stream: Firestore.instance.collection('Tareas').where("Id_grupo", isEqualTo: grupoid).where("Nombre", isEqualTo: nombreTarea).where("Status", isEqualTo: 'entregado').orderBy('Calificado').snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -65,11 +63,12 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
                         flex: 1,
                         child: Row(children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.remove_red_eye),
+                          icon: Icon(Icons.edit),
                           onPressed:(){
-                            print('UwU');
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> VistaTarea(idUser, document.documentID)));
                           }
-                        )
+                        ),
+                        (document['Calificado'] == 1)?Icon(Icons.check_box, color: Colors.green):Icon(Icons.check_box_outline_blank, color: Colors.blue[200])
                       ])),
                     ],
                   ),
