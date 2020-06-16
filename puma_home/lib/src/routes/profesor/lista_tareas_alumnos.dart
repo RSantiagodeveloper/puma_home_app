@@ -8,20 +8,21 @@ import 'package:puma_home/src/routes/profesor/vistaTarea.dart';
 class ListaAlumnos extends StatefulWidget {
   final String idUser;
   final String grupoid;
-  ListaAlumnos(this.idUser, this.grupoid);
+  final String nombreTarea;
+  ListaAlumnos(this.idUser, this.grupoid,this.nombreTarea);
   @override
-  _ListaAlumnosState createState() => _ListaAlumnosState(idUser, grupoid);
+  _ListaAlumnosState createState() => _ListaAlumnosState(idUser, grupoid, nombreTarea);
 }
 
 class _ListaAlumnosState extends State<ListaAlumnos> {
   String idUser;
   String grupoid;
   String nombreTarea;
-  _ListaAlumnosState(this.idUser, this.grupoid);
+  _ListaAlumnosState(this.idUser, this.grupoid, this.nombreTarea);
 
   initState(){
     super.initState();
-    print('$idUser , $grupoid');
+    print('$idUser, $nombreTarea');
   }
 
 
@@ -40,7 +41,7 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
       ),
       drawer: MenuAppTch(idUser),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Tareas').where("Id_grupo", isEqualTo: grupoid).where("Nombre", isEqualTo: nombreTarea).where("Status", isEqualTo: 'entregado').orderBy('Calificado').snapshots(),
+          stream: Firestore.instance.collection('Tarea_Alumno').where('Id_Tarea', isEqualTo: nombreTarea).where('Status', isEqualTo: 'entregado').snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -56,7 +57,7 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
                         flex: 2,
                         child: ListTile(
                           leading: Icon(Icons.check_box),
-                          title: Text('${document['Id_alumno']}'),
+                          title: Text('${document['Nombre_Alumno']}'),
                         ),
                       ),
                       Expanded(

@@ -102,15 +102,13 @@ Widget crearBoton(BuildContext context) {
                   'Descripción':descripcionTarea.text,
                   'Archivo':'',
                   'FechaEntrega':_date.text,
-                  'Status':'pendiente',
-                  'Calificado': 0
                 });
               /*  dbReference.collection('Tarea_Alumno')..add({
                  'Id_alumno': '',
                   //'Calificacion': '',
-                  //'Comentario':'',
-                  //'Archivo_Alumno':'',
-                 //'Comentario_Alumno':'',
+                  //'Comentario'_profe:'',
+                  //'Archivo':'',
+                 //'Comentario':'',
                 });*/
               }
             }
