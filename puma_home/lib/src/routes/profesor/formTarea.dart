@@ -98,18 +98,18 @@ Widget crearBoton(BuildContext context) {
                 dbReference.collection('Tareas').add({
                   'Id_profesor': usrAct.uid,
                   'Id_grupo': id_grupo_s,
-                  'Id_alumno': '',
                   'Nombre':nombreTarea.text,
                   'Descripción':descripcionTarea.text,
                   'Archivo':'',
                   'FechaEntrega':_date.text,
-                  'Calificacion': '',
-                  'Comentario':'',
-                  'Status':'',
-                  'Archivo_Alumno':'',
-                  'Comentario_Alumno':''
-
                 });
+              /*  dbReference.collection('Tarea_Alumno')..add({
+                 'Id_alumno': '',
+                  //'Calificacion': '',
+                  //'Comentario'_profe:'',
+                  //'Archivo':'',
+                 //'Comentario':'',
+                });*/
               }
             }
         ),

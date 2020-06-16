@@ -150,7 +150,7 @@ class _TareastchState extends State<Tareastch> {
         ],
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Tareas').where("Id_grupo", isEqualTo: idgrupoState).snapshots(),
+          stream: Firestore.instance.collection('Tareas').where("Id_Grupo", isEqualTo: idgrupoState).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -210,7 +210,7 @@ class _TareastchState extends State<Tareastch> {
                                       context,
                                       MaterialPageRoute(
                                         
-                                          builder: (context) =>ListaAlumnos(idUserstate, document['Id_grupo'])
+                                          builder: (context) =>ListaAlumnos(idUserstate, document['Id_Grupo'], document.documentID)
                                           )
                                     );
                                 },

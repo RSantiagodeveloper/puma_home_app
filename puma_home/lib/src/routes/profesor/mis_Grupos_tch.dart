@@ -41,8 +41,14 @@ class _MisGruposState extends State<MisGruposTch> {
           return AlertDialog(
             title: Row(
                 children: <Widget>[
-                  Icon(Icons.check, color: Colors.green),
-                  Text('Completado'),
+                  Expanded(
+                    flex:2,
+                    child: Icon(Icons.check, color: Colors.green),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text('Completado'),
+                  ),
                 ],
             ),
             content: Text(
@@ -56,15 +62,15 @@ class _MisGruposState extends State<MisGruposTch> {
                   Navigator.of(context).pop();
                 },
               padding: EdgeInsets.all(3.0),
-              child: Container(
-                decoration:BoxDecoration(
-                      color: Colors.blue[50],
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.blue),
-                    ),
-                padding: EdgeInsets.all(1.0),
-                child: Text('Aceptar', style: TextStyle(color: Colors.blue)),
-              ),      
+              color: Color(Elementos.contenedor),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: BorderSide(
+                  color: Color(Elementos.bordes),
+                  width: 3,
+                ),
+              ),
+              child: Text('Aceptar', style: TextStyle(color: Colors.white)),      
             )],
           );
         });
