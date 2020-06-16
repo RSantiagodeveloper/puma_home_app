@@ -25,7 +25,11 @@ class _SubirArchivoState extends State< SubirArchivo>{
     TextEditingController _date = new TextEditingController();
     GlobalKey<FormState> keyForm = new GlobalKey();
     final fireReference = Firestore.instance;
-    String fileName;
+    String fileName ='nombre de archivo esta vacio';
+    String nombreBoton = 'Buscar archivo';
+
+    bool activado = false;
+    bool _multiPick= false;
 
     /*List<FileType> _tipoDeArchivo=<FileType>[
       FileType.audio
@@ -33,11 +37,11 @@ class _SubirArchivoState extends State< SubirArchivo>{
     ];*/
     
 
-    String _path;
+    //bool _multiPick = false;
     //Map<String, String> _paths;
     String _extension;
     FileType _pickType;
-    //bool _multiPick = false;
+    String _path;
     List<StorageUploadTask> _task = <StorageUploadTask>[];
 
 /*     hace falta modificarlo para subir varios archivos a la vez
@@ -54,20 +58,32 @@ void openFileExplorer() async {
 	}
 }
 */
+
 void intentarConectar(){
-  uploadToFirebase(); //este sube al storage
-  baseForm(fileName); //este sube a la firestore
+  if (activado = true){
+    uploadToFirebase(); //este sube al storage
+    baseForm(fileName); //este sube a la firestore
+  }else{
+    baseForm(fileName);
+  }
+
 }
 /// metodo para abrir el explorador de archivos y cargar un archivo
-void openFileExplorer() async {
+void openFileExplorer(_pickType) async {
   try{
-    _path = await FilePicker.getFilePath(type: _pickType/*, allowedFileExtension: _extension*/);   
+    _path = await FilePicker.getFilePath(type: _pickType/*, allowedFileExtension: _extension*/); 
+    nombreBoton = _path.toString().split('/').last;
+    print(nombreBoton);
+    setState(() {
+        nombreBoton = _path.toString().split('/').last;
+      });
  }
   on PlatformException catch (e){
     print('operacion no soportada: '+e.toString());
   } 
   if(!mounted){
     return;
+
   }
 }
 ///funciona que sube el archivo seleccionado al storage
@@ -93,9 +109,9 @@ void upload(fileName, filePath){
 ///funcion vacia que manda los datos de la tarea a la base de datos
 void baseForm(fileName) async {
 	StorageReference ref =FirebaseStorage.instance.ref().child(idgrupoState+"/"+fileName);
-	final String url = await ref.getDownloadURL();
-	//fireReference.collection('Tareas').document().setData({ 
-  Firestore.instance.collection('Tareas').add({
+	String url = await ref.getDownloadURL();
+  
+      Firestore.instance.collection('Tareas').add({
         'Nombre': nombreTarea.text,
         'Descripcion': descripcionTarea.text,
         'FechaEntrega': _date.text,
@@ -106,12 +122,77 @@ void baseForm(fileName) async {
         'Comentario_Alumno':"",
         'Comentario':"",
         'calificacion':"",
-        'Archivo':url,
+        'Archivo': url,
         'Archivos_Alumnos':"",
         
     });
+  
+	//fireReference.collection('Tareas').document().setData({ 
+
     
-} 
+}
+
+Widget botonMultiArch(){
+	return  SwitchListTile.adaptive(
+              	title:Text('multiple archivos',
+              		textAlign:TextAlign.left,
+              	),
+              	onChanged:(bool value){
+              		setState((){
+              			_multiPick=value;
+              		});
+              	},
+              	value:_multiPick,
+            );
+}
+// widget hint
+Widget showWidget(){
+	return Container(
+		child:Column(
+			children:<Widget>[
+				SwitchListTile.adaptive(
+              		title:Text('subir archivos',
+              			textAlign:TextAlign.left,
+              		),
+              		onChanged:(bool value){
+              			setState((){
+              				activado=value;
+              			});
+              		},
+              		value:activado,
+              	),
+              	activado ? Row(
+					children:<Widget>[
+						Expanded(
+							flex:11,
+							child:botonMultiArch(),
+						),
+
+					],
+				): Container(),
+				activado ? Row(
+					children:<Widget>[
+						Expanded(
+							flex:11,
+							child:seleccionarTipoArchivo(),
+						),
+
+					],
+				): Container(),
+				activado ? Row(
+					children:<Widget>[
+						Expanded(
+							flex:11,
+							child:botonFind(),
+						),
+					
+					],
+				): Container(),
+			],
+		),
+	);
+}
+
 //EDITAR PARA QUE TENGA UNA VISTA MÁS BONITA :3
 Widget nombreTareaField() {
     //campo para almacenar el nombre de la tarea
@@ -217,12 +298,70 @@ Widget botonTypeFile() {
     	},
     );
 }
+
+String dropdownValue;
+
+///funcion vacia que aisgna el FileType a _pickType dependiendo el [tipo]
+void asignarValor(String tipo){
+  switch (tipo){
+      case"Audio":{
+        _pickType=FileType.audio;
+      }
+      break;
+      case"Video":{
+        _pickType=FileType.video;
+      }
+      break;
+      case"Imagen":{
+        _pickType=FileType.image;
+      }
+      break;
+      case"Otro":{
+        _pickType=FileType.any;
+      }
+      break;
+      default:{
+        //_pickType=FileType.any;
+      }
+      break;
+  }
+}
+Widget seleccionarTipoArchivo() {
+      return DropdownButton<String>(
+      hint:Text('Selecciona'),
+      value: dropdownValue,
+      icon: Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownValue = newValue;
+          asignarValor(dropdownValue);
+          print(_pickType.toString());
+        });
+      },
+      items: <String>['Audio', 'Video', 'Imagen', 'Otro']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+}
+
+
 ///widget que devuelve un boton para abrir el explorador de archivos nativo
 Widget botonFind(){
 	return OutlineButton(
-		child:Text('Buscar Archivo'),
-		onPressed:(){
-			openFileExplorer();
+		child:Text(nombreBoton),
+		onPressed:()  {
+      openFileExplorer(_pickType);
 		}
 	);
 }
@@ -244,7 +383,9 @@ Widget botonFind(){
               nombreDescripcionField(),
               dateField(),
               Divider(),
-              botonTypeFile(),
+              //botonTypeFile(),
+
+ 
               /*SwitchListTile.adaptive(
               	title:Text('multiple archivos',
               		textAlign:TextAlign.left,
@@ -256,8 +397,7 @@ Widget botonFind(){
               	},
               	value:_multiPick,
               ),*/
-              Divider(),
-              botonFind(),
+              showWidget(),
               Divider(),
               crearBoton(context),
             ],
