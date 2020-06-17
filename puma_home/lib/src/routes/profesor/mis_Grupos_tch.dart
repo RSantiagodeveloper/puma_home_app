@@ -27,68 +27,71 @@ class _MisGruposState extends State<MisGruposTch> {
   }
 
   /// funcion vacia que elimina el grupo [idGroup] en firestore
-  void deleteGroup(String idGroup){
-    Firestore.instance.collection('Grupo').document(idGroup).delete().then((_)  {
+  void deleteGroup(String idGroup) {
+    Firestore.instance.collection('Grupo').document(idGroup).delete().then((_) {
       statusMessage("El grupo ha sido eliminado");
     });
   }
+
   ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
-///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
-   void statusMessage(String mensaje){
+  ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
+  void statusMessage(String mensaje) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex:2,
-                    child: Icon(Icons.check, color: Colors.green),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text('Completado'),
-                  ),
-                ],
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                  child: Icon(Icons.check, color: Colors.green),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text('Completado'),
+                ),
+              ],
             ),
             content: Text(
               mensaje,
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
-                //mainAxisAlignment: MainAxisAlignment.end,
+              //mainAxisAlignment: MainAxisAlignment.end,
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-              padding: EdgeInsets.all(3.0),
-              color: Color(Elementos.contenedor),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                side: BorderSide(
-                  color: Color(Elementos.bordes),
-                  width: 3,
+                padding: EdgeInsets.all(3.0),
+                color: Color(Elementos.contenedor),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  side: BorderSide(
+                    color: Color(Elementos.bordes),
+                    width: 3,
+                  ),
                 ),
-              ),
-              child: Text('Aceptar', style: TextStyle(color: Colors.white)),      
-            )],
+                child: Text('Aceptar', style: TextStyle(color: Colors.white)),
+              )
+            ],
           );
         });
   }
 
-
-///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
+  ///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
   void _confirmationMessage(String idGroup) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-
             title: Row(
-                children: <Widget>[
-                  Icon(Icons.warning, color: Colors.red,),
-                  Text('Alerta'),
-                ],
+              children: <Widget>[
+                Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                ),
+                Text('Alerta'),
+              ],
             ),
             content: Text(
               'Estas aṕunto de eliminar el grupo.\n Todos los datos se perderan.\n ¿Seguro que deseas continuar?',
@@ -99,37 +102,37 @@ class _MisGruposState extends State<MisGruposTch> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.red)
-                    ),
-                    child: GestureDetector(
-                    child: Text(
-                      'Borrar',
-                      style: TextStyle(fontSize: 14, color: Colors.red),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      deleteGroup(idGroup); //funcion que elimina el grupo con el id que lleva como parametro                     
-                    },
-                  )),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(width: 3, color: Colors.red)),
+                      child: GestureDetector(
+                        child: Text(
+                          'Borrar',
+                          style: TextStyle(fontSize: 14, color: Colors.red),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          deleteGroup(
+                              idGroup); //funcion que elimina el grupo con el id que lleva como parametro
+                        },
+                      )),
                   Container(
-                    //color: Colors.green,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.green),
-                    ),
-                    child: GestureDetector(
-                    child: Text(
-                      'Conservar',
-                      style: TextStyle(fontSize: 14, color: Colors.green),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ))
+                      //color: Colors.green,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(width: 3, color: Colors.green),
+                      ),
+                      child: GestureDetector(
+                        child: Text(
+                          'Conservar',
+                          style: TextStyle(fontSize: 14, color: Colors.green),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ))
                 ],
               )
             ],
@@ -154,7 +157,10 @@ class _MisGruposState extends State<MisGruposTch> {
         ],
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Grupo').where("Clave_Profesor", isEqualTo: idUserstate).snapshots(),
+          stream: Firestore.instance
+              .collection('Grupo')
+              .where("Clave_Profesor", isEqualTo: idUserstate)
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -170,13 +176,15 @@ class _MisGruposState extends State<MisGruposTch> {
                     decoration: BoxDecoration(
                         color: Color(Elementos.contenedor),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(width: 5, color: Color(Elementos.bordes))),
+                        border: Border.all(
+                            width: 5, color: Color(Elementos.bordes))),
                     margin: EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
-                          child: Container( //container del icono libro
+                          child: Container(
+                            //container del icono libro
                             child: Icon(
                               Icons.book,
                               color: Colors.white,
@@ -184,7 +192,8 @@ class _MisGruposState extends State<MisGruposTch> {
                           ),
                         ),
                         Expanded(
-                          child: Container(//container del nombre + ID del grupo
+                          child: Container(
+                            //container del nombre + ID del grupo
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -206,33 +215,34 @@ class _MisGruposState extends State<MisGruposTch> {
                           ),
                         ),
                         Expanded(
-                          child: Container(//container de los iconos de ver grupo y eliminar grupo
+                          child: Container(
+                            //container de los iconos de ver grupo y eliminar grupo
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 IconButton(
-                                icon: Icon(
-                                  Icons.remove_red_eye,
-                                  color: Colors.white,
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PantallaGrupoTch(idUserstate,
+                                                    document.documentID)));
+                                  },
                                 ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoTch(idUserstate, document.documentID)
-                                          )
-                                    );
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  _confirmationMessage(document.documentID);
-                                },
-                              )
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    _confirmationMessage(document.documentID);
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -244,7 +254,15 @@ class _MisGruposState extends State<MisGruposTch> {
               );
             }
           }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 2.0,
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 30.0,
+          color: Color(Elementos.contenedor),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Navigator.push(
@@ -253,6 +271,7 @@ class _MisGruposState extends State<MisGruposTch> {
                   builder: (context) =>
                       FormularioAltaClase())); //aqui va la llamada a la pantalla formulario_alta_clases
         },
+        //mini: true,
         backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.add),
       ),

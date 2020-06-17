@@ -235,7 +235,15 @@ class _TareastchState extends State<Tareastch> {
               );
             }
           }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 2.0,
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 30.0,
+          color: Color(Elementos.contenedor),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -244,6 +252,7 @@ class _TareastchState extends State<Tareastch> {
                   builder: (context) =>
                       SubirArchivo(idUserstate, idgrupoState))); //aqui va la llamada a la pantalla formulario_alta_clases
         },
+        
         backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.add),
       ),
