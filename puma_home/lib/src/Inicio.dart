@@ -31,7 +31,13 @@ class _CaratulaState extends State<Caratula>{
         backgroundColor: Color(0xFF040367), //color de fondo para esta pantalla
         body: SafeArea(
           child: Center(
-            child: Text(
+            child: Column(
+              children: <Widget>[
+                Image.asset('images/logos/lanzador_app3.png'),
+                SizedBox(
+                  height:10,
+                ),
+                Text(
               'Puma_Home',
               style: TextStyle(
                 fontFamily: 'Pacifico',
@@ -40,6 +46,8 @@ class _CaratulaState extends State<Caratula>{
                 fontWeight: FontWeight.bold
               ),
             ),
+              ]
+            )
           ),
         ),
       ),
