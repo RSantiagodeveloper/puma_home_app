@@ -13,6 +13,7 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:puma_home/src/routes/profesor/formulario_alta_clases.dart';
 
 class TablonAnunciosTch extends StatefulWidget {
   final String idGroup;
@@ -76,50 +77,7 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
                       return Text("No hay datos");
                     }
                   }),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      width: (_width < _height)
-                          ? MediaQuery.of(context).size.width / 1.78
-                          : MediaQuery.of(context).size.width / 1.5,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4)),
-                      child: TextField(
-                          controller: newNotice,
-                          style: TextStyle(color: Colors.black),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.announcement,
-                              color: Color(Elementos.contenedor),
-                            ),
-                            border: OutlineInputBorder(),
-                          )),
-                    ),
-                    IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          color: Colors.white,
-                        ),
-                        onPressed: () async {
-                          var fecha = new DateTime.now(); 
-                          try {
-                            //final resp =
-                                await dbReference.collection('Avisos').add({
-                              'Id_Grupo': _idGrupo,
-                              'Notice': newNotice.text,
-                              'Fecha': fecha, //inserta fecha actual con zona horaria
-                            });
-                          } catch (e) {
-                            print("Errozote prro!!!!!!!!: " + e);
-                          }
-                        }),
-                  ],
-                ),
-              )
+
             ],
           ),
         ),

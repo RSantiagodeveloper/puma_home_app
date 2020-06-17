@@ -1,6 +1,7 @@
 /*
  * Pantalla de grupo del profesor
  */
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
@@ -19,6 +20,7 @@ class PantallaGrupoTch extends StatelessWidget {
   final String idUser; //id del usuario actual
   final String idGroup; //id del Grupo Actual
   PantallaGrupoTch(this.idUser, this.idGroup);
+  TextEditingController newNotice = new TextEditingController();
 
 
 
@@ -63,6 +65,57 @@ class PantallaGrupoTch extends StatelessWidget {
           },
         ));
   }
+  Widget cajaMensajes(BuildContext context){
+    var _width = MediaQuery.of(context).size.width;
+    var _height = MediaQuery.of(context).size.height;
+    //var _sizepadding = 5.0;
+
+                return  Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: (_width < _height)
+                          ? MediaQuery.of(context).size.width / 1.78
+                          : MediaQuery.of(context).size.width / 1.5,
+                      height: MediaQuery.of(context).size.height / 5,
+                      decoration: BoxDecoration(
+                          color: Colors.white),
+                      child: TextField(
+                        maxLength: 150,
+                          scrollController: ScrollController(initialScrollOffset: 0.0, keepScrollOffset: false),
+                          controller: newNotice,
+                          style: TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.announcement,
+                              color: Color(Elementos.contenedor),
+                            ),
+                          )),
+                    ),
+                    IconButton(
+                        icon: Icon(
+                          Icons.send,
+                          color: Color(Elementos.contenedor),
+                        ),
+                        onPressed: () async {
+                          var fecha = new DateTime.now(); 
+                          try {
+                            //final resp =
+                                await Firestore.instance.collection('Avisos').add({
+                              'Id_Grupo':idGroup,
+                              'Notice': newNotice.text,
+                              'Fecha': fecha, //inserta fecha actual con zona horaria
+                            });
+                          } catch (e) {
+                            print("Errozote prro!!!!!!!!: " + e);
+                          }
+                        }),
+                  ],
+                ),
+              );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +140,8 @@ class PantallaGrupoTch extends StatelessWidget {
             children: [
               Text('Trabajo con el Usuario $idUser y con el Grupo $idGroup'),
               TablonAnunciosTch(idGroup),
+              Divider(),
+              cajaMensajes(context),
               Divider(),
               createTareasButton(context),
               Divider(),
