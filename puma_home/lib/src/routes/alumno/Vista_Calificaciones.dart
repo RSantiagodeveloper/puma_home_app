@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
@@ -114,9 +112,9 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
                                       width: 5,
                                     )),
                                 child: ListTile(
-                                  title: (document['Comentario'] != '')
+                                  title: (document['Comentario_Profe'] != '')
                                       ? mostrarComentario(
-                                          document['Comentario'])
+                                          document['Comentario_Profe'])
                                       : mostrarComentario(
                                           'No Hay Comentarios del Profesor'),
                                 ),
@@ -154,6 +152,9 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
             .where('Id_Alumno', isEqualTo: idUser)
             .getDocuments(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          print('Lista Vacia?${snapshot.data.documents.isEmpty}');
+          print('elementos?${snapshot.data.documents.length}');
+          print('ID_Docum?${snapshot.data.documents[0].documentID}');
           if (!snapshot.hasData) {
             return sinRegistro();
           } else {

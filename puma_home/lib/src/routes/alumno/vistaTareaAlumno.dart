@@ -3,6 +3,7 @@ import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:puma_home/src/routes/alumno/Vista_Calificaciones.dart';
 
 class VistaTareaAlumno extends StatefulWidget {
   final String idUser;
@@ -14,8 +15,8 @@ class VistaTareaAlumno extends StatefulWidget {
   VistaTareaAlumno(this.idUser, this.idTarea, this.nombreTarea, this.urlFile,
       this.descTarea, this.idGrupo);
   @override
-  _VistaTareaState createState() =>
-      _VistaTareaState(idUser, idTarea, nombreTarea, urlFile, descTarea, idGrupo);
+  _VistaTareaState createState() => _VistaTareaState(
+      idUser, idTarea, nombreTarea, urlFile, descTarea, idGrupo);
 }
 
 class _VistaTareaState extends State<VistaTareaAlumno> {
@@ -30,27 +31,71 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
 
   TextEditingController comentarioAlumno = TextEditingController();
 
-  void initState(){
+  void initState() {
     super.initState();
     print('$idUser $idTarea $nombreTarea $urlFile $descTarea $idGrupo');
   }
 
-  void enviarTarea(String idUser, String idTarea, String comentario, String idGrupo, String urlFileAlum){
-    Firestore.instance.collection('Usuarios').document(idUser).get().then((value){
-      Map<String, dynamic> datos = value.data;
-      String nombreAlumno = '${datos['Nombre']} ${datos['ApPat']} ${datos['ApMat']}'; 
-      Firestore.instance.collection('Tarea_Alumno').add({
-        'Archivo': urlFileAlum,
-        'Calificacion': 0.0,
-        'Calificado': 0,
-        'Comentario': comentario,
-        'Comentario_Profe': '',
-        'Id_Alumno': idUser,
-        'Id_Grupo': idGrupo,
-        'Id_Tarea': idTarea,
-        'Nombre_Alumno': nombreAlumno,
-        'Status': 'entregado'
-      });
+  void enviarTarea(String idUser, String idTarea, String comentario,
+      String idGrupo, String urlFileAlum) {
+    Firestore.instance
+        .collection('Tarea_Alumno')
+        .where('Id_Alumno', isEqualTo: idUser)
+        .where('Id_Tarea', isEqualTo: idTarea)
+        .getDocuments()
+        .then((value) {
+      if (value.documents.isEmpty) {
+        Firestore.instance
+            .collection('Usuarios')
+            .document(idUser)
+            .get()
+            .then((value) {
+          Map<String, dynamic> datos = value.data;
+          String nombreAlumno =
+              '${datos['Nombre']} ${datos['ApPat']} ${datos['ApMat']}';
+          Firestore.instance.collection('Tarea_Alumno').add({
+            'Archivo': urlFileAlum,
+            'Calificacion': 0.0,
+            'Calificado': 0,
+            'Comentario': comentario,
+            'Comentario_Profe': '',
+            'Id_Alumno': idUser,
+            'Id_Grupo': idGrupo,
+            'Id_Tarea': idTarea,
+            'Nombre_Alumno': nombreAlumno,
+            'Status': 'entregado'
+          }).then((value){
+            statusMessage('Has enviado tu tarea');
+          });
+        });
+      } else {
+        Firestore.instance
+            .collection('Usuarios')
+            .document(idUser)
+            .get()
+            .then((valueusr) {
+          Map<String, dynamic> datos = valueusr.data;
+          String nombreAlumno =
+              '${datos['Nombre']} ${datos['ApPat']} ${datos['ApMat']}';
+          Firestore.instance
+              .collection('Tarea_Alumno')
+              .document(value.documents[0].documentID)
+              .updateData({
+            'Archivo': urlFileAlum,
+            'Calificacion': 0.0,
+            'Calificado': 0,
+            'Comentario': comentario,
+            'Comentario_Profe': '',
+            'Id_Alumno': idUser,
+            'Id_Grupo': idGrupo,
+            'Id_Tarea': idTarea,
+            'Nombre_Alumno': nombreAlumno,
+            'Status': 'entregado'
+          }).then((value){
+            statusMessage('Se ha actualizado tu Tarea');
+          });
+        });
+      }
     });
   }
 
@@ -63,6 +108,43 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
       ),
       textAlign: TextAlign.justify,
     );
+  }
+
+   void statusMessage(String mensaje){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+                children: <Widget>[
+                  Icon(Icons.check, color: Colors.green),
+                  SizedBox(width: 5),
+                  Text('Aviso'),
+                ],
+            ),
+            content: Text(
+              mensaje,
+              textAlign: TextAlign.justify,
+            ),
+            actions: <Widget>[
+                //mainAxisAlignment: MainAxisAlignment.end,
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              padding: EdgeInsets.all(3.0),
+              child: Container(
+                decoration:BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 3, color: Colors.blue),
+                    ),
+                padding: EdgeInsets.all(1.0),
+                child: Text('Aceptar', style: TextStyle(color: Colors.blue)),
+              ),      
+            )],
+          );
+        });
   }
 
   @override
@@ -122,8 +204,8 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width/2.86,
-                  height: MediaQuery.of(context).size.height/10,
+                  width: MediaQuery.of(context).size.width / 2.86,
+                  height: MediaQuery.of(context).size.height / 10,
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(11.0),
@@ -142,7 +224,10 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                           'Subir',
                           style: TextStyle(color: Colors.white),
                         ),
-                        Icon(Icons.file_upload, color: Colors.white,)
+                        Icon(
+                          Icons.file_upload,
+                          color: Colors.white,
+                        )
                       ],
                     ),
                   ),
@@ -175,15 +260,15 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                 ),
               ],
             ),
-            
+
             //Botonoes Inferiores para envio y revison de resultados
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 //Boton para enviar informacion
                 Container(
-                  width: MediaQuery.of(context).size.width/2.86,
-                  height: MediaQuery.of(context).size.height/14.28,
+                  width: MediaQuery.of(context).size.width / 2.86,
+                  height: MediaQuery.of(context).size.height / 14.28,
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(11.0),
@@ -193,7 +278,8 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                         )),
                     color: Color(Elementos.contenedor),
                     onPressed: () {
-                      enviarTarea(idUser, idTarea, comentarioAlumno.text, idGrupo, 'URLArchivo');
+                      enviarTarea(idUser, idTarea, comentarioAlumno.text,
+                          idGrupo, 'URLArchivo');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -202,15 +288,18 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                           'Entregar',
                           style: TextStyle(color: Colors.white),
                         ),
-                        Icon(Icons.label_important, color: Colors.white,)
+                        Icon(
+                          Icons.label_important,
+                          color: Colors.white,
+                        )
                       ],
                     ),
                   ),
                 ),
                 //Boton para acceder a resultados
                 Container(
-                  width: MediaQuery.of(context).size.width/2.86,
-                  height: MediaQuery.of(context).size.height/14.28,
+                  width: MediaQuery.of(context).size.width / 2.86,
+                  height: MediaQuery.of(context).size.height / 14.28,
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(11.0),
@@ -220,7 +309,19 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                         )),
                     color: Color(Elementos.contenedor),
                     onPressed: () {
-                      print('boton presionado');
+                      Firestore.instance.collection('Tarea_Alumno').where('Id_Alumno', isEqualTo: idUser).where('Id_Tarea', isEqualTo: idTarea).getDocuments().then((value){
+                        if(value.documents.isEmpty){
+                          statusMessage('No has entregado tu tarea, Imposible mostrar resultados');
+                      }
+                        else{
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VistaCalificaciones(
+                                  idGrupo, idTarea, idUser)));
+                        }
+                      });
+                      
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -229,7 +330,10 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                           'Calificacion',
                           style: TextStyle(color: Colors.white),
                         ),
-                        Icon(Icons.check_box, color: Colors.white,)
+                        Icon(
+                          Icons.check_box,
+                          color: Colors.white,
+                        )
                       ],
                     ),
                   ),
