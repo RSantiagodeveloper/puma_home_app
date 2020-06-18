@@ -244,7 +244,15 @@ class _MisGruposState extends State<MisGruposTch> {
               );
             }
           }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 2.0,
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 30.0,
+          color: Color(Elementos.contenedor),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Navigator.push(

@@ -233,6 +233,8 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
       progressString = "Completed";
     });
     print("Download completed");
+    var path = await getApplicationDocumentsDirectory();
+    print("${path.path}/");
   }
  
   Widget loadBar() {

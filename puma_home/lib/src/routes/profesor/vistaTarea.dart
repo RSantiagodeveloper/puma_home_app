@@ -3,7 +3,7 @@ import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
-import 'package:puma_home/src/routes/profesor/crea_tareas.dart';
+//import 'package:puma_home/src/routes/profesor/crea_tareas.dart';
 
 class VistaTarea extends StatefulWidget {
   final String idUser;
@@ -21,7 +21,7 @@ class _VistaTareaState extends State<VistaTarea> {
   TextEditingController comentarioProf = new TextEditingController();
   TextEditingController calificacion = new TextEditingController();
   GlobalKey<FormState> keyFormulario = new GlobalKey();
-
+  /// widget text que muestra un [texto] como comentario
   Widget mostrarComentario(String texto){
     return Text(
       '$texto',
@@ -88,8 +88,6 @@ class _VistaTareaState extends State<VistaTarea> {
                           decoration: BoxDecoration(
                               color: Color(Elementos.contenedor),
                               borderRadius: BorderRadius.circular(30)),
-
-                              
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -164,7 +162,6 @@ class _VistaTareaState extends State<VistaTarea> {
                         ),
                       ],
                     ),*/
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[

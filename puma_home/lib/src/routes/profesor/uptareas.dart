@@ -130,7 +130,7 @@ void openFileExplorer() async {
 
     //fireReference.collection('Tareas').document().setData({
   }
-
+  ///widget switch que al estar activado permite subir multiples archivos
   Widget botonMultiArch() {
     return SwitchListTile.adaptive(
       title: Text(
@@ -146,7 +146,7 @@ void openFileExplorer() async {
     );
   }
 
-// widget hint
+// widget contenedor con un switch que permite activar o desactivar los widgets para subir archivos
   Widget showWidget() {
     return Container(
       child: Column(
@@ -231,7 +231,8 @@ void openFileExplorer() async {
       ),
     );
   }
-
+  ///widget para introducir la fecha
+  //TODO: cambiarlo a un datePicker
   Widget dateField() {
     //campo para almacenar la descripción de la tarea
     return Padding(
@@ -245,7 +246,7 @@ void openFileExplorer() async {
     );
   }
 
-  ///widget que devuelve un container con un flatbutton para
+  ///widget que devuelve un container con un flatbutton para 
   Widget crearBoton(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 2,

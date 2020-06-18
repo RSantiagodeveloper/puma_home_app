@@ -103,7 +103,7 @@ class PantallaGrupoTch extends StatelessWidget {
                           var fecha = new DateTime.now(); 
                           try {
                             //final resp =
-                                await Firestore.instance.collection('Avisos').add({
+                              await Firestore.instance.collection('Avisos').add({
                               'Id_Grupo':idGroup,
                               'Notice': newNotice.text,
                               'Fecha': fecha, //inserta fecha actual con zona horaria
