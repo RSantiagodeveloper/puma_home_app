@@ -2,6 +2,7 @@
  * Pantalla de grupo del alumno
  */
 import 'package:flutter/material.dart';
+import 'package:puma_home/src/routes/alumno/lista_Tareas.dart';
 import 'package:puma_home/src/routes/alumno/tablon_stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/alumno/material_Apoyo_stdn.dart';
@@ -34,7 +35,7 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Tareas(idUser)),
+              MaterialPageRoute(builder: (context) => TareasStdn(idUser,idGroup)),
             );
           },
         ));
