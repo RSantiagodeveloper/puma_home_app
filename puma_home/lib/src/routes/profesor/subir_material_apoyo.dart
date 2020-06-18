@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -28,6 +27,8 @@ class _SubirMaterialApoyoState extends State<SubirMaterialApoyo> {
   List<StorageUploadTask> _task = <StorageUploadTask>[];
   bool activado = false;
   bool _multiPick = false;
+  bool downloading = false; //variables globales
+  var progressString = "";
 
   @override
   void initState() {
@@ -217,6 +218,9 @@ class _SubirMaterialApoyoState extends State<SubirMaterialApoyo> {
     );
   }
 
+
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -239,9 +243,7 @@ class _SubirMaterialApoyoState extends State<SubirMaterialApoyo> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-
-        },
+        onPressed: () async {},
         backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.file_upload),
       ),

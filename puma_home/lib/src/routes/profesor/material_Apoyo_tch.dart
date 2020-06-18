@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MaterialApoyoTch extends StatefulWidget {
   final String idUser;
@@ -23,13 +25,19 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
   MaterialApoyoTchState(this.idUserState, this.idGrupoState);
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  bool activado = false;
+  //bool _multiPick = false;
+  bool downloading = false; //variables globales
+  var progressString = "";
 
   @override
   void initState() {
     super.initState();
     print('recibi al usuario $idUserState, $idGrupoState');
   }
+
   ///
+/*
   void downloadFile(String nombreArchivo, String url) async {
     StorageReference referen = FirebaseStorage.instance
         .ref()
@@ -51,6 +59,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
       'Success!\nDownloaded $name \nUrl: $url'
       '\npath: $path \nBytes Count :: $byteCount',
     );
+
     /*
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(
@@ -62,6 +71,8 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
       ),
     );*/
   }
+
+  */
 
   Future<void> descargarArchivo(StorageReference ref) async {
     final String url = await ref.getDownloadURL();
@@ -90,7 +101,8 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
         ),
       ),
     );
-}
+  }
+
   /// funcion  que elimina el archivo del grupó
   void deleteTarea(String idTarea) {
     Firestore.instance
@@ -102,7 +114,6 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
     });
   }
 
-  ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
   ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
   void statusMessage(String mensaje) {
     showDialog(
@@ -201,6 +212,58 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
         });
   }
 
+  void downloadFile(String url, String name) async {
+    Dio dio = Dio();
+    try {
+      var dir = await getApplicationDocumentsDirectory();
+      var download = dio.download(url, "${dir.path}/" + name,
+          onReceiveProgress: (rec, total) {
+        print("Rec: $rec , Total: $total");
+        setState(() {
+          downloading = true;
+          progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
+        });
+      });
+      await download;
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      downloading = false;
+      progressString = "Completed";
+    });
+    print("Download completed");
+  }
+ 
+  Widget loadBar() {
+    return Center(
+      child: downloading
+          ? Container(
+              height: 120.0,
+              width: 200.0,
+              child: Card(
+                color: Colors.black,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Text(
+                      "Downloading File: $progressString",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          : Text("No Data"),
+    );
+  }
+
   ///
   Widget createMenuButton(BuildContext context) {
     return Container(
@@ -259,6 +322,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        loadBar(),
                         Expanded(
                           child: Container(
                             //contiene del nombre Archivo
@@ -287,10 +351,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    //downloadFile(document['Nombre_Archivo'],
-                                    StorageReference refStorage = FirebaseStorage.instance.ref().child(idGrupoState + "/" + document['Archivo']);
-                                    descargarArchivo(refStorage);
-                                    //document['Archivo']);
+                                    downloadFile(document['Archivo'],document['Nombre_Archivo']);
                                   },
                                 ),
                                 IconButton(

@@ -110,8 +110,8 @@ void openFileExplorer() async {
   void baseForm(fileName) async {
     StorageReference ref =
         FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
-    String url = await ref.getDownloadURL();
-
+    var url = await ref.getDownloadURL();
+    String link = url.toString();
     Firestore.instance.collection('Tareas').add({
       'Nombre': nombreTarea.text,
       'Descripcion': descripcionTarea.text,
@@ -123,7 +123,7 @@ void openFileExplorer() async {
       'Comentario_Alumno': "",
       'Comentario': "",
       'calificacion': "",
-      'Archivo': url,
+      'Archivo': link,
       'Archivos_Alumnos': "",
       'Nombre_Archivo':fileName,
     });
