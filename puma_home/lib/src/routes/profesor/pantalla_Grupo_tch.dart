@@ -8,12 +8,6 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/profesor/tareas.dart';
 import 'package:puma_home/src/routes/profesor/material_Apoyo_tch.dart';
 import 'package:puma_home/src/routes/profesor/tablon_tch.dart';
-//import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
-//import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
-//import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
-//import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
-//import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
-//import 'package:puma_home/src/routes/profesor/tareas_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 //
 class PantallaGrupoTch extends StatelessWidget {
@@ -21,8 +15,6 @@ class PantallaGrupoTch extends StatelessWidget {
   final String idGroup; //id del Grupo Actual
   PantallaGrupoTch(this.idUser, this.idGroup);
   TextEditingController newNotice = new TextEditingController();
-
-
 
   Widget createTareasButton(BuildContext context) {
     return Container(

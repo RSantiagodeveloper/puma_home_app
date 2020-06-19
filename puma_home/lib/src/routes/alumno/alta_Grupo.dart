@@ -1,5 +1,5 @@
 //@David Guerrero
-//Pantall
+//Pantalla que contiene el formulario que crea un nuevo grupo
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -318,7 +318,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => VistaCalificaciones(
-                                  idGrupo, idTarea, idUser)));
+                                  idGrupo, value.documents[0].documentID, idUser)));
                         }
                       });
                       

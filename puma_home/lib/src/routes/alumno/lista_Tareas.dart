@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/routes/alumno/vistaTareaAlumno.dart';
-//import 'package:puma_home/src/routes/profesor/lista_tareas_alumnos.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
@@ -29,7 +28,6 @@ class _TareasStdnState extends State<TareasStdn> {
 
   @override
   Widget build(BuildContext context) {
-    //print('BUILD ID ${usuario.uid} Email ${usuario.email}');
     return Scaffold(
       drawer: MenuAppTch(idUserstate),
       appBar: AppBar(

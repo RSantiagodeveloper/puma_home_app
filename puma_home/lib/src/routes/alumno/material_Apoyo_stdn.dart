@@ -34,7 +34,7 @@ class MaterialApoyoState extends State<MaterialApoyo> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => PantallaGrupoS('userX', 'grpY', '')));
+                    builder: (context) => PantallaGrupoS('userX', 'grpY', '','')));
           },
         ));
   }

@@ -19,17 +19,15 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
   String idUser;
   _VistaCalificacionesState(this.idGrupo, this.idTarea, this.idUser);
 
-  Widget mostrarComentario(String texto) {
+  Widget mostrarComentario(String texto, double sizeText, Color colorText) {
     return Text(
       '$texto',
-      style: TextStyle(
-        fontSize: 18,
-        color: Colors.white,
-      ),
+      style: TextStyle(fontSize: sizeText, color: colorText),
       textAlign: TextAlign.justify,
     );
   }
 
+//Si no hay archivo, entonces no tendrá nada que mostrar
   Widget sinRegistro() {
     return Center(
       child: Container(
@@ -54,14 +52,15 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
       ),
     );
   }
-
-  Widget mostrarResultados(AsyncSnapshot<QuerySnapshot> snapshot) {
-    return ListView(
-        children: snapshot.data.documents.map((document) {
-      return Row(
+// muestra la calificacion si se a
+  Widget mostrarResultados(
+      String comentAl, String comentProf, var calificacion, var statusCalif) {
+    return ListView(children: <Widget>[
+      Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
+            margin: EdgeInsets.only(top: 15),
             width: MediaQuery.of(context).size.width / 1.1765,
             height: MediaQuery.of(context).size.height / 4,
             padding: EdgeInsets.all(20),
@@ -89,11 +88,13 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
                                       width: 5,
                                     )),
                                 child: ListTile(
-                                  title: (document['Comentario'] != '')
+                                  title: (comentAl != '')
                                       ? mostrarComentario(
-                                          document['Comentario'])
+                                          comentAl, 18, Colors.white)
                                       : mostrarComentario(
-                                          'No hagregadó comentarios'),
+                                          'No hagregado comentarios',
+                                          18,
+                                          Colors.white),
                                 ),
                               ),
                             ),
@@ -112,11 +113,13 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
                                       width: 5,
                                     )),
                                 child: ListTile(
-                                  title: (document['Comentario_Profe'] != '')
+                                  title: (comentProf != '')
                                       ? mostrarComentario(
-                                          document['Comentario_Profe'])
+                                          comentProf, 18, Colors.white)
                                       : mostrarComentario(
-                                          'No Hay Comentarios del Profesor'),
+                                          'No Hay Comentarios del Profesor',
+                                          18,
+                                          Colors.white),
                                 ),
                               ),
                             ),
@@ -128,11 +131,46 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
             ),
           ),
         ],
-      );
-    }).toList());
+      ),
+      //Campo que muestra la Calificacion de la Tarea
+      Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 2.5,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Container(
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Color(Elementos.contenedor),
+                        width: 5,
+                      )),
+                  child: Text('$calificacion', style: TextStyle(fontSize: 16))),
+              Container(
+                //campo que muestra cierto mensaje, dependiendo si ya fue calificada la tarea
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(15),
+                  child: (statusCalif == 0)
+                      ? mostrarComentario(
+                          'No ha sido calificado', 20, Colors.red)
+                      : mostrarComentario(
+                          'Calificacion entregada', 20, Colors.green))
+            ],
+          )
+        ],
+      )
+    ]);
   }
 
   @override
+//widget que manda a llamar a los métodos 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -148,168 +186,22 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
       body: FutureBuilder(
         future: Firestore.instance
             .collection('Tarea_Alumno')
-            .where('Id_Tarea', isEqualTo: idTarea)
-            .where('Id_Alumno', isEqualTo: idUser)
-            .getDocuments(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          print('Lista Vacia?${snapshot.data.documents.isEmpty}');
-          print('elementos?${snapshot.data.documents.length}');
-          print('ID_Docum?${snapshot.data.documents[0].documentID}');
+            .document(idTarea)
+            .get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (!snapshot.hasData) {
             return sinRegistro();
           } else {
-            return mostrarResultados(snapshot);
+            Map<String, dynamic> datos = snapshot.data.data;
+            return mostrarResultados(
+                datos['Comentario'],
+                datos['Comentario_Profe'],
+                datos['Calificacion'],
+                datos['Calificado']);
           }
         },
       ),
     );
   }
 }
-/* 
-
-Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 5, 0, 10),
-                      child: Text('Caja de comentarios',
-                          style: TextStyle(
-                            fontSize: 17,
-                          )),
-                    ),
-Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.1765,
-                          height: MediaQuery.of(context).size.height / 4,
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                              color: Color(Elementos.contenedor),
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: ListView(
-                                  children: <Widget>[
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 1,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  // color: Color(Elementos.contenedor),
-                                                  border: Border.all(
-                                                    color:
-                                                        Color(Elementos.bordes),
-                                                    width: 5,
-                                                  )),
-                                              child: ListTile(
-                                                title: (datos['Comentario'] !=
-                                                        '')
-                                                    ? mostrarComentario(
-                                                        datos['Comentario'])
-                                                    : mostrarComentario(
-                                                        'No has agregado comentarios'),
-                                              ),
-                                            ),
-                                          ),
-                                        ]),
-                                    SizedBox(height: 15),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 1,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  border: Border.all(
-                                                    color:
-                                                        Color(Elementos.bordes),
-                                                    width: 5,
-                                                  )),
-                                              child: ListTile(
-                                                title: (datos[
-                                                            'Comentario_Profe'] !=
-                                                        '')
-                                                    ? mostrarComentario(datos[
-                                                        "Comentario_Profe"])
-                                                    : mostrarComentario(
-                                                        'No Hay Comentarios del Profesor'),
-                                              ),
-                                            ),
-                                          ),
-                                        ]),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    /*
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Container(
-                                width: MediaQuery.of(context).size.width / 5,
-                                height: MediaQuery.of(context).size.height / 10,
-                                child: TextFormField(
-                                  controller: calificacion,
-                                  keyboardType: TextInputType.number,
-                                  textAlign: TextAlign.center,
-                                  decoration: InputDecoration(
-                                    labelText: 'Calificación',
-                                    icon: Icon(Icons.check)
-                                  ),
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return 'Rellenar campo obligatorio';
-                                    } else if (double.parse(value) < 0 ||
-                                        double.parse(value) > 10) {
-                                      return 'calificacion invalida';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                              FlatButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(11.0),
-                                    side: BorderSide(
-                                      color: Color(Elementos.bordes),
-                                      width: 3,
-                                    )),
-                                color: Color(Elementos.contenedor),
-                                onPressed: () {
-                                  if (keyFormulario.currentState.validate()) {
-                                    Firestore.instance
-                                        .collection('Tarea_Alumno')
-                                        .document(idTarea)
-                                        .updateData({
-                                      'Comentario_Profe': comentarioAlumno.text,
-                                      'Calificacion':
-                                          double.parse(calificacion.text),
-                                      'Calificado': 1,
-                                    }).then((value) {
-                                      comentarioAlumno.text = '';
-                                      Navigator.pop(context);
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  'Enviar',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              )
-                            ],
-                          )
-                         */ */

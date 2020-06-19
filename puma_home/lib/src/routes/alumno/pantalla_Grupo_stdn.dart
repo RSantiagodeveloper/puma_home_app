@@ -7,7 +7,6 @@ import 'package:puma_home/src/routes/alumno/tablon_stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/alumno/material_Apoyo_stdn.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
-import 'package:puma_home/src/routes/alumno/tareas_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:puma_home/src/routes/alumno/vista_perfil_profesor.dart';
 
@@ -16,8 +15,8 @@ class PantallaGrupoS extends StatelessWidget {
   final String idUser; //id del usuario actual
   final String idProfe;
   final String idGroup; //id del Grupo Actual
-
-  PantallaGrupoS(this.idUser, this.idGroup, this.idProfe);
+  final String nombreGrupo;
+  PantallaGrupoS(this.idUser, this.idGroup, this.idProfe, this.nombreGrupo);
 
 
   Widget createTareasButton(BuildContext context) {
@@ -90,7 +89,7 @@ class PantallaGrupoS extends StatelessWidget {
       drawer: MenuAppStdn(idUser),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Grupo'),
+        title: Text(nombreGrupo),
         centerTitle: true,
         actions: [
           IconButton(

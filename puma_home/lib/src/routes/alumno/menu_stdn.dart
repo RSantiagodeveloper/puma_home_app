@@ -71,7 +71,7 @@ class MenuAlumnoState extends State<MenuAlumno> {
       drawer: MenuAppStdn(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Administración (LOS MORROS)',
+        title: Text('Administración (Alumno)',
         style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
