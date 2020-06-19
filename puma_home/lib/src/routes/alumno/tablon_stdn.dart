@@ -1,13 +1,6 @@
 /*
- * Hasta este punto Tengo ya una version inicial del tablero.
- * Falta mejorar la responsividad del mismo, y alomejor mejorar el tema.
- * La funcionalidad basica ya esta.
- * Solo faltaria agregar una mas que se encargue de ocultar el campo de texto
- * cuando tengamos logeado a un alumno
- * 
- * Para integrarlo a tu pantalla solo hay que mandar a llamar el contructor
- * TablonAnuncios()
- * en el lugar donde lo vas a acomodar fijate en RutaEjemplo.dart
+ * Widget Tablon de Anuncios:
+ * Aqui solamente se van a mostrar lo avisos que el profesor publique para el grupo
  */
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
@@ -34,6 +27,7 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
     var _height = MediaQuery.of(context).size.height;
     var _sizepadding = 5.0;
 
+    //Se crea el row para la parte de avisos
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -58,7 +52,7 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
                 children: <Widget>[
                   StreamBuilder(
                       stream: Firestore.instance.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).orderBy('Fecha', descending: true).snapshots(),
-                      builder: (BuildContext context,//que nada mas uno dise:v
+                      builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return Expanded(
@@ -70,6 +64,7 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
                                     Icons.chat_bubble,
                                     color: Colors.white,
                                   ),
+                                  //muestra en pantalla los avisos del profesor ordenados por fecha
                                   title: Text('${document['Notice']}' ,style: TextStyle(color: Colors.white)),
                                   subtitle: Text('${DateTime.parse(document['Fecha'].toDate().toString())}', style: TextStyle(color: Colors.white)),
                                 );
