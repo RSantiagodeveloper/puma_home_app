@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart'; //import del PlatformException
 import 'package:puma_home/src/resources/App_Elements.dart';
+import 'package:puma_home/src/routes/alumno/vistaTareaAlumno.dart';
 
 class SubirArchivo extends StatefulWidget {
   final String idUser;
@@ -13,6 +14,7 @@ class SubirArchivo extends StatefulWidget {
   SubirArchivo(this.idUser, this.idGrupo);
 
   _SubirArchivoState createState() => _SubirArchivoState(idUser, idGrupo);
+  
 }
 
 class _SubirArchivoState extends State<SubirArchivo> {
@@ -21,22 +23,14 @@ class _SubirArchivoState extends State<SubirArchivo> {
   _SubirArchivoState(this.idUserstate, this.idgrupoState);
   TextEditingController nombreTarea = new TextEditingController();
   TextEditingController descripcionTarea = new TextEditingController();
-  TextEditingController _date = new TextEditingController();
   GlobalKey<FormState> keyForm = new GlobalKey();
+  VistaTareaAlumno subirFormularioTarea = new VistaTareaAlumno("","","","","","");
   final fireReference = Firestore.instance;
   String fileName = 'nombre de archivo esta vacio';
   String nombreBoton = 'Buscar archivo';
-
+  String dropdownValue;
   bool activado = false;
   bool _multiPick = false;
-
-  /*List<FileType> _tipoDeArchivo=<FileType>[
-      FileType.audio
-
-    ];*/
-
-  //bool _multiPick = false;
-  //Map<String, String> _paths;
   String _extension;
   FileType _pickType;
   String _path;
@@ -60,7 +54,7 @@ void openFileExplorer() async {
   void intentarConectar() {
     if (activado = true) {
       uploadToFirebase(); //este sube al storage
-      baseForm(fileName); //este sube a la firestore
+      baseForm(fileName); //este sube a la e
     } else {
       baseForm(fileName);
     }
@@ -70,7 +64,7 @@ void openFileExplorer() async {
   void openFileExplorer(_pickType) async {
     try {
       _path = await FilePicker.getFilePath(
-          type: _pickType /*, allowedFileExtension: _extension*/);
+          type: _pickType);
       nombreBoton = _path.toString().split('/').last;
       print(nombreBoton);
       setState(() {
@@ -105,17 +99,15 @@ void openFileExplorer() async {
       _task.add(uploadTask);
     });
   }
-
+  
   ///funcion vacia que manda los datos de la tarea a la base de datos
   void baseForm(fileName) async {
-    StorageReference ref =
-        FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
+    StorageReference ref =FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
     var url = await ref.getDownloadURL();
     String link = url.toString();
-    Firestore.instance.collection('Tareas').add({
+    Firestore.instance.collection('Tarea_Alumno').add({
       'Nombre': nombreTarea.text,
       'Descripcion': descripcionTarea.text,
-      'FechaEntrega': _date.text,
       'Ids_alumnos': "",
       'Id_profesor': idUserstate,
       'Status': "NoEntregado",
@@ -127,9 +119,8 @@ void openFileExplorer() async {
       'Archivos_Alumnos': "",
       'Nombre_Archivo':fileName,
     });
-
-    //fireReference.collection('Tareas').document().setData({
   }
+
   ///widget switch que al estar activado permite subir multiples archivos
   Widget botonMultiArch() {
     return SwitchListTile.adaptive(
@@ -231,20 +222,6 @@ void openFileExplorer() async {
       ),
     );
   }
-  ///widget para introducir la fecha
-  //TODO: cambiarlo a un datePicker
-  Widget dateField() {
-    //campo para almacenar la descripción de la tarea
-    return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: TextFormField(
-        controller: _date,
-        decoration: InputDecoration(
-          labelText: 'Fecha Entrega (dd/mm/aaaa):',
-        ),
-      ),
-    );
-  }
 
   ///widget que devuelve un container con un flatbutton para 
   Widget crearBoton(BuildContext context) {
@@ -264,15 +241,14 @@ void openFileExplorer() async {
             //uploadToFirebase(); //manda los archivos al storage
             //baseForm(fileName);
             intentarConectar();
+            
           }),
     );
   }
 
   /// widget que devuelve un DropdownButton para seleccionar el filtro del archivos
-//TODO: Mejorar vista
   Widget botonTypeFile() {
     return DropdownButton(
-      //value: _pickType.toString(), //el valor del dropdownbutton se vuelve el del picktype?
       hint: Text('selecciona'),
       items: <DropdownMenuItem>[
         DropdownMenuItem(
@@ -294,15 +270,11 @@ void openFileExplorer() async {
       ],
       onChanged: (value) {
         setState(() {
-          //que seleccione el nombre del tipo y lo delvuelva al DropdownButton
-          //aqui hacemos el case
-          _pickType = value; //le asigna el valor seleccionado al _pickType
+          _pickType = value; 
         });
       },
     );
   }
-
-  String dropdownValue;
 
   ///funcion vacia que aisgna el FileType a _pickType dependiendo el [tipo]
   void asignarValor(String tipo) {
@@ -329,7 +301,7 @@ void openFileExplorer() async {
         break;
       default:
         {
-          //_pickType=FileType.any;
+          print("No se ha seleccionado ningun tipo de archivo");
         }
         break;
     }
@@ -389,7 +361,6 @@ void openFileExplorer() async {
             children: <Widget>[
               nombreTareaField(),
               nombreDescripcionField(),
-              dateField(),
               Divider(),
               //botonTypeFile(),
 

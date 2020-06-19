@@ -14,6 +14,10 @@ import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+//firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+
+
 class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
 }
@@ -208,9 +212,12 @@ class LoginPageState extends State<LoginPage> {
         key: _keyForm,
         child: ListView(children: [
           Image.asset('images/logos/LogoOF2.png'),
+         /*
           Container(
             height: MediaQuery.of(context).size.height / 10,
           ),
+         */
+         SizedBox(height: 15),
           crearEmail(),
           crearContra(),
           crearBoton(context),

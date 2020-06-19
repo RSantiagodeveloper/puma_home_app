@@ -6,7 +6,7 @@ import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:puma_home/src/routes/profesor/formTarea.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
-import 'package:puma_home/src/routes/profesor/uptareas.dart';
+import 'package:puma_home/src/routes/profesor/uptareas_tch.dart';
 
 class Tareastch extends StatefulWidget {
   final String idUser;

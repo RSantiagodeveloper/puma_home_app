@@ -1,9 +1,15 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/routes/alumno/Vista_Calificaciones.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart'; //import del PlatformException
+
 
 class VistaTareaAlumno extends StatefulWidget {
   final String idUser;
@@ -30,14 +36,28 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
       this.descTarea, this.idGrupo);
 
   TextEditingController comentarioAlumno = TextEditingController();
+  List<StorageUploadTask> _task = <StorageUploadTask>[];
+  String _path;
+  String nombreBoton = 'Buscar archivo';
+  String fileName = 'nombre de archivo esta vacio';
+  String _extension;
+  FileType _pickType;
+  String nombreBotonSubir = 'Seleccionar archivo';
 
   void initState() {
     super.initState();
     print('$idUser $idTarea $nombreTarea $urlFile $descTarea $idGrupo');
   }
 
+  Future<String> obtenerLinkArchivo() async{
+    StorageReference ref =FirebaseStorage.instance.ref().child(idGrupo + "/" + fileName);
+    var url = await ref.getDownloadURL();
+    String link = url.toString();
+    print("enlace del archivo de la tarea: "+link);
+    return link;
+  }
   void enviarTarea(String idUser, String idTarea, String comentario,
-      String idGrupo, String urlFileAlum) {
+      String idGrupo, Future<String> urlFileAlum) {
     Firestore.instance
         .collection('Tarea_Alumno')
         .where('Id_Alumno', isEqualTo: idUser)
@@ -96,6 +116,44 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
           });
         });
       }
+    });
+  }
+
+    void openFileExplorer(_pickType) async {
+    try {
+      _path = await FilePicker.getFilePath(
+          type: _pickType);
+      nombreBoton = _path.toString().split('/').last;
+      print(nombreBotonSubir);
+      setState(() {
+        nombreBotonSubir = _path.toString().split('/').last;
+      });
+    } on PlatformException catch (e) {
+      print('operacion no soportada: ' + e.toString());
+    }
+    if (!mounted) {
+      return;
+    }
+  }
+
+  void uploadToFirebase() {
+    fileName = _path.toString().split('/').last;
+    String filePath = _path;
+    upload(fileName, filePath);
+  }
+
+  /// funcion vacia que recibe el [fileName] y el [filePath] para subir el archivo al storage
+  void upload(fileName, filePath) {
+    _extension = fileName.split('.').last;
+    StorageReference storageRef =
+        FirebaseStorage.instance.ref().child(idGrupo + "/" + fileName);
+    final StorageUploadTask uploadTask = storageRef.putFile(
+        File(filePath),
+        StorageMetadata(
+          contentType: '$_pickType/$_extension',
+        ));
+    setState(() {
+      _task.add(uploadTask);
     });
   }
 
@@ -203,9 +261,9 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.86,
-                  height: MediaQuery.of(context).size.height / 10,
+                Expanded(
+                  //width: MediaQuery.of(context).size.width / 2.86,
+                  //height: MediaQuery.of(context).size.height / 10,
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(11.0),
@@ -215,13 +273,14 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                         )),
                     color: Color(Elementos.contenedor),
                     onPressed: () {
+                      openFileExplorer(FileType.any);
                       print('boton presionado');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text(
-                          'Subir',
+                          nombreBotonSubir,
                           style: TextStyle(color: Colors.white),
                         ),
                         Icon(
@@ -277,9 +336,12 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                           width: 3,
                         )),
                     color: Color(Elementos.contenedor),
-                    onPressed: () {
-                      enviarTarea(idUser, idTarea, comentarioAlumno.text,
-                          idGrupo, 'URLArchivo');
+                    onPressed: () async {
+                      obtenerLinkArchivo().then((valor){
+                        print("Valor obtenido de obtenerLinkArchivo(): "+ valor);
+                        /* enviarTarea(idUser, idTarea, comentarioAlumno.text,
+                          idGrupo, valor); */
+                      });
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
