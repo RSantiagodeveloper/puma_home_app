@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
-import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
+import 'package:puma_home/src/routes/profesor/lista_tareas_alumnos.dart';
+//import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:puma_home/src/routes/profesor/formTarea.dart';
+//import 'package:puma_home/src/routes/profesor/formTarea.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
-import 'package:puma_home/src/routes/profesor/uptareas.dart';
-import 'package:puma_home/src/routes/profesor/uptareas.dart';
+import 'package:puma_home/src/routes/profesor/uptareas_tch.dart';
 
 class Tareastch extends StatefulWidget {
   final String idUser;
@@ -16,7 +16,6 @@ class Tareastch extends StatefulWidget {
   _TareastchState createState() => _TareastchState(idUser, idGrupo);
 }
 
-/// widget que devuelve una tarjeta. Esta contiene la informacion de un grupo
 /// parametro nombre recibe el nombre de la clase
 
 class _TareastchState extends State<Tareastch> {
@@ -141,7 +140,7 @@ class _TareastchState extends State<Tareastch> {
       drawer: MenuAppTch(idUserstate),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Mis Grupos',
+        title: Text('Tareas',
             style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
@@ -151,7 +150,7 @@ class _TareastchState extends State<Tareastch> {
         ],
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Tareas').where("Id_grupo", isEqualTo: idgrupoState).snapshots(),
+          stream: Firestore.instance.collection('Tareas').where("Id_Grupo", isEqualTo: idgrupoState).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -210,8 +209,8 @@ class _TareastchState extends State<Tareastch> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        //Se tiene que cambiar a pantalla de Tareas el pantallaGrupoTch
-                                          builder: (context) =>PantallaGrupoTch(idUserstate, document.documentID)
+                                        
+                                          builder: (context) =>ListaAlumnos(idUserstate, document['Id_Grupo'], document.documentID)
                                           )
                                     );
                                 },
@@ -236,14 +235,22 @@ class _TareastchState extends State<Tareastch> {
               );
             }
           }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: BottomAppBar(
+        notchMargin: 2.0,
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 30.0,
+          color: Color(Elementos.contenedor),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      SubirArchivo())); //aqui va la llamada a la pantalla formulario_alta_clases
+                      SubirArchivo(idUserstate, idgrupoState))); //aqui va la llamada a la pantalla formulario_alta_clases
         },
         backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.add),

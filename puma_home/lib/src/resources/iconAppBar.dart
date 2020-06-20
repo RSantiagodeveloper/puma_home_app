@@ -4,7 +4,7 @@ class IconAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new ImageIcon(
-      new AssetImage('images/iconos/appbarIcon.png'),
+      AssetImage('images/iconos/appbarIcon.png'),
       color: Colors.yellowAccent,
     );
   }
