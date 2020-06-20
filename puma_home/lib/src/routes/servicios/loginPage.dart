@@ -204,29 +204,27 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
-        key: _keyForm,
-        child: ListView(children: [
-          Image.asset('images/logos/LogoOF2.png'),
-         /*
-          Container(
-            height: MediaQuery.of(context).size.height / 10,
-          ),
-         */
-         SizedBox(height: 15),
-          crearEmail(),
-          crearContra(),
-          crearBoton(context),
-          crearLinkCuenta(),
-        ]),
+    return WillPopScope(
+      onWillPop: ()async => false,
+          child: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+          key: _keyForm,
+          child: ListView(children: [
+            Image.asset('images/logos/LogoOF2.png'),
+            Divider(),
+            crearEmail(),
+            crearContra(),
+            crearBoton(context),
+            crearLinkCuenta(),
+          ]),
+        ),
       ),
-    ),
-        )
-      
-      );
+          )
+        
+        ),
+    );
   }
 }

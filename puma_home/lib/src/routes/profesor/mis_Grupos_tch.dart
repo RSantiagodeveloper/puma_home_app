@@ -86,8 +86,16 @@ class _MisGruposState extends State<MisGruposTch> {
 
             title: Row(
                 children: <Widget>[
-                  Icon(Icons.warning, color: Colors.red,),
-                  Text('Alerta'),
+                  Expanded(
+                    flex:2,
+                    child: Icon(Icons.warning, color: Colors.red,),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text('Alerta'),
+                  ),
+                  
+                  
                 ],
             ),
             content: Text(
@@ -98,38 +106,42 @@ class _MisGruposState extends State<MisGruposTch> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.red)
+                  
+                  FlatButton(
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                      deleteGroup(idGroup);
+                    },
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Colors.red,
+                        width: 3,
+                      ),
                     ),
-                    child: GestureDetector(
                     child: Text(
                       'Borrar',
                       style: TextStyle(fontSize: 14, color: Colors.red),
                     ),
-                    onTap: () {
+                  ),
+                  FlatButton(
+                    onPressed: (){
                       Navigator.of(context).pop();
-                      deleteGroup(idGroup); //funcion que elimina el grupo con el id que lleva como parametro                     
                     },
-                  )),
-                  Container(
-                    //color: Colors.green,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.green),
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Colors.green,
+                        width: 3,
+                      ),
                     ),
-                    child: GestureDetector(
                     child: Text(
                       'Conservar',
                       style: TextStyle(fontSize: 14, color: Colors.green),
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ))
+                  )
                 ],
               )
             ],
@@ -219,7 +231,7 @@ class _MisGruposState extends State<MisGruposTch> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoTch(idUserstate, document.documentID)
+                                          builder: (context) =>PantallaGrupoTch(idUserstate, document.documentID, document['Nombre'])
                                           )
                                     );
                                 },

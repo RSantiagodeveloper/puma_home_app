@@ -1,3 +1,7 @@
+/*
+ * En esta pantalla solo nos encargamos de mostrar el listado de tareas correspondiente
+ * al grupo en el que el alumno accedio
+ */
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/routes/alumno/vistaTareaAlumno.dart';
@@ -18,13 +22,7 @@ class TareasStdn extends StatefulWidget {
 class _TareasStdnState extends State<TareasStdn> {
   final String idUserstate;
   final String idgrupoState;
-   _TareasStdnState(this.idUserstate, this.idgrupoState);
-
-  @override
-  void initState() {
-    super.initState();
-    print('recibi al usuario $idUserstate, $idgrupoState');
-  }
+  _TareasStdnState(this.idUserstate, this.idgrupoState);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +39,15 @@ class _TareasStdnState extends State<TareasStdn> {
               onPressed: null)
         ],
       ),
+      /**
+       * Este Stream Builder es el que se encarga de realizar las consultas al DB Firestore, filtrando
+       * las tareas Guardadas en la relacion Ta
+       */
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Tareas').where("Id_Grupo", isEqualTo: idgrupoState).snapshots(),
+          stream: Firestore.instance
+              .collection('Tareas')
+              .where("Id_Grupo", isEqualTo: idgrupoState)
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -58,13 +63,15 @@ class _TareasStdnState extends State<TareasStdn> {
                     decoration: BoxDecoration(
                         color: Color(Elementos.contenedor),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(width: 5, color: Color(Elementos.bordes))),
+                        border: Border.all(
+                            width: 5, color: Color(Elementos.bordes))),
                     margin: EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
-                          child: Container( //container del icono libro
+                          child: Container(
+                            //container del icono libro
                             child: Icon(
                               Icons.assignment,
                               color: Colors.white,
@@ -72,7 +79,8 @@ class _TareasStdnState extends State<TareasStdn> {
                           ),
                         ),
                         Expanded(
-                          child: Container(//container del nombre + ID del grupo
+                          child: Container(
+                            //container del nombre + ID del grupo
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -94,27 +102,33 @@ class _TareasStdnState extends State<TareasStdn> {
                           ),
                         ),
                         Expanded(
-                          child: Container(//container de los iconos de ver grupo y eliminar grupo
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    IconButton(
-                                    icon: Icon(
-                                      Icons.remove_red_eye,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>VistaTareaAlumno(idUserstate, document.documentID, document['Nombre'], document['Archivo'], document['Descripcion'], idgrupoState)
-                                              )
-                                        );
-                                    },
+                          child: Container(
+                            //container de los iconos de ver grupo y eliminar grupo
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.white,
                                   ),
-                                  ],
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                VistaTareaAlumno(
+                                                    idUserstate,
+                                                    document.documentID,
+                                                    document['Nombre'],
+                                                    document['Archivo'],
+                                                    document['Descripcion'],
+                                                    idgrupoState)));
+                                  },
                                 ),
-                              ),
+                              ],
+                            ),
+                          ),
                         )
                       ],
                     ),

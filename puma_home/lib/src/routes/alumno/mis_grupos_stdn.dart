@@ -1,3 +1,7 @@
+/*
+* Pantalla que muestra los grupos a los que el alumno esta inscrito y da la opcion de poder inscribirse a otro mediante un boton flotante.
+* 
+*/
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/routes/alumno/pantalla_Grupo_stdn.dart';
@@ -25,60 +29,67 @@ class _MisGruposState extends State<MisGruposStdn> {
   }
 
   /// funcion vacia que elimina el grupo [idGroup] en firestore
-  void deleteGroup(String idGroup){
-    Firestore.instance.collection('Grupo_Alumno').document(idGroup).delete().then((_){
+  void deleteGroup(String idGroup) {
+    Firestore.instance
+        .collection('Grupo_Alumno')
+        .document(idGroup)
+        .delete()
+        .then((_) {
       statusMessage("El grupo ha sido eliminado");
     });
   }
+
   ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
-///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
-   void statusMessage(String mensaje){
+  void statusMessage(String mensaje) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Row(
-                children: <Widget>[
-                  Icon(Icons.check, color: Colors.green),
-                  Text('Completado'),
-                ],
+              children: <Widget>[
+                Icon(Icons.check, color: Colors.green),
+                Text('Completado'),
+              ],
             ),
             content: Text(
               mensaje,
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
-                //mainAxisAlignment: MainAxisAlignment.end,
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-              padding: EdgeInsets.all(3.0),
-              child: Container(
-                decoration:BoxDecoration(
-                      color: Colors.blue[50],
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.blue),
-                    ),
-                padding: EdgeInsets.all(1.0),
-                child: Text('Aceptar', style: TextStyle(color: Colors.blue)),
-              ),      
-            )],
+                padding: EdgeInsets.all(3.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue[50],
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(width: 3, color: Colors.blue),
+                  ),
+                  padding: EdgeInsets.all(1.0),
+                  child: Text('Aceptar', style: TextStyle(color: Colors.blue)),
+                ),
+              )
+            ],
           );
         });
   }
-///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
+
+  ///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
   void _confirmationMessage(String idGroup) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-
             title: Row(
-                children: <Widget>[
-                  Icon(Icons.warning, color: Colors.red,),
-                  Text('Alerta'),
-                ],
+              children: <Widget>[
+                Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                ),
+                Text('Alerta'),
+              ],
             ),
             content: Text(
               'Estas aṕunto de eliminar el grupo.\n Todos los datos se perderan.\n ¿Seguro que deseas continuar?',
@@ -89,37 +100,37 @@ class _MisGruposState extends State<MisGruposStdn> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.red)
-                    ),
-                    child: GestureDetector(
-                    child: Text(
-                      'Borrar',
-                      style: TextStyle(fontSize: 14, color: Colors.red),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      deleteGroup(idGroup); //funcion que elimina el grupo con el id que lleva como parametro                     
-                    },
-                  )),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(width: 3, color: Colors.red)),
+                      child: GestureDetector(
+                        child: Text(
+                          'Borrar',
+                          style: TextStyle(fontSize: 14, color: Colors.red),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          deleteGroup(
+                              idGroup); //funcion que elimina el grupo con el id que lleva como parametro
+                        },
+                      )),
                   Container(
-                    //color: Colors.green,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.green),
-                    ),
-                    child: GestureDetector(
-                    child: Text(
-                      'Conservar',
-                      style: TextStyle(fontSize: 14, color: Colors.green),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ))
+                    
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(width: 3, color: Colors.green),
+                      ),
+                      child: GestureDetector(
+                        child: Text(
+                          'Conservar',
+                          style: TextStyle(fontSize: 14, color: Colors.green),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ))
                 ],
               )
             ],
@@ -128,7 +139,7 @@ class _MisGruposState extends State<MisGruposStdn> {
   }
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     //print('BUILD ID ${usuario.uid} Email ${usuario.email}');
     return Scaffold(
       drawer: MenuAppStdn(idUserstate),
@@ -143,9 +154,11 @@ class _MisGruposState extends State<MisGruposStdn> {
               onPressed: null)
         ],
       ),
-      
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Grupo_Alumno').where("Alumno_id", isEqualTo: idUserstate).snapshots(),
+          stream: Firestore.instance
+              .collection('Grupo_Alumno')
+              .where("Alumno_id", isEqualTo: idUserstate)
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -154,21 +167,22 @@ class _MisGruposState extends State<MisGruposStdn> {
                 style: TextStyle(color: Colors.white),
               );
             } else {
-              
               return new ListView(
-                children: snapshot.data.documents.map((document){
-                    return Container(
+                children: snapshot.data.documents.map((document) {
+                  return Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: Color(Elementos.contenedor),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(width: 5, color: Color(Elementos.bordes))),
+                        border: Border.all(
+                            width: 5, color: Color(Elementos.bordes))),
                     margin: EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
-                          child: Container( //container del icono libro
+                          child: Container(
+                            //container del icono libro
                             child: Icon(
                               Icons.book,
                               color: Colors.white,
@@ -176,7 +190,8 @@ class _MisGruposState extends State<MisGruposStdn> {
                           ),
                         ),
                         Expanded(
-                          child: Container(//container del nombre + ID del grupo
+                          child: Container(
+                            //container del nombre + ID del grupo
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -191,33 +206,39 @@ class _MisGruposState extends State<MisGruposStdn> {
                           ),
                         ),
                         Expanded(
-                          child: Container(//container de los iconos de ver grupo y eliminar grupo
+                          child: Container(
+                            //container de los iconos de ver grupo y eliminar grupo
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 IconButton(
-                                icon: Icon(
-                                  Icons.remove_red_eye,
-                                  color: Colors.white,
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    //ver grupo
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PantallaGrupoS(
+                                                    idUserstate,
+                                                    document['Grupo_id'],
+                                                    document['Profesor_Id'],
+                                                    document['NombreGrupo'])));
+                                  },
                                 ),
-                                onPressed: () { //ver grupo
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoS(idUserstate, document['Grupo_id'], document['Profesor_Id'], document['NombreGrupo'])
-                                          )
-                                    );
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () { //eliminar grupo
-                                  _confirmationMessage(document.documentID);
-                                },
-                              )
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    //eliminar grupo
+                                    _confirmationMessage(document.documentID);
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -225,7 +246,7 @@ class _MisGruposState extends State<MisGruposStdn> {
                       ],
                     ),
                   );
-                }).toList(), 
+                }).toList(),
               );
             }
           }),
@@ -235,8 +256,8 @@ class _MisGruposState extends State<MisGruposStdn> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      AltaClase(idUserstate))); //aqui va la llamada a la pantalla formulario_alta_clases
+                  builder: (context) => AltaClase(
+                      idUserstate))); //aqui va la llamada a la pantalla formulario_alta_clases
         },
         backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.add),

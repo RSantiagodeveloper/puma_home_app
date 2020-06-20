@@ -1,5 +1,8 @@
 /*
- * Pantalla de grupo del profesor
+ * Pantalla de grupo del profesor;
+ * Aqui solo se Mandan a llamar al Tablon de anuncios con las funcionalidades
+ * para publicar noticias, Acceder al listado de tareas para este grupo, asi como
+ * el Material de apoyo que muestra los archivos disponibles del Storage
  */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -9,20 +12,25 @@ import 'package:puma_home/src/routes/profesor/tareas.dart';
 import 'package:puma_home/src/routes/profesor/material_Apoyo_tch.dart';
 import 'package:puma_home/src/routes/profesor/tablon_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
-//
+
+//ignorar warning: Tiene que ver con el TextEditingControler que no esta declarado como final,
+//aun asi funciona
 class PantallaGrupoTch extends StatelessWidget {
   final String idUser; //id del usuario actual
   final String idGroup; //id del Grupo Actual
-  PantallaGrupoTch(this.idUser, this.idGroup);
+  final String nombreGrupo;
+  PantallaGrupoTch(this.idUser, this.idGroup, this.nombreGrupo);
   TextEditingController newNotice = new TextEditingController();
 
+  //boton de acceso a tareas
   Widget createTareasButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -31,19 +39,22 @@ class PantallaGrupoTch extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Tareastch(idUser, idGroup)),
+              MaterialPageRoute(
+                  builder: (context) => Tareastch(idUser, idGroup)),
             );
           },
         ));
   }
 
+  //Boton de acceso a Material de Apoyo
   Widget createMaterialButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -52,71 +63,81 @@ class PantallaGrupoTch extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MaterialApoyoTch(idUser,idGroup)),
+              MaterialPageRoute(
+                  builder: (context) => MaterialApoyoTch(idUser, idGroup)),
             );
           },
         ));
   }
-  Widget cajaMensajes(BuildContext context){
+  /*
+   * Metodo que crea el widgen encargado de recibir el texto escrito por el profesor
+   * y que al momento de atender un evento onPressed en el IconButton, se conecta
+   * a FireStore y guarda la noticia en el registro correspondiente
+   */
+  
+  
+  Widget cajaMensajes(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
-    //var _sizepadding = 5.0;
-
-                return  Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: (_width < _height)
-                          ? MediaQuery.of(context).size.width / 1.78
-                          : MediaQuery.of(context).size.width / 1.5,
-                      height: MediaQuery.of(context).size.height / 5,
-                      decoration: BoxDecoration(
-                          color: Colors.white),
-                      child: TextField(
-                        maxLength: 150,
-                          scrollController: ScrollController(initialScrollOffset: 0.0, keepScrollOffset: false),
-                          controller: newNotice,
-                          style: TextStyle(color: Colors.black),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.announcement,
-                              color: Color(Elementos.contenedor),
-                            ),
-                          )),
-                    ),
-                    IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          color: Color(Elementos.contenedor),
-                        ),
-                        onPressed: () async {
-                          var fecha = new DateTime.now(); 
-                          try {
-                            //final resp =
-                              await Firestore.instance.collection('Avisos').add({
-                              'Id_Grupo':idGroup,
-                              'Notice': newNotice.text,
-                              'Fecha': fecha, //inserta fecha actual con zona horaria
-                            });
-                          } catch (e) {
-                            print("Errozote prro!!!!!!!!: " + e);
-                          }
-                        }),
-                  ],
-                ),
-              );
+    return Expanded(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: (_width < _height)
+                ? MediaQuery.of(context).size.width / 1.78
+                : MediaQuery.of(context).size.width / 1.5,
+            height: MediaQuery.of(context).size.height / 5,
+            decoration: BoxDecoration(color: Colors.white),
+            child: TextField(
+                maxLength: 150,
+                scrollController: ScrollController(
+                    initialScrollOffset: 0.0, keepScrollOffset: false),
+                controller: newNotice,
+                style: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.announcement,
+                    color: Color(Elementos.contenedor),
+                  ),
+                )),
+          ),
+          IconButton(
+              icon: Icon(
+                Icons.send,
+                color: Color(Elementos.contenedor),
+              ),
+              onPressed: () async {
+                var fecha = new DateTime.now();
+                try {
+                  //Creacion de registros en la Coleccion avisos. Cada docuemnto
+                  //Tiene clave unica y esta asociada al grupo a travez de su idGroup
+                  await Firestore.instance.collection('Avisos').add({
+                    'Id_Grupo': idGroup,
+                    'Notice': newNotice.text,
+                    'Fecha': fecha, //inserta fecha actual con zona horaria
+                  });
+                } catch (e) {
+                  print("Errozote prro!!!!!!!!: " + e);
+                }
+              }),
+        ],
+      ),
+    );
   }
 
+  //constructor de la pantalla. 
+  //Aqui solo estamos indicandole a Flutter como acomodar los Widgets
+  //en el scaffold
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MenuAppTch(idUser),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Pantalla Grupo', 
-        style: TextStyle(color: Color(Elementos.bordes))),
+        title: Text('$nombreGrupo',
+            style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(
@@ -124,13 +145,11 @@ class PantallaGrupoTch extends StatelessWidget {
               onPressed: null)
         ],
       ),
-
       body: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(color: Colors.white),
           child: ListView(
             children: [
-              Text('Trabajo con el Usuario $idUser y con el Grupo $idGroup'),
               TablonAnunciosTch(idGroup),
               Divider(),
               cajaMensajes(context),

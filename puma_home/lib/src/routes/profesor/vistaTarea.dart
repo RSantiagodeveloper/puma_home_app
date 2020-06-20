@@ -3,7 +3,8 @@ import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
-//import 'package:puma_home/src/routes/profesor/crea_tareas.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 
 class VistaTarea extends StatefulWidget {
   final String idUser;
@@ -21,8 +22,67 @@ class _VistaTareaState extends State<VistaTarea> {
   TextEditingController comentarioProf = new TextEditingController();
   TextEditingController calificacion = new TextEditingController();
   GlobalKey<FormState> keyFormulario = new GlobalKey();
+  bool activado = false;
+  //bool _multiPick = false;
+  bool downloading = false; //variables globales
+  var progressString = "";
+
+  void downloadFile(String url, String name) async {
+    Dio dio = Dio();
+    try {
+      var dir = await getApplicationDocumentsDirectory();
+      var download = dio.download(url, "${dir.path}/" + name,
+          onReceiveProgress: (rec, total) {
+        print("Rec: $rec , Total: $total");
+        setState(() {
+          downloading = true;
+          progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
+        });
+      });
+      await download;
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      downloading = false;
+      progressString = "Completed";
+    });
+    print("Download completed");
+    var path = await getApplicationDocumentsDirectory();
+    print("${path.path}/");
+  }
+ 
+  Widget loadBar() {
+    return Center(
+      child: downloading
+          ? Container(
+              height: 120.0,
+              width: 200.0,
+              child: Card(
+                color: Colors.black,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Text(
+                      "Downloading File: $progressString",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          : Text("No Data"),
+    );
+  }
+
   /// widget text que muestra un [texto] como comentario
-  Widget mostrarComentario(String texto){
+  Widget mostrarComentario(String texto) {
     return Text(
       '$texto',
       style: TextStyle(
@@ -38,7 +98,8 @@ class _VistaTareaState extends State<VistaTarea> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(Elementos.contenedor),
-          title: Text('Calificar Tarea'),
+          title: Text('Calificar Tarea',
+              style: TextStyle(color: Color(Elementos.bordes))),
           centerTitle: true,
           actions: [
             IconButton(
@@ -58,25 +119,72 @@ class _VistaTareaState extends State<VistaTarea> {
               if (snapshot.hasData) {
                 Map<String, dynamic> datos = snapshot.data.data;
                 calificacion.text = datos['Calificacion'].toString();
+
                 return ListView(
                   children: <Widget>[
+                    //Boton para bajar archivo del alumno
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Color(Elementos.contenedor),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                              width: 5, color: Color(Elementos.bordes))),
+                      margin: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          loadBar(),
+                          Expanded(
+                            child: Container(
+                              //contiene del nombre Archivo
+                              child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Archivo del Alumno',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              //Descargar archivos
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.file_download,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      //downloadFile(datos['Archivo'],datos['Material_Apoyo']);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: Icon(Icons.assignment),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 5, 1, 10),
+                          child: Text('Comentarios',
+                              style: TextStyle(
+                                fontSize: 17,
+                              )),
                         ),
                       ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 5, 1, 10),
-                      child: Text(
-                        'Caja de comentarios',
-                        style: TextStyle(
-                          fontSize: 17,
-                        )
-                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -96,47 +204,62 @@ class _VistaTareaState extends State<VistaTarea> {
                                 child: ListView(
                                   children: <Widget>[
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget> [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20),
-                                             // color: Color(Elementos.contenedor),
-                                              border: Border.all(
-                                                color: Color(Elementos.bordes),
-                                                width: 5,
-                                              )
-                                            ),
-                                            child: ListTile(
-                                              title: (datos["Comentario"] != '') ? mostrarComentario(datos["Comentario"]) : mostrarComentario('No Hay Comentarios del Alumno'),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  // color: Color(Elementos.contenedor),
+                                                  border: Border.all(
+                                                    color:
+                                                        Color(Elementos.bordes),
+                                                    width: 5,
+                                                  )),
+                                              child: ListTile(
+                                                leading: Icon(Icons.pets, color: Colors.white),
+                                                title: (datos["Comentario"] !=
+                                                        '')
+                                                    ? mostrarComentario(
+                                                        datos["Comentario"])
+                                                    : mostrarComentario(
+                                                        'No Hay Comentarios del Alumno'),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ]
-                                    ),
+                                        ]),
                                     SizedBox(height: 15),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget> [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20),
-                                              border: Border.all(
-                                                color: Color(Elementos.bordes),
-                                                width: 5,
-                                              )
-                                            ),
-                                            child: ListTile(
-                                              title: (datos['Comentario_Profe'] != '') ? mostrarComentario(datos["Comentario_Profe"]) : mostrarComentario('No Hay Comentarios del Profesor'),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  border: Border.all(
+                                                    color:
+                                                        Color(Elementos.bordes),
+                                                    width: 5,
+                                                  )),
+                                              child: ListTile(
+                                                leading: Icon(Icons.pets, color: Color(Elementos.bordes)),
+                                                title: (datos[
+                                                            'Comentario_Profe'] !=
+                                                        '')
+                                                    ? mostrarComentario(datos[
+                                                        "Comentario_Profe"])
+                                                    : mostrarComentario(
+                                                        'No Hay Comentarios del Profesor'),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ]
-                                    ),
+                                        ]),
                                   ],
                                 ),
                               ),
@@ -175,12 +298,13 @@ class _VistaTareaState extends State<VistaTarea> {
                                     decoration: const InputDecoration(
                                       icon: Icon(Icons.add_comment),
                                       labelText: 'Agregar Comentario',
-                                      
                                     ),
                                     keyboardType: TextInputType.multiline,
                                     controller: comentarioProf,
                                     maxLength: 150,
-                                    scrollController: ScrollController(initialScrollOffset: 0.0, keepScrollOffset: false),
+                                    scrollController: ScrollController(
+                                        initialScrollOffset: 0.0,
+                                        keepScrollOffset: false),
                                   )),
                             ],
                           ),
@@ -195,9 +319,8 @@ class _VistaTareaState extends State<VistaTarea> {
                                   keyboardType: TextInputType.number,
                                   textAlign: TextAlign.center,
                                   decoration: InputDecoration(
-                                    labelText: 'Calificación',
-                                    icon: Icon(Icons.check)
-                                  ),
+                                      labelText: 'Calificación',
+                                      icon: Icon(Icons.check)),
                                   validator: (value) {
                                     if (value.isEmpty) {
                                       return 'Rellenar campo obligatorio';

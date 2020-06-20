@@ -110,26 +110,26 @@ void openFileExplorer() async {
   void baseForm(fileName) async {
     StorageReference ref =
         FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
-    var url = await ref.getDownloadURL();
-    String link = url.toString();
-    Firestore.instance.collection('Tareas').add({
-      'Nombre': nombreTarea.text,
-      'Descripcion': descripcionTarea.text,
-      'FechaEntrega': _date.text,
-      'Ids_alumnos': "",
-      'Id_profesor': idUserstate,
-      'Status': "NoEntregado",
-      'Id_Grupo': idgrupoState,
-      'Comentario_Alumno': "",
-      'Comentario': "",
-      'calificacion': "",
-      'Archivo': link,
-      'Archivos_Alumnos': "",
-      'Nombre_Archivo':fileName,
+    ref.getDownloadURL().then((value) {
+      String link = value.toString();
+      Firestore.instance.collection('Tareas').add({
+        'Nombre': nombreTarea.text,
+        'Descripcion': descripcionTarea.text,
+        'FechaEntrega': _date.text,
+        'Id_profesor': idUserstate,
+        'Id_Grupo': idgrupoState,
+        'Archivo': link,
+        'Nombre_Archivo': fileName,
+      }).then((_){
+      Navigator.pop(context);
     });
+
+    });
+
 
     //fireReference.collection('Tareas').document().setData({
   }
+
   ///widget switch que al estar activado permite subir multiples archivos
   Widget botonMultiArch() {
     return SwitchListTile.adaptive(
@@ -231,6 +231,7 @@ void openFileExplorer() async {
       ),
     );
   }
+
   ///widget para introducir la fecha
   //TODO: cambiarlo a un datePicker
   Widget dateField() {
@@ -246,7 +247,7 @@ void openFileExplorer() async {
     );
   }
 
-  ///widget que devuelve un container con un flatbutton para 
+  ///widget que devuelve un container con un flatbutton para
   Widget crearBoton(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 2,
@@ -379,7 +380,8 @@ void openFileExplorer() async {
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title:
-            Text('Registro', style: TextStyle(color: Color(Elementos.bordes))),
+            Text('Añadir nueva tarea', style: TextStyle(color: Color(Elementos.bordes))),
+            centerTitle: true,
       ),
       body: Form(
         key: keyForm,

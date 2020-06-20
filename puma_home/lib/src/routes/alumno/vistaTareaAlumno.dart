@@ -43,11 +43,14 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
   String _extension;
   FileType _pickType;
   String nombreBotonSubir = 'Seleccionar archivo';
+  bool downloading = false;
+  var progressString = "";
 
   void initState() {
     super.initState();
     print('$idUser $idTarea $nombreTarea $urlFile $descTarea $idGrupo');
   }
+
 
   Future<String> obtenerLinkArchivo() async{
     StorageReference ref =FirebaseStorage.instance.ref().child(idGrupo + "/" + fileName);
@@ -56,8 +59,9 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
     print("enlace del archivo de la tarea: "+link);
     return link;
   }
+
   void enviarTarea(String idUser, String idTarea, String comentario,
-      String idGrupo, Future<String> urlFileAlum) {
+      String idGrupo, String urlFileAlum) {
     Firestore.instance
         .collection('Tarea_Alumno')
         .where('Id_Alumno', isEqualTo: idUser)
@@ -72,7 +76,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             .then((value) {
           Map<String, dynamic> datos = value.data;
           String nombreAlumno =
-              '${datos['Nombre']} ${datos['ApPat']} ${datos['ApMat']}';
+              '${datos['UsrName']}';
           Firestore.instance.collection('Tarea_Alumno').add({
             'Archivo': urlFileAlum,
             'Calificacion': 0.0,
@@ -96,7 +100,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             .then((valueusr) {
           Map<String, dynamic> datos = valueusr.data;
           String nombreAlumno =
-              '${datos['Nombre']} ${datos['ApPat']} ${datos['ApMat']}';
+              '${datos['UsrName']}';
           Firestore.instance
               .collection('Tarea_Alumno')
               .document(value.documents[0].documentID)
@@ -157,6 +161,14 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
     });
   }
 
+  void intentaConectar(){
+    uploadToFirebase();
+    obtenerLinkArchivo().then((value) {
+      enviarTarea(idUser, idTarea, comentarioAlumno.text, idGrupo, value);
+    });
+
+  }
+
   Widget mostrarComentario(String texto) {
     return Text(
       '$texto',
@@ -204,6 +216,35 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
           );
         });
   }
+    
+    Widget loadBar() {
+    return Center(
+      child: downloading
+          ? Container(
+              height: 120.0,
+              width: 200.0,
+              child: Card(
+                color: Colors.black,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Text(
+                      "Downloading File: $progressString",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          : Text("No Data"),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -244,18 +285,57 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             ),
             Divider(),
             //En este bloque se agrega la funcionalidad para descargar archivo profesor
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  flex: 2,
-                  child: Icon(
-                    Icons.assignment,
-                    size: 35,
-                  ),
-                ),
-              ],
-            ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Color(Elementos.contenedor),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                              width: 5, color: Color(Elementos.bordes))),
+                      margin: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          loadBar(),
+                          Expanded(
+                            child: Container(
+                              //contiene del nombre Archivo
+                              child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Archivo de tarea',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              //Descargar archivos
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.file_download,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      //downloadFile(datos['Archivo'],datos['Material_Apoyo']);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
             Divider(),
             //En este bloque se agrega la funcionalidad para subir archivo alumno
             Row(
@@ -336,12 +416,8 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                           width: 3,
                         )),
                     color: Color(Elementos.contenedor),
-                    onPressed: () async {
-                      obtenerLinkArchivo().then((valor){
-                        print("Valor obtenido de obtenerLinkArchivo(): "+ valor);
-                        /* enviarTarea(idUser, idTarea, comentarioAlumno.text,
-                          idGrupo, valor); */
-                      });
+                    onPressed: (){
+                      intentaConectar();
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -360,7 +436,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                 ),
                 //Boton para acceder a resultados
                 Container(
-                  width: MediaQuery.of(context).size.width / 2.86,
+                  width: MediaQuery.of(context).size.width / 2.7,
                   height: MediaQuery.of(context).size.height / 14.28,
                   child: FlatButton(
                     shape: RoundedRectangleBorder(

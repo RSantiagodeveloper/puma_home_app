@@ -9,9 +9,10 @@ class ListaAlumnos extends StatefulWidget {
   final String idUser;
   final String grupoid;
   final String nombreTarea;
-  ListaAlumnos(this.idUser, this.grupoid,this.nombreTarea);
+  ListaAlumnos(this.idUser, this.grupoid, this.nombreTarea);
   @override
-  _ListaAlumnosState createState() => _ListaAlumnosState(idUser, grupoid, nombreTarea);
+  _ListaAlumnosState createState() =>
+      _ListaAlumnosState(idUser, grupoid, nombreTarea);
 }
 
 class _ListaAlumnosState extends State<ListaAlumnos> {
@@ -20,18 +21,18 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
   String nombreTarea;
   _ListaAlumnosState(this.idUser, this.grupoid, this.nombreTarea);
 
-  initState(){
+  initState() {
     super.initState();
     print('$idUser, $nombreTarea');
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Tareas Entregadas'),
+        title: Text('Tareas Entregadas',
+            style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(
@@ -41,7 +42,11 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
       ),
       drawer: MenuAppTch(idUser),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Tarea_Alumno').where('Id_Tarea', isEqualTo: nombreTarea).where('Status', isEqualTo: 'entregado').snapshots(),
+          stream: Firestore.instance
+              .collection('Tarea_Alumno')
+              .where('Id_Tarea', isEqualTo: nombreTarea)
+              .where('Status', isEqualTo: 'entregado')
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -61,16 +66,22 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
                         ),
                       ),
                       Expanded(
-                        flex: 1,
-                        child: Row(children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed:(){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> VistaTarea(idUser, document.documentID)));
-                          }
-                        ),
-                        (document['Calificado'] == 1)?Icon(Icons.check_box, color: Colors.green):Icon(Icons.check_box_outline_blank, color: Colors.blue[200])
-                      ])),
+                          flex: 1,
+                          child: Row(children: <Widget>[
+                            IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => VistaTarea(
+                                              idUser, document.documentID)));
+                                }),
+                            (document['Calificado'] == 1)
+                                ? Icon(Icons.check_box, color: Colors.green)
+                                : Icon(Icons.check_box_outline_blank,
+                                    color: Colors.blue[200])
+                          ])),
                     ],
                   ),
                 );

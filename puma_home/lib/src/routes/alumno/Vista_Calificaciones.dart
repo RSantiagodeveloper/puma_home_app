@@ -88,6 +88,7 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
                                       width: 5,
                                     )),
                                 child: ListTile(
+                                  leading: Icon(Icons.pets, color: Colors.white),
                                   title: (comentAl != '')
                                       ? mostrarComentario(
                                           comentAl, 18, Colors.white)
@@ -113,6 +114,7 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
                                       width: 5,
                                     )),
                                 child: ListTile(
+                                  leading: Icon(Icons.pets, color: Color(Elementos.bordes)),
                                   title: (comentProf != '')
                                       ? mostrarComentario(
                                           comentProf, 18, Colors.white)
@@ -175,7 +177,8 @@ class _VistaCalificacionesState extends State<VistaCalificaciones> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text("Calificacion"),
+        title: Text("Calificacion",
+       style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(

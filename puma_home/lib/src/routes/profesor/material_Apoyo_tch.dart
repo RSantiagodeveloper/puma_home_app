@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:puma_home/src/routes/profesor/formulario_material_apoyo.dart';
 
 class MaterialApoyoTch extends StatefulWidget {
   final String idUser;
@@ -104,13 +105,13 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
   }
 
   /// funcion  que elimina el archivo del grupó
-  void deleteTarea(String idTarea) {
+  void deleteArchivo(String idArchivo) {
     Firestore.instance
-        .collection('Tareas')
-        .document(idTarea)
+        .collection('Material_Apoyo')
+        .document(idArchivo)
         .delete()
         .then((_) {
-      statusMessage("La tarea ha sido eliminado");
+      statusMessage("El archivo ha sido eliminado");
     });
   }
 
@@ -152,7 +153,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
   }
 
   ///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
-  void confirmationMessage(String idTarea) {
+  void confirmationMessage(String idRegArchivos) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -167,7 +168,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
               ],
             ),
             content: Text(
-              'Estas aṕunto de eliminar el grupo.\n Todos los datos se perderan.\n ¿Seguro que deseas continuar?',
+              'Estas apunto de eliminar el grupo.\n Todos los datos se perderan.\n ¿Seguro que deseas continuar?',
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
@@ -186,7 +187,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
-                          //deleteTarea(idTarea); //funcion que elimina el grupo con el id que lleva como parametro
+                          deleteArchivo(idRegArchivos); //funcion que elimina el grupo con el id que lleva como parametro
                         },
                       )),
                   Container(
@@ -277,7 +278,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => PantallaGrupoTch('userX', 'grpY')));
+                    builder: (context) => PantallaGrupoTch(idUserState,idGrupoState," ")));
           },
         ));
   }
@@ -289,7 +290,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
       drawer: MenuAppTch(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Mis Grupos',
+        title: Text('Material de apoyo',
             style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
@@ -300,7 +301,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
       ),
       body: StreamBuilder(
           stream: Firestore.instance
-              .collection('Tareas')
+              .collection('Material_Apoyo')
               .where("Id_Grupo", isEqualTo: idGrupoState)
               .snapshots(),
           builder:
@@ -332,7 +333,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    document['Nombre_Archivo'],
+                                    document['Descripcion'],
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -353,7 +354,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    downloadFile(document['Archivo'],document['Nombre_Archivo']);
+                                    downloadFile(document['Archivo'],document['Material_Apoyo']);
                                   },
                                 ),
                                 IconButton(
@@ -362,7 +363,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
                                     color: Colors.red,
                                   ),
                                   onPressed: () {
-                                    //_confirmationMessage(document.documentID);
+                                    confirmationMessage(document.documentID);
                                   },
                                 )
                               ],
@@ -376,18 +377,26 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
               );
             }
           }),
-      /*floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 2.0,
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 30.0,
+          color: Color(Elementos.contenedor),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      SubirArchivo(idUserstate, idgrupoState))); //aqui va la llamada al formulario para subir archivos
+                      MaterialApoyoFormTch(idUserState,idGrupoState))); //aqui va la llamada al formulario para subir archivos
         },
         backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.add),
-      ),*/
+      ),
     );
   }
 /*

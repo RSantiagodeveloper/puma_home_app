@@ -140,7 +140,7 @@ class _TareastchState extends State<Tareastch> {
       drawer: MenuAppTch(idUserstate),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Mis Grupos',
+        title: Text('Tareas',
             style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [

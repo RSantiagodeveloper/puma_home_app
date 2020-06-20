@@ -14,7 +14,6 @@ class SubirArchivo extends StatefulWidget {
   SubirArchivo(this.idUser, this.idGrupo);
 
   _SubirArchivoState createState() => _SubirArchivoState(idUser, idGrupo);
-  
 }
 
 class _SubirArchivoState extends State<SubirArchivo> {
@@ -24,7 +23,8 @@ class _SubirArchivoState extends State<SubirArchivo> {
   TextEditingController nombreTarea = new TextEditingController();
   TextEditingController descripcionTarea = new TextEditingController();
   GlobalKey<FormState> keyForm = new GlobalKey();
-  VistaTareaAlumno subirFormularioTarea = new VistaTareaAlumno("","","","","","");
+  VistaTareaAlumno subirFormularioTarea =
+      new VistaTareaAlumno("", "", "", "", "", "");
   final fireReference = Firestore.instance;
   String fileName = 'nombre de archivo esta vacio';
   String nombreBoton = 'Buscar archivo';
@@ -63,8 +63,7 @@ void openFileExplorer() async {
   /// metodo para abrir el explorador de archivos y cargar un archivo
   void openFileExplorer(_pickType) async {
     try {
-      _path = await FilePicker.getFilePath(
-          type: _pickType);
+      _path = await FilePicker.getFilePath(type: _pickType);
       nombreBoton = _path.toString().split('/').last;
       print(nombreBoton);
       setState(() {
@@ -99,10 +98,11 @@ void openFileExplorer() async {
       _task.add(uploadTask);
     });
   }
-  
+
   ///funcion vacia que manda los datos de la tarea a la base de datos
   void baseForm(fileName) async {
-    StorageReference ref =FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
     var url = await ref.getDownloadURL();
     String link = url.toString();
     Firestore.instance.collection('Tarea_Alumno').add({
@@ -117,7 +117,7 @@ void openFileExplorer() async {
       'calificacion': "",
       'Archivo': link,
       'Archivos_Alumnos': "",
-      'Nombre_Archivo':fileName,
+      'Nombre_Archivo': fileName,
     });
   }
 
@@ -223,7 +223,7 @@ void openFileExplorer() async {
     );
   }
 
-  ///widget que devuelve un container con un flatbutton para 
+  ///widget que devuelve un container con un flatbutton para
   Widget crearBoton(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 2,
@@ -241,7 +241,6 @@ void openFileExplorer() async {
             //uploadToFirebase(); //manda los archivos al storage
             //baseForm(fileName);
             intentarConectar();
-            
           }),
     );
   }
@@ -270,7 +269,7 @@ void openFileExplorer() async {
       ],
       onChanged: (value) {
         setState(() {
-          _pickType = value; 
+          _pickType = value;
         });
       },
     );
@@ -352,6 +351,7 @@ void openFileExplorer() async {
         backgroundColor: Color(Elementos.contenedor),
         title:
             Text('Registro', style: TextStyle(color: Color(Elementos.bordes))),
+        centerTitle: true,
       ),
       body: Form(
         key: keyForm,

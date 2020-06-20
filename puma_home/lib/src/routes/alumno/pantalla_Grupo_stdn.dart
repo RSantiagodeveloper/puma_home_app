@@ -18,14 +18,14 @@ class PantallaGrupoS extends StatelessWidget {
   final String nombreGrupo;
   PantallaGrupoS(this.idUser, this.idGroup, this.idProfe, this.nombreGrupo);
 
-
   Widget createTareasButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -34,20 +34,21 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TareasStdn(idUser,idGroup)),
+              MaterialPageRoute(
+                  builder: (context) => TareasStdn(idUser, idGroup)),
             );
           },
         ));
   }
 
- 
   Widget createMaterialButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -56,18 +57,21 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MaterialApoyo(idUser)),
+              MaterialPageRoute(
+                  builder: (context) => MaterialApoyoStdn(idUser, idGroup)),
             );
           },
         ));
   }
-    Widget createPerfilProfesor(BuildContext context) {
+
+  Widget createPerfilProfesor(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -76,7 +80,8 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VistaPerfil(idUser,idProfe)),
+              MaterialPageRoute(
+                  builder: (context) => VistaPerfil(idUser, idProfe)),
             );
           },
         ));
@@ -89,7 +94,8 @@ class PantallaGrupoS extends StatelessWidget {
       drawer: MenuAppStdn(idUser),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text(nombreGrupo),
+        title:
+            Text(nombreGrupo, style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(
