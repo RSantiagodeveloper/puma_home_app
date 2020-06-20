@@ -6,7 +6,7 @@ import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:puma_home/src/routes/profesor/formTarea.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
-import 'package:puma_home/src/routes/profesor/uptareas.dart';
+import 'package:puma_home/src/routes/profesor/uptareas_tch.dart';
 
 class Tareastch extends StatefulWidget {
   final String idUser;
@@ -140,7 +140,7 @@ class _TareastchState extends State<Tareastch> {
       drawer: MenuAppTch(idUserstate),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Mis Grupos',
+        title: Text('Tareas',
             style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
@@ -235,7 +235,7 @@ class _TareastchState extends State<Tareastch> {
               );
             }
           }),
-      bottomNavigationBar: BottomAppBar(
+            bottomNavigationBar: BottomAppBar(
         notchMargin: 2.0,
         shape: CircularNotchedRectangle(),
         child: Container(

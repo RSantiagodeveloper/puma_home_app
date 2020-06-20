@@ -62,30 +62,33 @@ class MenuTchState extends State<MenuTch> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: MenuAppTch(idUserState),
-      appBar: AppBar(
-        backgroundColor: Color(Elementos.contenedor),
-        title: Text('Admistración (EL MASTER)',
-            style: TextStyle(color: Color(Elementos.bordes))),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              icon: IconAppBar(), //metodo donde se crea la referencia al icono
-              onPressed: null)
-        ],
+    return WillPopScope(
+      onWillPop: ()async => false,
+          child: Scaffold(
+        drawer: MenuAppTch(idUserState),
+        appBar: AppBar(
+          backgroundColor: Color(Elementos.contenedor),
+          title: Text('Admistración (Profesor)',
+              style: TextStyle(color: Color(Elementos.bordes))),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                icon: IconAppBar(), //metodo donde se crea la referencia al icono
+                onPressed: null)
+          ],
+        ),
+        body: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(color: Colors.white),
+            child: ListView(
+              children: [
+                Divider(),
+                createVerGruposButton(context),
+                Divider(),
+                createMiPerfilButton(context),
+              ],
+            )),
       ),
-      body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(color: Colors.white),
-          child: ListView(
-            children: [
-              Divider(),
-              createVerGruposButton(context),
-              Divider(),
-              createMiPerfilButton(context),
-            ],
-          )),
     );
   }
 }

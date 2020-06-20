@@ -1,5 +1,5 @@
 //@David Guerrero
-//Pantall
+//Pantalla que contiene el formulario que crea un nuevo grupo
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,17 +20,20 @@ class _AltaClaseState extends State<AltaClase> {
   _AltaClaseState(iduserState);
   final dbReference = Firestore.instance;
 
-  TextEditingController _codigoController = new TextEditingController();
+  TextEditingController _codigoController = TextEditingController();
 
   String rolUser = 'Estudiante';
 
-  GlobalKey<FormState> _keyForm = new GlobalKey();
+  GlobalKey<FormState> _keyForm = GlobalKey();
 
-  void initState(){
+  void initState() {
     super.initState();
     print('$iduserState');
   }
-
+/*
+* Widget responsivo que contiene un campo de texto obligatorio para introducir la claver del grupo al que
+* se desea inscribir. 
+*/
   Widget codeClassInput() {
     return Container(
       width: (MediaQuery.of(context).size.width <
@@ -60,11 +63,13 @@ class _AltaClaseState extends State<AltaClase> {
       ),
     );
   }
-
+/*
+* Widget que realiza el regisro del alumno al gupo y muestra un boton responsivo para registrarse.
+*/
   Widget createButton(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 2.5,
-      height: MediaQuery.of(context).size.height / 6.67,
+      height: MediaQuery.of(context).size.height / 7.67,
       decoration: BoxDecoration(
           color: Color(Elementos.contenedor),
           borderRadius: BorderRadius.circular(20),
@@ -80,10 +85,14 @@ class _AltaClaseState extends State<AltaClase> {
             final usuario = FirebaseAuth.instance;
             final rescate = await usuario.currentUser();
             FirebaseUser conejo = rescate;
-            final resp = await dbReference.collection('Grupo').document(_codigoController.text).get();
+            final resp = await dbReference
+                .collection('Grupo')
+                .document(_codigoController.text)
+                .get();
             Map<String, dynamic> datos = resp.data;
             print('respuesta: ${resp.exists}');
-            if (resp.exists != false) { //en caso de que falle por null, aqui es donde está meter try catch
+            if (resp.exists != false) {
+              //en caso de que falle por null, aqui es donde está meter try catch
               dbReference.collection('Grupo_Alumno').add({
                 'Grupo_id': resp.documentID,
                 'Alumno_id': conejo.uid,
@@ -103,7 +112,9 @@ class _AltaClaseState extends State<AltaClase> {
       ),
     );
   }
-
+/*
+* Funcion que crea un mensaje en forma de AlerDialog para informar si la operacion de registro se realizó con exito.
+*/
   void statusMessage(String opStat, String mensaje) {
     showDialog(
         context: context,
@@ -116,7 +127,7 @@ class _AltaClaseState extends State<AltaClase> {
               ],
             ),
             content: Text(
-              '$mensaje',
+              '$mensaje', 
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
