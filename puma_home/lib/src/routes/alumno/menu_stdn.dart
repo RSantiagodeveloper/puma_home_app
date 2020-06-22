@@ -21,6 +21,7 @@ class MenuAlumnoState extends State<MenuAlumno> {
   String idUserState;
   MenuAlumnoState(this.idUserState);
 
+//Widget que crea el boton de ver grupos.
   Widget createVerGruposButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
@@ -41,7 +42,7 @@ class MenuAlumnoState extends State<MenuAlumno> {
           },
         ));
   }
-
+//Widget que crea boton de ver perfil.
   Widget createMiPerfilButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,

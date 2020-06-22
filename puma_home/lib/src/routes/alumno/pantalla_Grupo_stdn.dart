@@ -1,5 +1,6 @@
 /*
- * Pantalla de grupo del alumno
+ * Pantalla que muestra los detalles del grupo. Consiste en el tablon de anuncios, un boton para ver las tareas, un boton para ver el material de apoyo 
+ * y un boton para ver el perfil del profesor. 
  */
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/routes/alumno/lista_Tareas.dart';

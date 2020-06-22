@@ -1,3 +1,7 @@
+/*
+ * Pantalla en la que el alumno puede ver la tarea que el profe le dejó,
+ * subir su tarea, y visualizar su calificación
+ */
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -46,6 +50,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
   bool downloading = false;
   var progressString = "";
 
+
   void initState() {
     super.initState();
     print('$idUser $idTarea $nombreTarea $urlFile $descTarea $idGrupo');
@@ -60,6 +65,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
     return link;
   }
 
+//Función que envia la tarea, recuperando el id del alumno y el id de la tarea
   void enviarTarea(String idUser, String idTarea, String comentario,
       String idGrupo, String urlFileAlum) {
     Firestore.instance
@@ -69,6 +75,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
         .getDocuments()
         .then((value) {
       if (value.documents.isEmpty) {
+        //Si no ha subido nada el alumno, se crea un nuevo documento y ahi se guarda la información
         Firestore.instance
             .collection('Usuarios')
             .document(idUser)
@@ -78,7 +85,9 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
           String nombreAlumno =
               '${datos['UsrName']}';
           Firestore.instance.collection('Tarea_Alumno').add({
-            'Archivo': urlFileAlum,
+            //se agrega el arhivo del alumno y comentario si agregó algo
+            //Por default se llenan los campos de usuario, grupo y tarea
+            'Archivo': urlFileAlum, 
             'Calificacion': 0.0,
             'Calificado': 0,
             'Comentario': comentario,
@@ -87,12 +96,13 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             'Id_Grupo': idGrupo,
             'Id_Tarea': idTarea,
             'Nombre_Alumno': nombreAlumno,
-            'Status': 'entregado'
+            'Status': 'entregado' //cuando se envia la tarea, cambia el status automáticamente a entregado
           }).then((value){
             statusMessage('Has enviado tu tarea');
           });
         });
       } else {
+        //Si ya existía un documento, entonces se actualizan los campos que el alumno decida
         Firestore.instance
             .collection('Usuarios')
             .document(idUser)

@@ -1,3 +1,5 @@
+// Pantalla que muestra archivos que sube el profesor como mterial de apoyo.
+
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';

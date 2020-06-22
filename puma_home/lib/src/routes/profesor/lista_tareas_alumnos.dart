@@ -1,3 +1,7 @@
+/*
+* Pantalla que muestra al profesor las tareas entregadas para su calificacion. Muestra mediante un icono si la tarea ya esta calificada o no.
+* Posible refinamiento: clasificar las tareas por grupos.
+*/
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';

@@ -1,3 +1,6 @@
+/*
+ * Pantalla en la que el alumno pude visualizar el perfil del profesor
+ */
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
@@ -38,6 +41,7 @@ class VistaPerfilState extends State<VistaPerfil> {
           ],
         ),
         body: FutureBuilder(
+          //Se obtiene el documento en el que están guardados los datos del profesor a consultar
           future: dbReference.collection('Usuarios').document(idProfeState).get(),
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {

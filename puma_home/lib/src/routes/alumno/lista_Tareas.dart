@@ -1,6 +1,6 @@
 /*
  * En esta pantalla solo nos encargamos de mostrar el listado de tareas correspondiente
- * al grupo en el que el alumno accedio
+ * al grupo en el que el alumno accedió.
  */
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';

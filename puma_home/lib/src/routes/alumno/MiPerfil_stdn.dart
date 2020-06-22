@@ -42,6 +42,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     });
   }
 
+//Widget que crea el nombre del usuario
   Widget createNombreUsuarioInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -58,6 +59,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
+//Widget que da la opcion de registrar otro correo de usuario
   Widget createCorreoInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -74,6 +76,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
+//Widget para insertar un número de contacto
   Widget createTelefonoInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -91,6 +94,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
+//Botón para guardar los cambios
   Widget createGuardarButton() {
     return Container(
       width: MediaQuery.of(context).size.width / 2,
@@ -122,6 +126,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
+//Dialogo emergente que sale despues de apretar el boton de guardar
   void _infoDialog(String mensaje) {
     showDialog(
         context: context,

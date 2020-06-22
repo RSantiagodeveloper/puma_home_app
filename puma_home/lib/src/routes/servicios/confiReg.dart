@@ -1,3 +1,5 @@
+
+// Pantalla que se muestra a un nuevo usuario regisrado.
 import 'package:flutter/material.dart';
 
 import '../../Inicio.dart';

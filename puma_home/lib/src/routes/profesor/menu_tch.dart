@@ -1,3 +1,6 @@
+/*
+* Pantalla que tiene botones para ver los grupos que imparte o para ir a su perfil
+*/
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/routes/profesor/mis_Grupos_tch.dart';
 import 'package:puma_home/src/routes/profesor/MiPerfil.dart';
@@ -17,7 +20,8 @@ class MenuTch extends StatefulWidget {
 class MenuTchState extends State<MenuTch> {
   String idUserState;
   MenuTchState(this.idUserState);
-  
+
+//Widget que muestra los grupos  que imparte el profesor
   Widget createVerGruposButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
@@ -39,6 +43,7 @@ class MenuTchState extends State<MenuTch> {
         ));
   }
 
+//Widget que lleva al perfil del profesor
   Widget createMiPerfilButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
@@ -60,6 +65,7 @@ class MenuTchState extends State<MenuTch> {
         ));
   }
 
+//Widget que contiene los anteriores widgets
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

@@ -1,3 +1,4 @@
+// Pantall donde el alumno puede ver los cometarios del profesor sobre su tarea, responder y ver su calificacion.
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';

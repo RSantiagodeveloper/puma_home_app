@@ -19,7 +19,7 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
   _TablonAnunciosStdnState(this._idGrupo);
 
   String notice = 'Nueva Noticia generada y consultada desde Firebase';
-  TextEditingController newNotice = new TextEditingController();
+  TextEditingController newNotice = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +50,7 @@ class _TablonAnunciosStdnState extends State<TablonAnunciosStdn> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  //Widget donde se mapean los avisos publicados por el profesor y se muestran
                   StreamBuilder(
                       stream: Firestore.instance.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).orderBy('Fecha', descending: true).snapshots(),
                       builder: (BuildContext context,

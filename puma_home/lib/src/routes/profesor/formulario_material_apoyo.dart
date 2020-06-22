@@ -1,3 +1,6 @@
+/*
+ *Pantalla de formulario para que el profesor pueda subir material de apoyo para algun grupo. 
+ */
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,8 +23,8 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
   String idGrupoState;
   String fileName = 'nombre de archivo esta vacio';
   MaterialApoyoTchFormState(this.idUserState, this.idGrupoState);
-  TextEditingController descripcionArchivo = new TextEditingController();
-  GlobalKey<FormState> keyForm = new GlobalKey();
+  TextEditingController descripcionArchivo = TextEditingController();
+  GlobalKey<FormState> keyForm = GlobalKey();
   bool activado = false;
   //bool _multiPick = false;
   bool downloading = false; //variables globales
@@ -37,7 +40,7 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
     super.initState();
     print('recibi al usuario $idUserState, $idGrupoState');
   }
-
+//Funcion asincrona para abrir el explorador de archivos.
   void openFileExplorer(_pickType) async {
     try {
       _path = await FilePicker.getFilePath(
@@ -80,15 +83,6 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
     StorageReference ref =
         FirebaseStorage.instance.ref().child(idGrupoState + "/" + fileName);
     print(descripcionArchivo.text);
-    /* var url = await ref.getDownloadURL();
-    String link = url.toString();
-    Firestore.instance.collection('Material_Apoyo').add({
-      'Descripcion': descripcionArchivo.text,
-      'Id_profesor': idUserState,
-      'Id_Grupo': idGrupoState,
-      'Archivo': link,
-      'Nombre_Archivo': fileName,
-    }); */
     ref.getDownloadURL().then((value) {
       String link = value.toString();
       Firestore.instance.collection('Material_Apoyo').add({
@@ -175,6 +169,7 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
     );
   }
 
+//Widget que manda a llamar las funciones anteriores
   @override
   Widget build(BuildContext context) {
     return Scaffold(

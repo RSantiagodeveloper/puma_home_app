@@ -1,3 +1,9 @@
+/*
+* ESTE ARCHIVO NO ESTA SIENDO USADO
+*
+
+* Pantalla para que el profesor suba material de apoyo. 
+*/
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,7 +42,7 @@ class _SubirMaterialApoyoState extends State<SubirMaterialApoyo> {
     print('recibi al usuario $idUserstate');
   }
 
-  GlobalKey<FormState> keyForm = new GlobalKey();
+  GlobalKey<FormState> keyForm = GlobalKey();
 
   ///widget que devuelve un boton para abrir el explorador de archivos nativo
   Widget botonFind() {
@@ -218,9 +224,6 @@ class _SubirMaterialApoyoState extends State<SubirMaterialApoyo> {
     );
   }
 
-
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -236,7 +239,7 @@ class _SubirMaterialApoyoState extends State<SubirMaterialApoyo> {
         key: keyForm,
         child: Container(
           padding: const EdgeInsets.all(20),
-          child: new ListView(
+          child: ListView(
             children: <Widget>[showWidget()],
           ),
         ),

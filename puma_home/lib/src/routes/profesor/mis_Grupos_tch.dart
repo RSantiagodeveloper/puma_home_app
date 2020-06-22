@@ -1,3 +1,6 @@
+/*
+* Pantalla que muestra al profesor los grupos que creó. Puede ver el grupo y puede eliminarlo.
+*/
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
@@ -19,12 +22,6 @@ class MisGruposTch extends StatefulWidget {
 class _MisGruposState extends State<MisGruposTch> {
   final String idUserstate;
   _MisGruposState(this.idUserstate);
-
-  @override
-  void initState() {
-    super.initState();
-    print('recibi al usuario $idUserstate');
-  }
 
   /// funcion vacia que elimina el grupo [idGroup] en firestore
   void deleteGroup(String idGroup){

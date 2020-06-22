@@ -1,4 +1,6 @@
 /*
+  *Pantalla que muestra el tablón al profesor
+
  * Hasta este punto Tengo ya una version inicial del tablero.
  * Falta mejorar la responsividad del mismo, y alomejor mejorar el tema.
  * La funcionalidad basica ya esta.

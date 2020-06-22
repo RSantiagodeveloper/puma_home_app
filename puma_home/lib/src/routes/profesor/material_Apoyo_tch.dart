@@ -1,3 +1,6 @@
+/*
+* Pantalla que muestra el material de apoyo de un grupo, da la opcion de subir mas material mediante un boton flotante.
+*/
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
@@ -36,44 +39,6 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
     super.initState();
     print('recibi al usuario $idUserState, $idGrupoState');
   }
-
-  ///
-/*
-  void downloadFile(String nombreArchivo, String url) async {
-    StorageReference referen = FirebaseStorage.instance
-        .ref()
-        .child(idGrupoState + "/" + nombreArchivo);
-    String extension = nombreArchivo.split('.').last;
-    final http.Response downloadData = await http.get(url);
-    final Directory systemTempDir = Directory.systemTemp;
-    final File tempFile = File('${systemTempDir.path}/tmp.' + extension);
-    if (tempFile.existsSync()) {
-      await tempFile.delete();
-    }
-    await tempFile.create();
-    final StorageFileDownloadTask task = referen.writeToFile(tempFile);
-    final int byteCount = (await task.future).totalByteCount;
-    var bodyBytes = downloadData.bodyBytes;
-    final String name = await referen.getName();
-    final String path = await referen.getPath();
-    print(
-      'Success!\nDownloaded $name \nUrl: $url'
-      '\npath: $path \nBytes Count :: $byteCount',
-    );
-
-    /*
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.black,
-        content: Image.memory(
-          bodyBytes,
-          fit: BoxFit.fill,
-        ),
-      ),
-    );*/
-  }
-
-  */
 
   Future<void> descargarArchivo(StorageReference ref) async {
     final String url = await ref.getDownloadURL();
@@ -213,6 +178,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
         });
   }
 
+//Función para descargar el archivo
   void downloadFile(String url, String name) async {
     Dio dio = Dio();
     try {
@@ -399,43 +365,5 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
       ),
     );
   }
-/*
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: MenuAppTch(idUserState),
-      appBar: AppBar(
-        backgroundColor: Color(Elementos.contenedor),
-        title: Text(Elementos.btnStorage),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              icon: IconAppBar(), //metodo donde se crea la referencia al icono
-              onPressed: null)
-        ],
-      ),
-      body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(color: Colors.white),
-          child: ListView(
-            children: [
-              createMenuButton(context),
-            ],
-          )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SubirMaterialApoyo(idUserState,
-                      idGrupoState))); //aqui va la llamada a la pantalla formulario_alta_clases
-        },
-        backgroundColor: Color(Elementos.bordes),
-        child: Icon(Icons.add),
-      ),
-    );
-  }
 
-  */
 }
