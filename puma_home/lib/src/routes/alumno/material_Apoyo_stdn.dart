@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puma_home/src/resources/MenuApp_tch.dart';
+import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -157,7 +157,7 @@ class MaterialApoyoStdnState extends State<MaterialApoyoStdn> {
   Widget build(BuildContext context) {
     //print('BUILD ID ${usuario.uid} Email ${usuario.email}');
     return Scaffold(
-      drawer: MenuAppTch(idUserState),
+      drawer: MenuAppStdn(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Material de apoyo',
