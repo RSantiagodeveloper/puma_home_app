@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MaterialApoyoStdn extends StatefulWidget {
   final String idUser;
@@ -124,6 +125,15 @@ class MaterialApoyoStdnState extends State<MaterialApoyoStdn> {
     var path = await getApplicationDocumentsDirectory();
     print("${path.path}/");
   }
+
+  void launchURL(url) async {
+  
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
  
   Widget loadBar() {
     return Center(
@@ -226,7 +236,7 @@ class MaterialApoyoStdnState extends State<MaterialApoyoStdn> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    downloadFile(document['Archivo'],document['Material_Apoyo']);
+                                    launchURL(document['Archivo']);
                                   },
                                 ),
                               ],
