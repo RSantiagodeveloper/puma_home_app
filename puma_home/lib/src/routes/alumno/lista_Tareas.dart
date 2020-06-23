@@ -3,6 +3,7 @@
  * al grupo en el que el alumno accedió.
  */
 import 'package:flutter/material.dart';
+import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/routes/alumno/vistaTareaAlumno.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
@@ -27,7 +28,7 @@ class _TareasStdnState extends State<TareasStdn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppTch(idUserstate),
+      drawer: MenuAppStdn(idUserstate),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Listado de Tareas',
