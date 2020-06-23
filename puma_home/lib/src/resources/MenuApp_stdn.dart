@@ -52,6 +52,7 @@ class _MenuAppStdnState extends State<MenuAppStdn> {
             );
           },
         ),
+        Divider(),
         //TODO: Implemntar la funcionalidad de notificaciones aqui en una version futura
         new ListTile(
           title: Text(
@@ -65,8 +66,10 @@ class _MenuAppStdnState extends State<MenuAppStdn> {
                 context,
                 MaterialPageRoute(builder: (context) => Ruta),
               );*/
+              _proximamente();
           },
         ),
+        Divider(),
         //Despliega un Alert con informacion de la app y del equipo
         new ListTile(
           title: Text(
@@ -78,6 +81,7 @@ class _MenuAppStdnState extends State<MenuAppStdn> {
             _showInfo();
           },
         ),
+        Divider(),
         //implementar aqui la funcionalidad del LogOut <- si es aqui, En el evento onpressd
         new ListTile(
           title: Text(
@@ -105,6 +109,32 @@ class _MenuAppStdnState extends State<MenuAppStdn> {
             title: Text('Puma Home App'),
             content: Text(
               'App de clases en linea pensada para la comunidad Univiersitaria\n Desarrollada por el Laboratorio de innovación UNAM Mobile (c)2020',
+              style: TextStyle(fontSize: 14),
+              textAlign: TextAlign.justify,
+            ),
+            actions: <Widget>[
+              FloatingActionButton(
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+    _proximamente() {
+    showDialog(
+        context: context,
+        builder: (buildcontext) {
+          return AlertDialog(
+            title: Text('Proximamente...'),
+            content: Text(
+              'Pagina en desarollo',
               style: TextStyle(fontSize: 14),
               textAlign: TextAlign.justify,
             ),
