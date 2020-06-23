@@ -1,12 +1,13 @@
 /*
- * Pantalla de grupo del alumno
+ * Pantalla que muestra los detalles del grupo. Consiste en el tablon de anuncios, un boton para ver las tareas, un boton para ver el material de apoyo 
+ * y un boton para ver el perfil del profesor. 
  */
 import 'package:flutter/material.dart';
+import 'package:puma_home/src/routes/alumno/lista_Tareas.dart';
 import 'package:puma_home/src/routes/alumno/tablon_stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/routes/alumno/material_Apoyo_stdn.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
-import 'package:puma_home/src/routes/alumno/tareas_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:puma_home/src/routes/alumno/vista_perfil_profesor.dart';
 
@@ -15,9 +16,8 @@ class PantallaGrupoS extends StatelessWidget {
   final String idUser; //id del usuario actual
   final String idProfe;
   final String idGroup; //id del Grupo Actual
-
-  PantallaGrupoS(this.idUser, this.idGroup, this.idProfe);
-
+  final String nombreGrupo;
+  PantallaGrupoS(this.idUser, this.idGroup, this.idProfe, this.nombreGrupo);
 
   Widget createTareasButton(BuildContext context) {
     return Container(
@@ -25,7 +25,8 @@ class PantallaGrupoS extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -34,20 +35,21 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Tareas(idUser)),
+              MaterialPageRoute(
+                  builder: (context) => TareasStdn(idUser, idGroup)),
             );
           },
         ));
   }
 
- 
   Widget createMaterialButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -56,18 +58,21 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MaterialApoyo(idUser)),
+              MaterialPageRoute(
+                  builder: (context) => MaterialApoyoStdn(idUser, idGroup)),
             );
           },
         ));
   }
-    Widget createPerfilProfesor(BuildContext context) {
+
+  Widget createPerfilProfesor(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -76,7 +81,8 @@ class PantallaGrupoS extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VistaPerfil(idUser,idProfe)),
+              MaterialPageRoute(
+                  builder: (context) => VistaPerfil(idUser, idProfe)),
             );
           },
         ));
@@ -89,7 +95,8 @@ class PantallaGrupoS extends StatelessWidget {
       drawer: MenuAppStdn(idUser),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Grupo'),
+        title:
+            Text(nombreGrupo, style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(

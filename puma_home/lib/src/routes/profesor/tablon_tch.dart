@@ -1,4 +1,6 @@
 /*
+  *Pantalla que muestra el tablón al profesor
+
  * Hasta este punto Tengo ya una version inicial del tablero.
  * Falta mejorar la responsividad del mismo, y alomejor mejorar el tema.
  * La funcionalidad basica ya esta.
@@ -13,6 +15,7 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:puma_home/src/routes/profesor/formulario_alta_clases.dart';
 
 class TablonAnunciosTch extends StatefulWidget {
   final String idGroup;
@@ -24,7 +27,6 @@ class TablonAnunciosTch extends StatefulWidget {
 }
 
 class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
-
   final dbReference = Firestore.instance;
 
   String _idGrupo;
@@ -42,79 +44,44 @@ class _TablonAnunciosTchState extends State<TablonAnunciosTch> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Column(
-          children: <Widget>[
-            Text('Estoy en el Grupo $_idGrupo'),
-            Text(
-              'Tablon de Anuncios',
-              style: TextStyle(fontSize: 30.0),
-            ),
-            Container(
-              width: _width / 1.2,
-              height: (_width < _height) ? _height / 3.03 : _height / 2,
-              padding: EdgeInsets.all(_sizepadding),
-              decoration: BoxDecoration(
-                  border:
-                      Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(Elementos.contenedor)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    notice,
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        width: (_width < _height)
-                            ? MediaQuery.of(context).size.width / 1.78
-                            : MediaQuery.of(context).size.width / 1.5,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(4)),
-                        child: TextField(
-                            controller: newNotice,
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.announcement,
-                                color: Color(0xFF040367),
-                              ),
-                              border: OutlineInputBorder(),
-                            )),
-                      ),
-                      IconButton(
-                          icon: Icon(
-                            Icons.send,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              notice = newNotice
-                                  .text; //guarda el cambio-> este se va a la DB
-                              newNotice.text = ''; //limpia el campo de texto
-                              dbReference.collection('Grupo_Alumno').where('Grupo_id', isEqualTo:_idGrupo).getDocuments().then((QuerySnapshot value){
-                                value.documents.map((document){
-                                  print(document.documentID);
-                                  print(newNotice.text);
-                                  dbReference.collection('Grupo_Alumno').document(document.documentID).updateData({
-                                    'Aviso': notice,  
-                                  });
-                                } );
-                              });
-                            });
-                          }),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
+        Container(
+          width: _width / 1.2,
+          height: (_width < _height) ? _height / 3.03 : _height / 2,
+          padding: EdgeInsets.all(_sizepadding),
+          decoration: BoxDecoration(
+              border: Border.all(
+                  width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+              borderRadius: BorderRadius.circular(20),
+              color: Color(Elementos.contenedor)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              StreamBuilder(
+                  stream: dbReference.collection('Avisos').where('Id_Grupo', isEqualTo: _idGrupo).orderBy('Fecha', descending: true).snapshots(), //orderBy() ordena por fecha los avisos
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      return Expanded(
+                        flex: 2,
+                        child: ListView(
+                          children: snapshot.data.documents.map((document)
+                            {return ListTile(
+                                leading: Icon(
+                                  Icons.chat_bubble,
+                                  color: Colors.white,
+                                ),
+                                title: Text('${document['Notice']}', style: TextStyle(color: Colors.white)),
+                              );}
+                          ).toList(),
+                        ),
+                      );
+                    } else {
+                      return Text("No hay datos");
+                    }
+                  }),
+
+            ],
+          ),
         ),
       ],
     );

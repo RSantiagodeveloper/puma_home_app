@@ -43,6 +43,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:puma_home/src/routes/profesor/menu_tch.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:puma_home/src/routes/servicios/loginPage.dart';
 
 class MenuAppTch extends StatefulWidget {
   final String userID;
@@ -55,7 +57,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
   _MenuAppTchState(this.userIDState);
   final double sizeOption = 16.0;
   final double sizeTitle = 20.0;
-
+  //metodo que contruye el Menu desplegable en pantalla
   @override
   Widget build(BuildContext context) {
     return new Drawer(
@@ -71,6 +73,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
                       AssetImage('images/logos/menu_logo.jpeg'), //logo del menu
                   fit: BoxFit.cover)),
         ),
+        //acesso a la pantalla de Administracion
         new ListTile(
           title: Text(
             'Administración',
@@ -84,6 +87,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
             );
           },
         ),
+        //TODO: Implementar funcionalidad de Notificaciones en Versiones siguientes
         new ListTile(
           title: Text(
             'Notificaciones',
@@ -91,13 +95,10 @@ class _MenuAppTchState extends State<MenuAppTch> {
           ),
           leading: Icon(Icons.notifications),
           onTap: () {
-            /*
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Ruta),
-              );*/
+            
           },
         ),
+        //Boton que despilega un Alert para mostrar informacion de la APP y El equipo
         new ListTile(
           title: Text(
             'Acerca de',
@@ -108,6 +109,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
             _showInfo();
           },
         ),
+        //Aqui debe de ir el LogOut
         new ListTile(
           title: Text(
             'salir',
@@ -115,11 +117,11 @@ class _MenuAppTchState extends State<MenuAppTch> {
           ),
           leading: Icon(Icons.exit_to_app),
           onTap: () {
-            /*
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Ruta),
-              );*/
+            FirebaseAuth.instance.signOut().then((value){
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => LoginPage()
+                ));
+              });
           },
         ),
       ]),

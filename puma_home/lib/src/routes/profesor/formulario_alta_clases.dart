@@ -1,3 +1,6 @@
+/*
+ * Pantalla en la solo el profesor puede crear un nuevo grupo
+ */
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +27,7 @@ class FormularioAltaClaseState extends State<FormularioAltaClase>{
   TextEditingController _claveGrupo = new TextEditingController();
   GlobalKey<FormState> keyForm = new GlobalKey();
 
+//Widget en el que se inserta el nuevo nombre del grupo a crear
   Widget createNombreClaseInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -45,6 +49,7 @@ class FormularioAltaClaseState extends State<FormularioAltaClase>{
     );
   }
 
+//widget de la clave del grupo 
   Widget claveGrupo() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -57,6 +62,7 @@ class FormularioAltaClaseState extends State<FormularioAltaClase>{
     );
   }
 
+//Widget que recupera esa clave que genera Firebase
   Widget botonGenerar() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -82,6 +88,7 @@ class FormularioAltaClaseState extends State<FormularioAltaClase>{
                 //-UID profesor <- currentUser()
               //rescatar el ID del Documento añadido
               //ID Mostrarlo en la app (Fines demostrativos)
+
               //TODO: implementar un metodo que genere una clave unica para no usar el ID_doc
               print('Nombre de clase: ${_nombreclase.text}');
               
@@ -92,8 +99,8 @@ class FormularioAltaClaseState extends State<FormularioAltaClase>{
               dbReference.collection('Grupo').add({
                 'Nombre': _nombreclase.text,
                 'Clave_Profesor': usuario.uid
-              }).then((value) => {
-                _claveGrupo.text = value.documentID
+              }).then((value) {
+                _claveGrupo.text = value.documentID;
               });
               
             }
@@ -102,6 +109,7 @@ class FormularioAltaClaseState extends State<FormularioAltaClase>{
     );
   }
 
+//Widget para regresar a la pantalla de grupos del profesor
   Widget createReturnButton(BuildContext context){
     return Container(
       width: MediaQuery.of(context).size.width / 2,

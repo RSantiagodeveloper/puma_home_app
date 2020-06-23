@@ -1,3 +1,6 @@
+/*
+* Pantalla que muestra el perfil del profesor.
+*/
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
@@ -36,7 +39,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     });
   }
 
-
+//Widget para crear un nombre de usuario
   Widget createNombreUsuarioInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -53,6 +56,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
+//Widget para ingresar de manera opcional otro correo de contacto.
   Widget createCorreoInput(){
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -69,6 +73,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
+//Widget para ingresar de manera opcional un número de teléfono.
   Widget createTelefonoInput(){
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -86,6 +91,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
+//Widget que es el botón para guardar los cambios.
   Widget createGuardarButton(){
     return Container(
       width: MediaQuery.of(context).size.width / 2,
@@ -115,6 +121,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
+//Mensaje emergente que sale después de presionar el botón de guardar
   void _infoDialog(String mensaje) {
     showDialog(
         context: context,

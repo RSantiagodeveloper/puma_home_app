@@ -1,3 +1,6 @@
+/*
+* Pantalla que tiene botones para ver los grupos que imparte o para ir a su perfil
+*/
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/routes/profesor/mis_Grupos_tch.dart';
 import 'package:puma_home/src/routes/profesor/MiPerfil.dart';
@@ -17,7 +20,8 @@ class MenuTch extends StatefulWidget {
 class MenuTchState extends State<MenuTch> {
   String idUserState;
   MenuTchState(this.idUserState);
-  
+
+//Widget que muestra los grupos  que imparte el profesor
   Widget createVerGruposButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
@@ -39,6 +43,7 @@ class MenuTchState extends State<MenuTch> {
         ));
   }
 
+//Widget que lleva al perfil del profesor
   Widget createMiPerfilButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
@@ -60,32 +65,36 @@ class MenuTchState extends State<MenuTch> {
         ));
   }
 
+//Widget que contiene los anteriores widgets
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: MenuAppTch(idUserState),
-      appBar: AppBar(
-        backgroundColor: Color(Elementos.contenedor),
-        title: Text('Admistración (EL MASTER)',
-            style: TextStyle(color: Color(Elementos.bordes))),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              icon: IconAppBar(), //metodo donde se crea la referencia al icono
-              onPressed: null)
-        ],
+    return WillPopScope(
+      onWillPop: ()async => false,
+          child: Scaffold(
+        drawer: MenuAppTch(idUserState),
+        appBar: AppBar(
+          backgroundColor: Color(Elementos.contenedor),
+          title: Text('Admistración (Profesor)',
+              style: TextStyle(color: Color(Elementos.bordes))),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                icon: IconAppBar(), //metodo donde se crea la referencia al icono
+                onPressed: null)
+          ],
+        ),
+        body: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(color: Colors.white),
+            child: ListView(
+              children: [
+                Divider(),
+                createVerGruposButton(context),
+                Divider(),
+                createMiPerfilButton(context),
+              ],
+            )),
       ),
-      body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(color: Colors.white),
-          child: ListView(
-            children: [
-              Divider(),
-              createVerGruposButton(context),
-              Divider(),
-              createMiPerfilButton(context),
-            ],
-          )),
     );
   }
 }

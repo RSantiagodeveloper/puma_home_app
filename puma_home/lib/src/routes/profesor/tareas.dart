@@ -1,32 +1,41 @@
 /*
-* Pantalla que muestra al profesor los grupos que creó. Puede ver el grupo y puede eliminarlo.
+* Pantalla en la 
 */
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_tch.dart';
-import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
+import 'package:puma_home/src/routes/profesor/lista_tareas_alumnos.dart';
+//import 'package:puma_home/src/routes/profesor/pantalla_Grupo_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:puma_home/src/routes/profesor/formulario_alta_clases.dart';
+//import 'package:puma_home/src/routes/profesor/formTarea.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:puma_home/src/routes/profesor/uptareas_tch.dart';
 
-class MisGruposTch extends StatefulWidget {
+class Tareastch extends StatefulWidget {
   final String idUser;
-  MisGruposTch(this.idUser);
+  final String idGrupo;
+  Tareastch(this.idUser, this.idGrupo);
   @override
-  _MisGruposState createState() => _MisGruposState(idUser);
+  _TareastchState createState() => _TareastchState(idUser, idGrupo);
 }
 
-/// widget que devuelve una tarjeta. Esta contiene la informacion de un grupo
 /// parametro nombre recibe el nombre de la clase
 
-class _MisGruposState extends State<MisGruposTch> {
+class _TareastchState extends State<Tareastch> {
   final String idUserstate;
-  _MisGruposState(this.idUserstate);
+  final String idgrupoState;
+   _TareastchState(this.idUserstate, this.idgrupoState);
+
+  @override
+  void initState() {
+    super.initState();
+    print('recibi al usuario $idUserstate, $idgrupoState');
+  }
 
   /// funcion vacia que elimina el grupo [idGroup] en firestore
-  void deleteGroup(String idGroup){
-    Firestore.instance.collection('Grupo').document(idGroup).delete().then((_)  {
-      statusMessage("El grupo ha sido eliminado");
+  void deleteTarea(String idTarea){
+    Firestore.instance.collection('Tareas').document(idTarea).delete().then((_)  {
+      statusMessage("La tarea ha sido eliminado");
     });
   }
   ///funcion que lanza un alert dialog con un mensaje que le es dado como parametro
@@ -38,14 +47,8 @@ class _MisGruposState extends State<MisGruposTch> {
           return AlertDialog(
             title: Row(
                 children: <Widget>[
-                  Expanded(
-                    flex:2,
-                    child: Icon(Icons.check, color: Colors.green),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text('Completado'),
-                  ),
+                  Icon(Icons.check, color: Colors.green),
+                  Text('Completado'),
                 ],
             ),
             content: Text(
@@ -53,21 +56,20 @@ class _MisGruposState extends State<MisGruposTch> {
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
-                //mainAxisAlignment: MainAxisAlignment.end,
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               padding: EdgeInsets.all(3.0),
-              color: Color(Elementos.contenedor),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                side: BorderSide(
-                  color: Color(Elementos.bordes),
-                  width: 3,
-                ),
-              ),
-              child: Text('Aceptar', style: TextStyle(color: Colors.white)),      
+              child: Container(
+                decoration:BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 3, color: Colors.blue),
+                    ),
+                padding: EdgeInsets.all(1.0),
+                child: Text('Aceptar', style: TextStyle(color: Colors.blue)),
+              ),      
             )],
           );
         });
@@ -75,7 +77,7 @@ class _MisGruposState extends State<MisGruposTch> {
 
 
 ///widget que muestra un dialogo con un mensaje de advertencia al borrar el Grupo cuya identificacion es [idGroup].
-  void _confirmationMessage(String idGroup) {
+  void _confirmationMessage(String idTarea) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -83,16 +85,8 @@ class _MisGruposState extends State<MisGruposTch> {
 
             title: Row(
                 children: <Widget>[
-                  Expanded(
-                    flex:2,
-                    child: Icon(Icons.warning, color: Colors.red,),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text('Alerta'),
-                  ),
-                  
-                  
+                  Icon(Icons.warning, color: Colors.red,),
+                  Text('Alerta'),
                 ],
             ),
             content: Text(
@@ -103,42 +97,38 @@ class _MisGruposState extends State<MisGruposTch> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  
-                  FlatButton(
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                      deleteGroup(idGroup);
-                    },
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(
-                        color: Colors.red,
-                        width: 3,
-                      ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 3, color: Colors.red)
                     ),
+                    child: GestureDetector(
                     child: Text(
                       'Borrar',
                       style: TextStyle(fontSize: 14, color: Colors.red),
                     ),
-                  ),
-                  FlatButton(
-                    onPressed: (){
+                    onTap: () {
                       Navigator.of(context).pop();
+                      deleteTarea(idTarea); //funcion que elimina el grupo con el id que lleva como parametro                     
                     },
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(
-                        color: Colors.green,
-                        width: 3,
-                      ),
+                  )),
+                  Container(
+                    //color: Colors.green,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 3, color: Colors.green),
                     ),
+                    child: GestureDetector(
                     child: Text(
                       'Conservar',
                       style: TextStyle(fontSize: 14, color: Colors.green),
                     ),
-                  )
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ))
                 ],
               )
             ],
@@ -153,7 +143,7 @@ class _MisGruposState extends State<MisGruposTch> {
       drawer: MenuAppTch(idUserstate),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Mis Grupos',
+        title: Text('Tareas',
             style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
@@ -163,7 +153,7 @@ class _MisGruposState extends State<MisGruposTch> {
         ],
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('Grupo').where("Clave_Profesor", isEqualTo: idUserstate).snapshots(),
+          stream: Firestore.instance.collection('Tareas').where("Id_Grupo", isEqualTo: idgrupoState).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -187,7 +177,7 @@ class _MisGruposState extends State<MisGruposTch> {
                         Expanded(
                           child: Container( //container del icono libro
                             child: Icon(
-                              Icons.book,
+                              Icons.assignment,
                               color: Colors.white,
                             ),
                           ),
@@ -204,13 +194,7 @@ class _MisGruposState extends State<MisGruposTch> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Text(
-                                    document.documentID,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  )
+                
                                 ]),
                           ),
                         ),
@@ -228,7 +212,8 @@ class _MisGruposState extends State<MisGruposTch> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoTch(idUserstate, document.documentID, document['Nombre'])
+                                        
+                                          builder: (context) =>ListaAlumnos(idUserstate, document['Id_Grupo'], document.documentID)
                                           )
                                     );
                                 },
@@ -253,7 +238,7 @@ class _MisGruposState extends State<MisGruposTch> {
               );
             }
           }),
-      bottomNavigationBar: BottomAppBar(
+            bottomNavigationBar: BottomAppBar(
         notchMargin: 2.0,
         shape: CircularNotchedRectangle(),
         child: Container(
@@ -263,12 +248,12 @@ class _MisGruposState extends State<MisGruposTch> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+        onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      FormularioAltaClase())); //aqui va la llamada a la pantalla formulario_alta_clases
+                      SubirArchivo(idUserstate, idgrupoState))); //aqui va la llamada a la pantalla formulario_alta_clases
         },
         backgroundColor: Color(Elementos.bordes),
         child: Icon(Icons.add),

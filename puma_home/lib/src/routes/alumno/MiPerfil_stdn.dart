@@ -1,10 +1,13 @@
+/*
+* Pantalla que muestra informacion del usuario en forma de campos de texto. Esto es asi para que la pueda editar y guardar con el boton.
+* La informacion es> nombre de usuario, Correo de contacto y telefono de contacto. 
+*/
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class FormMiPerfil extends StatefulWidget {
   final String idUser;
@@ -15,20 +18,23 @@ class FormMiPerfil extends StatefulWidget {
 }
 
 class FormMiPerfilState extends State<FormMiPerfil> {
-  
   String idUserState;
   FormMiPerfilState(this.idUserState);
   final dbReference = Firestore.instance;
- 
+
   final _keyForm = GlobalKey<FormState>();
-  TextEditingController usrname = new TextEditingController();
-  TextEditingController usrmail = new TextEditingController();
-  TextEditingController usrphone = new TextEditingController();
+  TextEditingController usrname = TextEditingController();
+  TextEditingController usrmail = TextEditingController();
+  TextEditingController usrphone = TextEditingController();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    dbReference.collection('Usuarios').document(idUserState).get().then((DocumentSnapshot ds){
+    dbReference
+        .collection('Usuarios')
+        .document(idUserState)
+        .get()
+        .then((DocumentSnapshot ds) {
       Map<String, dynamic> valor = ds.data;
       usrname.text = valor['UsrName'];
       usrmail.text = valor['EmailContacto'];
@@ -36,7 +42,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     });
   }
 
-
+//Widget que crea el nombre del usuario
   Widget createNombreUsuarioInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -53,7 +59,8 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
-  Widget createCorreoInput(){
+//Widget que da la opcion de registrar otro correo de usuario
+  Widget createCorreoInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 4.67,
@@ -61,15 +68,16 @@ class FormMiPerfilState extends State<FormMiPerfil> {
       margin: EdgeInsets.only(top: 10),
       child: TextField(
         controller: usrmail,
-         decoration: InputDecoration(
-           labelText: 'Correo de Contacto',
-           icon: Icon(Icons.contact_mail, color: Color(Elementos.contenedor)),
+        decoration: InputDecoration(
+          labelText: 'Correo de Contacto',
+          icon: Icon(Icons.contact_mail, color: Color(Elementos.contenedor)),
         ),
       ),
     );
   }
 
-  Widget createTelefonoInput(){
+//Widget para insertar un número de contacto
+  Widget createTelefonoInput() {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 4.67,
@@ -86,7 +94,8 @@ class FormMiPerfilState extends State<FormMiPerfil> {
     );
   }
 
-  Widget createGuardarButton(){
+//Botón para guardar los cambios
+  Widget createGuardarButton() {
     return Container(
       width: MediaQuery.of(context).size.width / 2,
       height: MediaQuery.of(context).size.height / 4.67,
@@ -96,25 +105,28 @@ class FormMiPerfilState extends State<FormMiPerfil> {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(width: 5, color: Color(Elementos.bordes))),
       child: FloatingActionButton.extended(
-               icon: Icon(Icons.check_circle_outline),
-               label: Text('Guardar'),
-               backgroundColor: Color(Elementos.contenedor),
-               onPressed: () {
-                 try{
-                   dbReference.collection('Usuarios').document(idUserState).updateData({
-                    'UsrName': usrname.text,
-                    'EmailContacto': usrmail.text,
-                    'PhoneContacto': usrphone.text
-                   });
-                 }catch(e){
-                  print(e.toString());
-                 }
-                 _infoDialog('Datos Actualizados');
-                }
-        ),
+          icon: Icon(Icons.check_circle_outline),
+          label: Text('Guardar'),
+          backgroundColor: Color(Elementos.contenedor),
+          onPressed: () {
+            try {
+              dbReference
+                  .collection('Usuarios')
+                  .document(idUserState)
+                  .updateData({
+                'UsrName': usrname.text,
+                'EmailContacto': usrmail.text,
+                'PhoneContacto': usrphone.text
+              });
+            } catch (e) {
+              print(e.toString());
+            }
+            _infoDialog('Datos Actualizados');
+          }),
     );
-  } 
+  }
 
+//Dialogo emergente que sale despues de apretar el boton de guardar
   void _infoDialog(String mensaje) {
     showDialog(
         context: context,
@@ -152,8 +164,8 @@ class FormMiPerfilState extends State<FormMiPerfil> {
       drawer: MenuAppStdn(idUserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title: Text('Mi perfil', 
-        style: TextStyle(color: Color(Elementos.bordes))),
+        title:
+            Text('Mi perfil', style: TextStyle(color: Color(Elementos.bordes))),
         centerTitle: true,
         actions: [
           IconButton(
@@ -164,20 +176,19 @@ class FormMiPerfilState extends State<FormMiPerfil> {
       body: Form(
         key: _keyForm,
         child: Container(
-          padding: const EdgeInsets.all(20),
-          child: ListView(
-          children: [
-            createNombreUsuarioInput(),
-            Divider(),
-            createCorreoInput(),
-            Divider(),
-            createTelefonoInput(),
-            Divider(),
-            createGuardarButton(),
-            Divider(),
-          ],
-          )
-        ),
+            padding: const EdgeInsets.all(20),
+            child: ListView(
+              children: [
+                createNombreUsuarioInput(),
+                Divider(),
+                createCorreoInput(),
+                Divider(),
+                createTelefonoInput(),
+                Divider(),
+                createGuardarButton(),
+                Divider(),
+              ],
+            )),
       ),
     );
   }

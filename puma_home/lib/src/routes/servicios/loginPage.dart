@@ -14,6 +14,10 @@ import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+//firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+
+
 class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
 }
@@ -80,8 +84,8 @@ class LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-            //width: MediaQuery.of(context).size.width / 2,
-            //height: MediaQuery.of(context).size.height / 6,
+            width: MediaQuery.of(context).size.width / 2.5,
+            height: MediaQuery.of(context).size.height / 7,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Color(Elementos.contenedor),
@@ -215,19 +219,27 @@ void cargandoSesion() {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: _keyForm,
-        child: ListView(children: [
-          Container(
-          height: MediaQuery.of(context).size.height / 4,
-          ),
-          crearEmail(),
-          crearContra(),
-          crearBoton(context),
-          crearLinkCuenta(),
-        ]),
+    return WillPopScope(
+      onWillPop: ()async => false,
+          child: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+          key: _keyForm,
+          child: ListView(children: [
+            Image.asset('images/logos/LogoOF2.png'),
+            Divider(),
+            crearEmail(),
+            crearContra(),
+            crearBoton(context),
+            crearLinkCuenta(),
+          ]),
+        ),
       ),
+          )
+        
+        ),
     );
   }
 }
