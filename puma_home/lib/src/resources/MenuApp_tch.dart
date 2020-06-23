@@ -64,7 +64,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
       child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         DrawerHeader(
           child: Text(
-            'PUMA-HOME MENÚ',
+            'PUMA-HOME MENÚ\nProfesor',
             style: TextStyle(fontSize: sizeTitle, color: Colors.white),
           ),
           decoration: BoxDecoration(
@@ -95,7 +95,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
           ),
           leading: Icon(Icons.notifications),
           onTap: () {
-            
+            _proximamente();
           },
         ),
         //Boton que despilega un Alert para mostrar informacion de la APP y El equipo
@@ -136,6 +136,31 @@ class _MenuAppTchState extends State<MenuAppTch> {
             title: Text('Puma Home App'),
             content: Text(
               'App de clases en linea pensada para la comunidad Univiersitaria\n Desarrollada por el Laboratorio de innovación UNAM Mobile (c)2020',
+              style: TextStyle(fontSize: 14),
+              textAlign: TextAlign.justify,
+            ),
+            actions: <Widget>[
+              FloatingActionButton(
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+  _proximamente() {
+    showDialog(
+        context: context,
+        builder: (buildcontext) {
+          return AlertDialog(
+            title: Text('Proximamente...'),
+            content: Text(
+              'Pagina en desarollo',
               style: TextStyle(fontSize: 14),
               textAlign: TextAlign.justify,
             ),

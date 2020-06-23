@@ -162,8 +162,8 @@ class _MisGruposState extends State<MisGruposStdn> {
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
               return Text(
-                'No hay datos... Esperando',
-                style: TextStyle(color: Colors.white),
+                'No estas inscrito a ningun grupo...Aun...',
+                style: TextStyle(color: Colors.redAccent),
               );
             } else {
               return new ListView(
