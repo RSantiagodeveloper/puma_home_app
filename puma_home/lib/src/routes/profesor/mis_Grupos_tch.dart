@@ -82,28 +82,19 @@ class _MisGruposState extends State<MisGruposTch> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Row(
-<<<<<<< HEAD
               children: <Widget>[
-                Icon(
-                  Icons.warning,
-                  color: Colors.red,
+                Expanded(
+                  flex: 2,
+                  child: Icon(
+                    Icons.warning,
+                    color: Colors.red,
+                  ),
                 ),
-                Text('Alerta'),
+                Expanded(
+                  flex: 1,
+                  child: Text('Alerta'),
+                ),
               ],
-=======
-                children: <Widget>[
-                  Expanded(
-                    flex:2,
-                    child: Icon(Icons.warning, color: Colors.red,),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text('Alerta'),
-                  ),
-                  
-                  
-                ],
->>>>>>> davidg
             ),
             content: Text(
               'Estas aṕunto de eliminar el grupo.\n Todos los datos se perderan.\n ¿Seguro que deseas continuar?',
@@ -113,9 +104,8 @@ class _MisGruposState extends State<MisGruposTch> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  
                   FlatButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pop();
                       deleteGroup(idGroup);
                     },
@@ -133,7 +123,7 @@ class _MisGruposState extends State<MisGruposTch> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pop();
                     },
                     color: Colors.white,
@@ -188,72 +178,69 @@ class _MisGruposState extends State<MisGruposTch> {
               return new ListView(
                 children: snapshot.data.documents.map((document) {
                   return Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Color(Elementos.contenedor),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            width: 5, color: Color(Elementos.bordes))),
-                    margin: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            //container del icono libro
-                            child: Icon(
-                              Icons.book,
-                              color: Colors.white,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Color(Elementos.contenedor),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                              width: 5, color: Color(Elementos.bordes))),
+                      margin: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              //container del icono libro
+                              child: Icon(
+                                Icons.book,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            //container del nombre + ID del grupo
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    document['Nombre'],
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
+                          Expanded(
+                            child: Container(
+                              //container del nombre + ID del grupo
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      document['Nombre'],
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    document.documentID,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                ]),
+                                    Text(
+                                      document.documentID,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ]),
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
+                          Expanded(
+                              child: Container(
                             //container de los iconos de ver grupo y eliminar grupo
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 IconButton(
-                                icon: Icon(
-                                  Icons.remove_red_eye,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>PantallaGrupoTch(idUserstate, document.documentID, document['Nombre'])
-                                          )
-                                    );
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PantallaGrupoTch(
+                                                    idUserstate,
+                                                    document.documentID,
+                                                    document['Nombre'])));
+                                  },
                                 ),
                                 IconButton(
                                   icon: Icon(
@@ -266,11 +253,9 @@ class _MisGruposState extends State<MisGruposTch> {
                                 )
                               ],
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
+                          )),
+                        ],
+                      ));
                 }).toList(),
               );
             }
