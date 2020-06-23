@@ -15,8 +15,6 @@
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:puma_home/src/routes/profesor/formulario_alta_clases.dart';
-
 class TablonAnunciosTch extends StatefulWidget {
   final String idGroup;
   TablonAnunciosTch(this.idGroup);

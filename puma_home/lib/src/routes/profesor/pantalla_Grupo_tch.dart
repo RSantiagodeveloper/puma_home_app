@@ -43,7 +43,8 @@ class PantallaGrupoTch extends StatelessWidget {
                   builder: (context) => Tareastch(idUser, idGroup)),
             );
           },
-        ));
+        )
+      );
   }
 
   //Boton de acceso a Material de Apoyo
@@ -74,8 +75,7 @@ class PantallaGrupoTch extends StatelessWidget {
    * y que al momento de atender un evento onPressed en el IconButton, se conecta
    * a FireStore y guarda la noticia en el registro correspondiente
    */
-  
-  
+
   Widget cajaMensajes(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
@@ -127,7 +127,7 @@ class PantallaGrupoTch extends StatelessWidget {
     );
   }
 
-  //constructor de la pantalla. 
+  //constructor de la pantalla.
   //Aqui solo estamos indicandole a Flutter como acomodar los Widgets
   //en el scaffold
   @override

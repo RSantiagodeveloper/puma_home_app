@@ -29,7 +29,7 @@ class _MenuAppStdnState extends State<MenuAppStdn> {
       child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         DrawerHeader(
           child: Text(
-            'PUMA-HOME MENÚ',
+            'PUMA-HOME MENÚ \nAlumno',
             style: TextStyle(fontSize: sizeTitle, color: Colors.white),
           ),
           decoration: BoxDecoration(

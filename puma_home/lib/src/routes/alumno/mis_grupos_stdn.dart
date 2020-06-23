@@ -116,7 +116,6 @@ class _MisGruposState extends State<MisGruposStdn> {
                         },
                       )),
                   Container(
-                    
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15),
@@ -250,7 +249,15 @@ class _MisGruposState extends State<MisGruposStdn> {
               );
             }
           }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 2.0,
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 30.0,
+          color: Color(Elementos.contenedor),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Navigator.push(
