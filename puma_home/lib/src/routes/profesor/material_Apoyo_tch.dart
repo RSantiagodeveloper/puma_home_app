@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:puma_home/src/routes/profesor/formulario_material_apoyo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MaterialApoyoTch extends StatefulWidget {
   final String idUser;
@@ -203,8 +204,16 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
     var path = await getApplicationDocumentsDirectory();
     print("${path.path}/");
   }
+
+    void launchURL(url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
  
-  Widget loadBar() {
+  /*Widget loadBar() {
     return Center(
       child: downloading
           ? Container(
@@ -231,7 +240,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
             )
           : Text("No Data"),
     );
-  }
+  }*/
 
   ///
   Widget createMenuButton(BuildContext context) {
@@ -291,7 +300,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        loadBar(),
+                        //loadBar(),
                         Expanded(
                           child: Container(
                             //contiene del nombre Archivo
@@ -320,7 +329,7 @@ class MaterialApoyoTchState extends State<MaterialApoyoTch> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    downloadFile(document['Archivo'],document['Material_Apoyo']);
+                                    launchURL(document['Archivo']);
                                   },
                                 ),
                                 IconButton(

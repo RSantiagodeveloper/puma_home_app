@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart'; //import del PlatformException
 import 'package:puma_home/src/resources/App_Elements.dart';
-
+ 
 class SubirArchivo extends StatefulWidget {
   final String idUser;
   final String idGrupo;

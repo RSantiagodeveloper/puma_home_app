@@ -8,19 +8,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VistaTarea extends StatefulWidget {
   final String idUser;
   final String idTarea;
-  VistaTarea(this.idUser, this.idTarea);
+  final String url;
+  VistaTarea(this.idUser, this.idTarea, this.url);
   @override
-  _VistaTareaState createState() => _VistaTareaState(idUser, idTarea);
+  _VistaTareaState createState() => _VistaTareaState(idUser, idTarea, url);
 }
 
 class _VistaTareaState extends State<VistaTarea> {
   String idUser;
   String idTarea;
-  _VistaTareaState(this.idUser, this.idTarea);
+  String url;
+  _VistaTareaState(this.idUser, this.idTarea, this.url);
 
   TextEditingController comentarioProf = new TextEditingController();
   TextEditingController calificacion = new TextEditingController();
@@ -54,8 +57,17 @@ class _VistaTareaState extends State<VistaTarea> {
     var path = await getApplicationDocumentsDirectory();
     print("${path.path}/");
   }
+
+    void launchURL(url) async {
+  
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
  
-  Widget loadBar() {
+  /*Widget loadBar() {
     return Center(
       child: downloading
           ? Container(
@@ -82,7 +94,7 @@ class _VistaTareaState extends State<VistaTarea> {
             )
           : Text("No Data"),
     );
-  }
+  }*/
 
   /// widget text que muestra un [texto] como comentario
   Widget mostrarComentario(String texto) {
@@ -137,7 +149,7 @@ class _VistaTareaState extends State<VistaTarea> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          loadBar(),
+                          //loadBar(),
                           Expanded(
                             child: Container(
                               //contiene del nombre Archivo
@@ -168,6 +180,7 @@ class _VistaTareaState extends State<VistaTarea> {
                                     ),
                                     onPressed: () {
                                       //downloadFile(datos['Archivo'],datos['Material_Apoyo']);
+                                      launchURL(url);
                                     },
                                   ),
                                 ],
@@ -177,7 +190,7 @@ class _VistaTareaState extends State<VistaTarea> {
                         ],
                       ),
                     ),
-                    Row(
+                    Row( 
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(

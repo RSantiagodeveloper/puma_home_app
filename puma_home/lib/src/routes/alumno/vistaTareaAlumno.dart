@@ -67,7 +67,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
 
 //Función que envia la tarea, recuperando el id del alumno y el id de la tarea
   void enviarTarea(String idUser, String idTarea, String comentario,
-      String idGrupo, String urlFileAlum) {
+      String idGrupo, String urlFileAlum) async {
     Firestore.instance
         .collection('Tarea_Alumno')
         .where('Id_Alumno', isEqualTo: idUser)
@@ -150,7 +150,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
     }
   }
 
-  void uploadToFirebase() {
+   uploadToFirebase() {
     fileName = _path.toString().split('/').last;
     String filePath = _path;
     upload(fileName, filePath);
@@ -173,10 +173,9 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
 
   void intentaConectar(){
     uploadToFirebase();
-    obtenerLinkArchivo().then((value) {
+      obtenerLinkArchivo().then((value) {
       enviarTarea(idUser, idTarea, comentarioAlumno.text, idGrupo, value);
-    });
-
+    }); 
   }
 
   Widget mostrarComentario(String texto) {

@@ -33,7 +33,6 @@ class MaterialApoyoStdnState extends State<MaterialApoyoStdn> {
   var progressString = "";
 
 
-
   ///
 /*
   void downloadFile(String nombreArchivo, String url) async {
@@ -135,7 +134,7 @@ class MaterialApoyoStdnState extends State<MaterialApoyoStdn> {
   }
 }
  
-  Widget loadBar() {
+ /* Widget loadBar() {
     return Center(
       child: downloading
           ? Container(
@@ -162,7 +161,7 @@ class MaterialApoyoStdnState extends State<MaterialApoyoStdn> {
             )
           : Text("No Data"),
     );
-  }
+  }*/
 
 
   @override
@@ -207,7 +206,7 @@ class MaterialApoyoStdnState extends State<MaterialApoyoStdn> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        loadBar(),
+                        //loadBar(),
                         Expanded(
                           child: Container(
                             //contiene del nombre Archivo

@@ -95,8 +95,7 @@ class LoginPageState extends State<LoginPage> {
                   'Entrar',
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () async {
-                  cargandoSesion();     
+                onPressed: () async {   
                   if (_keyForm.currentState.validate()) {
                   /** Algoritmo de Ingreso
                    * para hacer la autentificacion se recomiendan los pasos
@@ -111,6 +110,7 @@ class LoginPageState extends State<LoginPage> {
                     try{
                       //validacion mediante email y passwd
                       final userLoged = await _auth.signInWithEmailAndPassword(email: _emailController.text, password: _contraController.text);
+                       cargandoSesion();  
                       if(userLoged != null){ //si hay respuesta del servidor
                         final String usrID = userLoged.user.uid;
                         //recuperamos el UID del usuario autenticado y accedemos a su Document en la coleccion usuario
@@ -175,6 +175,7 @@ class LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 14, color: Colors.blue),
                     ),
                     onTap: () {
+                      Navigator.of(context).pop();
                       Navigator.of(context).pop();
                     },
                   ))
