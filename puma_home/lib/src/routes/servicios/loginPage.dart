@@ -97,8 +97,7 @@ class LoginPageState extends State<LoginPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-                  cargandoSesion(); //TODO: revisar como se maneja la navegacion. Cuando se presiona "atras" el showDialog se queda atorado.
-                        
+                  cargandoSesion();     
                   if (_keyForm.currentState.validate()) {
                   /** Algoritmo de Ingreso
                    * para hacer la autentificacion se recomiendan los pasos
@@ -215,7 +214,6 @@ void cargandoSesion() {
           );
         });
         print('iniciando sesion...');
-        Navigator.of(context).pop();
   }
   @override
   Widget build(BuildContext context) {
