@@ -57,9 +57,9 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
   }
 
 
-  Future<String> obtenerLinkArchivo() async{
+  String obtenerLinkArchivo() {
     StorageReference ref =FirebaseStorage.instance.ref().child(idGrupo + "/" + fileName);
-    var url = await ref.getDownloadURL();
+    var url = ref.getDownloadURL();
     String link = url.toString();
     print("enlace del archivo de la tarea: "+link);
     return link;
@@ -173,9 +173,8 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
 
   void intentaConectar(){
     uploadToFirebase();
-      obtenerLinkArchivo().then((value) {
-      enviarTarea(idUser, idTarea, comentarioAlumno.text, idGrupo, value);
-    }); 
+      var enlace = obtenerLinkArchivo();
+      enviarTarea(idUser, idTarea, comentarioAlumno.text, idGrupo, enlace);
   }
 
   Widget mostrarComentario(String texto) {
@@ -209,6 +208,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                 //mainAxisAlignment: MainAxisAlignment.end,
               RaisedButton(
                 onPressed: () {
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 },
               padding: EdgeInsets.all(3.0),

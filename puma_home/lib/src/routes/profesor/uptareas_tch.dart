@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart'; //import del PlatformException
 import 'package:puma_home/src/resources/App_Elements.dart';
- 
+
 class SubirArchivo extends StatefulWidget {
   final String idUser;
   final String idGrupo;
@@ -33,10 +33,6 @@ class _SubirArchivoState extends State<SubirArchivo> {
   bool activado = false;
   bool _multiPick = false;
 
-  /*List<FileType> _tipoDeArchivo=<FileType>[
-      FileType.audio
-
-    ];*/
 
   //bool _multiPick = false;
   //Map<String, String> _paths;
@@ -58,15 +54,11 @@ void openFileExplorer() async {
 		return;
 	}
 }
-*/
+*/ 
 
   void intentarConectar() {
-    if (activado = true) {
-      uploadToFirebase(); //este sube al storage
-      baseForm(fileName); //este sube a la firestore
-    } else {
-      baseForm(fileName);
-    }
+    var enlace = uploadToFirebase(); //este sube al storage
+    baseForm(fileName, enlace); //este sube a la firestore
   }
 
   /// metodo para abrir el explorador de archivos y cargar un archivo
@@ -88,10 +80,21 @@ void openFileExplorer() async {
   }
 
   ///funciona que sube el archivo seleccionado al storage
-  void uploadToFirebase() {
+ Future<String> uploadToFirebase() async {
+    var link;
     fileName = _path.toString().split('/').last;
     String filePath = _path;
     upload(fileName, filePath);
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
+ 
+      link = await ref.getDownloadURL();
+      String zelda = link.toString();
+    
+      
+      print("La variable link contine: " + link);
+      print("La variable zelda contine: " + zelda);
+    return zelda;
   }
 
   /// funcion vacia que recibe el [fileName] y el [filePath] para subir el archivo al storage
@@ -110,27 +113,19 @@ void openFileExplorer() async {
   }
 
   ///funcion vacia que manda los datos de la tarea a la base de datos
-  void baseForm(fileName) async {
-    StorageReference ref =
-        FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
-    ref.getDownloadURL().then((value) {
-      String link = value.toString();
-      Firestore.instance.collection('Tareas').add({
-        'Nombre': nombreTarea.text,
-        'Descripcion': descripcionTarea.text,
-        'FechaEntrega': _date.text,
-        'Id_profesor': idUserstate,
-        'Id_Grupo': idgrupoState,
-        'Archivo': link,
-        'Nombre_Archivo': fileName,
-      }).then((_){
+  void baseForm(fileName, link) {
+    Firestore.instance.collection('Tareas').add({
+      'Nombre': nombreTarea.text,
+      'Descripcion': descripcionTarea.text,
+      'FechaEntrega': _date.text,
+      'Id_profesor': idUserstate,
+      'Id_Grupo': idgrupoState,
+      'Archivo': link,
+      'Nombre_Archivo': fileName,
+    }).then((_) {
       Navigator.pop(context);
+      //});
     });
-
-    });
-
-
-    //fireReference.collection('Tareas').document().setData({
   }
 
   ///widget switch que al estar activado permite subir multiples archivos
@@ -265,18 +260,14 @@ void openFileExplorer() async {
             style: TextStyle(color: Colors.white),
           ),
           onPressed: () {
-            //uploadToFirebase(); //manda los archivos al storage
-            //baseForm(fileName);
             intentarConectar();
           }),
     );
   }
 
   /// widget que devuelve un DropdownButton para seleccionar el filtro del archivos
-
   Widget botonTypeFile() {
     return DropdownButton(
-      //value: _pickType.toString(), //el valor del dropdownbutton se vuelve el del picktype?
       hint: Text('selecciona'),
       items: <DropdownMenuItem>[
         DropdownMenuItem(
@@ -298,8 +289,6 @@ void openFileExplorer() async {
       ],
       onChanged: (value) {
         setState(() {
-          //que seleccione el nombre del tipo y lo delvuelva al DropdownButton
-          //aqui hacemos el case
           _pickType = value; //le asigna el valor seleccionado al _pickType
         });
       },
@@ -373,7 +362,7 @@ void openFileExplorer() async {
     return OutlineButton(
         child: Text(nombreBoton),
         onPressed: () {
-          openFileExplorer(_pickType);
+          openFileExplorer(FileType.any);
         });
   }
 
@@ -382,9 +371,9 @@ void openFileExplorer() async {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
-        title:
-            Text('Añadir nueva tarea', style: TextStyle(color: Color(Elementos.bordes))),
-            centerTitle: true,
+        title: Text('Añadir nueva tarea',
+            style: TextStyle(color: Color(Elementos.bordes))),
+        centerTitle: true,
       ),
       body: Form(
         key: keyForm,
@@ -393,24 +382,14 @@ void openFileExplorer() async {
           child: new ListView(
             children: <Widget>[
               nombreTareaField(),
+              Divider(),
               nombreDescripcionField(),
+              Divider(),
               dateField(),
               Divider(),
-              //botonTypeFile(),
-
-              /*SwitchListTile.adaptive(
-              	title:Text('multiple archivos',
-              		textAlign:TextAlign.left,
-              	),
-              	onChanged:(bool value){
-              		setState((){
-              			_multiPick=value;
-              		});
-              	},
-              	value:_multiPick,
-              ),*/
-              showWidget(),
-              Divider(),
+              //showWidget(),
+              botonFind(),
+              Divider(),  
               crearBoton(context),
             ],
           ),

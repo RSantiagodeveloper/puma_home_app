@@ -58,10 +58,19 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
     }
   }
 
-  void uploadToFirebase() {
+  ///funciona que sube el archivo seleccionado al storage
+  String uploadToFirebase() {
+    String link;
     fileName = _path.toString().split('/').last;
     String filePath = _path;
     upload(fileName, filePath);
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(idGrupoState + "/" + fileName);
+    ref.getDownloadURL().then((value) {
+      link = value.toString();
+      print("La variable link contine: " + link);
+    });
+    return link;
   }
 
   /// funcion vacia que recibe el [fileName] y el [filePath] para subir el archivo al storage
@@ -79,12 +88,7 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
     });
   }
 
-  void baseForm(fileName) {
-    StorageReference ref =
-        FirebaseStorage.instance.ref().child(idGrupoState + "/" + fileName);
-    print(descripcionArchivo.text);
-    ref.getDownloadURL().then((value) {
-      String link = value.toString();
+  void baseForm(fileName,link) {
       Firestore.instance.collection('Material_Apoyo').add({
         'Descripcion': descripcionArchivo.text,
         'Id_profesor': idUserState,
@@ -94,16 +98,11 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
       }).then((_) {
         Navigator.pop(context);
       });
-    });
   }
 
   void intentarConectar() {
-    if (activado = true) {
-      uploadToFirebase(); //este sube al storage
-      baseForm(fileName); //este sube a la firestore
-    } else {
-      baseForm(fileName);
-    }
+    var enlace = uploadToFirebase(); //este sube al storage
+    baseForm(fileName, enlace); //este sube a la firestore
   }
 
   Widget nombreDescripcionField() {
