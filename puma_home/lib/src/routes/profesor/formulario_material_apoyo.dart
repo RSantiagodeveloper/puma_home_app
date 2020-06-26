@@ -83,8 +83,18 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
         StorageMetadata(
           contentType: '$_pickType/$_extension',
         ));
-    setState(() {
-      _task.add(uploadTask);
+    uploadTask.events.listen((event) {
+      print(event.type.index);
+      if (event.type == StorageTaskEventType.progress) {
+        print('En progreso');
+      } else if (event.type == StorageTaskEventType.success) {
+        print('Proceso Finalizado');
+        StorageReference ref =
+            FirebaseStorage.instance.ref().child(idGrupoState + "/" + fileName);
+        ref.getDownloadURL().then((value) {
+          baseForm(fileName, value.toString());
+        });
+      }
     });
   }
 
@@ -100,9 +110,10 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
       });
   }
 
-  void intentarConectar() {
-    var enlace = uploadToFirebase(); //este sube al storage
-    baseForm(fileName, enlace); //este sube a la firestore
+  void intentarConectar() async {
+    fileName = _path.toString().split('/').last;
+    String filePath = _path;
+    upload(fileName, filePath);
   }
 
   Widget nombreDescripcionField() {
@@ -151,7 +162,7 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
           openFileExplorer(FileType.any);
           print('boton presionado');
         },
-        child: Row(
+        child: Row( 
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Text(

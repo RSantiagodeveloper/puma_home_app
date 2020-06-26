@@ -12,8 +12,8 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/routes/alumno/Vista_Calificaciones.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/services.dart'; //import del PlatformException
-
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart'; //import del PlatformException
 
 class VistaTareaAlumno extends StatefulWidget {
   final String idUser;
@@ -50,24 +50,23 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
   bool downloading = false;
   var progressString = "";
 
-
   void initState() {
     super.initState();
     print('$idUser $idTarea $nombreTarea $urlFile $descTarea $idGrupo');
   }
 
-
   String obtenerLinkArchivo() {
-    StorageReference ref =FirebaseStorage.instance.ref().child(idGrupo + "/" + fileName);
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(idGrupo + "/" + fileName);
     var url = ref.getDownloadURL();
     String link = url.toString();
-    print("enlace del archivo de la tarea: "+link);
+    print("enlace del archivo de la tarea: " + link);
     return link;
   }
 
 //Función que envia la tarea, recuperando el id del alumno y el id de la tarea
   void enviarTarea(String idUser, String idTarea, String comentario,
-      String idGrupo, String urlFileAlum) async {
+      String idGrupo, String urlFileAlum) {
     Firestore.instance
         .collection('Tarea_Alumno')
         .where('Id_Alumno', isEqualTo: idUser)
@@ -82,12 +81,11 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             .get()
             .then((value) {
           Map<String, dynamic> datos = value.data;
-          String nombreAlumno =
-              '${datos['UsrName']}';
+          String nombreAlumno = '${datos['UsrName']}';
           Firestore.instance.collection('Tarea_Alumno').add({
             //se agrega el arhivo del alumno y comentario si agregó algo
             //Por default se llenan los campos de usuario, grupo y tarea
-            'Archivo': urlFileAlum, 
+            'Archivo': urlFileAlum,
             'Calificacion': 0.0,
             'Calificado': 0,
             'Comentario': comentario,
@@ -96,8 +94,9 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             'Id_Grupo': idGrupo,
             'Id_Tarea': idTarea,
             'Nombre_Alumno': nombreAlumno,
-            'Status': 'entregado' //cuando se envia la tarea, cambia el status automáticamente a entregado
-          }).then((value){
+            'Status':
+                'entregado' //cuando se envia la tarea, cambia el status automáticamente a entregado
+          }).then((value) {
             statusMessage('Has enviado tu tarea');
           });
         });
@@ -109,8 +108,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             .get()
             .then((valueusr) {
           Map<String, dynamic> datos = valueusr.data;
-          String nombreAlumno =
-              '${datos['UsrName']}';
+          String nombreAlumno = '${datos['UsrName']}';
           Firestore.instance
               .collection('Tarea_Alumno')
               .document(value.documents[0].documentID)
@@ -125,7 +123,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             'Id_Tarea': idTarea,
             'Nombre_Alumno': nombreAlumno,
             'Status': 'entregado'
-          }).then((value){
+          }).then((value) {
             statusMessage('Se ha actualizado tu Tarea');
           });
         });
@@ -133,10 +131,9 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
     });
   }
 
-    void openFileExplorer(_pickType) async {
+  void openFileExplorer(_pickType) async {
     try {
-      _path = await FilePicker.getFilePath(
-          type: _pickType);
+      _path = await FilePicker.getFilePath(type: _pickType);
       nombreBoton = _path.toString().split('/').last;
       print(nombreBotonSubir);
       setState(() {
@@ -150,7 +147,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
     }
   }
 
-   uploadToFirebase() {
+  uploadToFirebase() {
     fileName = _path.toString().split('/').last;
     String filePath = _path;
     upload(fileName, filePath);
@@ -166,15 +163,26 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
         StorageMetadata(
           contentType: '$_pickType/$_extension',
         ));
-    setState(() {
-      _task.add(uploadTask);
+    uploadTask.events.listen((event) {
+      print(event.type.index);
+      if (event.type == StorageTaskEventType.progress) {
+        print('En progreso');
+      } else if (event.type == StorageTaskEventType.success) {
+        print('Proceso finalizado c: ');
+        StorageReference ref =
+            FirebaseStorage.instance.ref().child(idGrupo + "/" + fileName);
+        ref.getDownloadURL().then((value) {
+          enviarTarea(idUser, idTarea, comentarioAlumno.text, idGrupo,
+              value.toString());
+        });
+      }
     });
   }
 
-  void intentaConectar(){
+  void intentaConectar() {
     uploadToFirebase();
-      var enlace = obtenerLinkArchivo();
-      enviarTarea(idUser, idTarea, comentarioAlumno.text, idGrupo, enlace);
+    var enlace = obtenerLinkArchivo();
+    enviarTarea(idUser, idTarea, comentarioAlumno.text, idGrupo, enlace);
   }
 
   Widget mostrarComentario(String texto) {
@@ -188,71 +196,51 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
     );
   }
 
-   void statusMessage(String mensaje){
+  void statusMessage(String mensaje) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Row(
-                children: <Widget>[
-                  Icon(Icons.check, color: Colors.green),
-                  SizedBox(width: 5),
-                  Text('Aviso'),
-                ],
+              children: <Widget>[
+                Icon(Icons.check, color: Colors.green),
+                SizedBox(width: 5),
+                Text('Aviso'),
+              ],
             ),
             content: Text(
               mensaje,
               textAlign: TextAlign.justify,
             ),
             actions: <Widget>[
-                //mainAxisAlignment: MainAxisAlignment.end,
+              //mainAxisAlignment: MainAxisAlignment.end,
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 },
-              padding: EdgeInsets.all(3.0),
-              child: Container(
-                decoration:BoxDecoration(
-                      color: Colors.blue[50],
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 3, color: Colors.blue),
-                    ),
-                padding: EdgeInsets.all(1.0),
-                child: Text('Aceptar', style: TextStyle(color: Colors.blue)),
-              ),      
-            )],
+                padding: EdgeInsets.all(3.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue[50],
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(width: 3, color: Colors.blue),
+                  ),
+                  padding: EdgeInsets.all(1.0),
+                  child: Text('Aceptar', style: TextStyle(color: Colors.blue)),
+                ),
+              )
+            ],
           );
         });
   }
-    
-    Widget loadBar() {
-    return Center(
-      child: downloading
-          ? Container(
-              height: 120.0,
-              width: 200.0,
-              child: Card(
-                color: Colors.black,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Text(
-                      "Downloading File: $progressString",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          : Text("No Data"),
-    );
+
+  void downloadFile(url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -294,65 +282,60 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
             ),
             Divider(),
             //En este bloque se agrega la funcionalidad para descargar archivo profesor
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Color(Elementos.contenedor),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                              width: 5, color: Color(Elementos.bordes))),
-                      margin: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          loadBar(),
-                          Expanded(
-                            child: Container(
-                              //contiene del nombre Archivo
-                              child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'Archivo de tarea',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              //Descargar archivos
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.file_download,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      //downloadFile(datos['Archivo'],datos['Material_Apoyo']);
-                                    },
-                                  ),
-                                ],
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Color(Elementos.contenedor),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(width: 5, color: Color(Elementos.bordes))),
+              margin: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      //contiene del nombre Archivo
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Archivo de tarea',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
                               ),
                             ),
-                          )
+                          ]),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      //Descargar archivos
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.file_download,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              downloadFile(urlFile);
+                            },
+                          ),
                         ],
                       ),
                     ),
+                  )
+                ],
+              ),
+            ),
             Divider(),
             //En este bloque se agrega la funcionalidad para subir archivo alumno
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  //width: MediaQuery.of(context).size.width / 2.86,
-                  //height: MediaQuery.of(context).size.height / 10,
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(11.0),
@@ -425,8 +408,8 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                           width: 3,
                         )),
                     color: Color(Elementos.contenedor),
-                    onPressed: (){
-                      intentaConectar();
+                    onPressed: () {
+                      uploadToFirebase();
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -456,19 +439,25 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                         )),
                     color: Color(Elementos.contenedor),
                     onPressed: () {
-                      Firestore.instance.collection('Tarea_Alumno').where('Id_Alumno', isEqualTo: idUser).where('Id_Tarea', isEqualTo: idTarea).getDocuments().then((value){
-                        if(value.documents.isEmpty){
-                          statusMessage('No has entregado tu tarea, Imposible mostrar resultados');
-                      }
-                        else{
+                      Firestore.instance
+                          .collection('Tarea_Alumno')
+                          .where('Id_Alumno', isEqualTo: idUser)
+                          .where('Id_Tarea', isEqualTo: idTarea)
+                          .getDocuments()
+                          .then((value) {
+                        if (value.documents.isEmpty) {
+                          statusMessage(
+                              'No has entregado tu tarea, Imposible mostrar resultados');
+                        } else {
                           Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VistaCalificaciones(
-                                  idGrupo, value.documents[0].documentID, idUser)));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VistaCalificaciones(
+                                      idGrupo,
+                                      value.documents[0].documentID,
+                                      idUser)));
                         }
                       });
-                      
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

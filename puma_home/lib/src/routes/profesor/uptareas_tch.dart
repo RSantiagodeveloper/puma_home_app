@@ -9,7 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart'; //import del PlatformException
 import 'package:puma_home/src/resources/App_Elements.dart';
-import 'package:puma_home/src/routes/profesor/tareas.dart';
 
 class SubirArchivo extends StatefulWidget {
   final String idUser;
@@ -34,7 +33,6 @@ class _SubirArchivoState extends State<SubirArchivo> {
   bool activado = false;
   bool _multiPick = false;
 
-
   //bool _multiPick = false;
   //Map<String, String> _paths;
   String _extension;
@@ -55,20 +53,8 @@ void openFileExplorer() async {
 		return;
 	}
 }
-*/ 
- void cargandoTarea() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Espere...'),
-            content: LinearProgressIndicator(
-              value: null,
-            ),
-          );
-        });
-    print('Subiendo tarea...');
-  }
+*/
+
 
   void intentarConectar() async {
     fileName = _path.toString().split('/').last;
@@ -98,11 +84,12 @@ void openFileExplorer() async {
   }
 
   ///funciona que sube el archivo seleccionado al storage
- Future<dynamic> uploadToFirebase() async {
+  Future<dynamic> uploadToFirebase() async {
     fileName = _path.toString().split('/').last;
     String filePath = _path;
     upload(fileName, filePath);
-    StorageReference ref =FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
     return await ref.getDownloadURL();
   }
 
@@ -116,22 +103,19 @@ void openFileExplorer() async {
         StorageMetadata(
           contentType: '$_pickType/$_extension',
         ));
-        uploadTask.events.listen((event) { 
-          print(event.type.index);
-          if(event.type == StorageTaskEventType.progress){
-            print('En progreso');
-            //insertar un loadingbar mientras está en progreso la subida
-          }
-          else if(event.type == StorageTaskEventType.success){
-            print('Proceso Finalizado');
-            StorageReference ref =FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
-            ref.getDownloadURL().then((value) {
-              baseForm(fileName, value.toString());
-            });
-            
-          }
+    uploadTask.events.listen((event) {
+      print(event.type.index);
+      if (event.type == StorageTaskEventType.progress) {
+        print('En progreso');
+      } else if (event.type == StorageTaskEventType.success) {
+        print('Proceso Finalizado');
+        StorageReference ref =
+            FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
+        ref.getDownloadURL().then((value) {
+          baseForm(fileName, value.toString());
         });
-
+      }
+    });
   }
 
   ///funcion vacia que manda los datos de la tarea a la base de datos
@@ -410,7 +394,7 @@ void openFileExplorer() async {
               Divider(),
               //showWidget(),
               botonFind(),
-              Divider(),  
+              Divider(),
               crearBoton(context),
             ],
           ),
