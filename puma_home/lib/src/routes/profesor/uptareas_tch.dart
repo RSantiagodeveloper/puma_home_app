@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart'; //import del PlatformException
 import 'package:puma_home/src/resources/App_Elements.dart';
+import 'package:puma_home/src/routes/profesor/tareas.dart';
 
 class SubirArchivo extends StatefulWidget {
   final String idUser;
@@ -39,7 +40,7 @@ class _SubirArchivoState extends State<SubirArchivo> {
   String _extension;
   FileType _pickType;
   String _path;
-  List<StorageUploadTask> _task = <StorageUploadTask>[];
+  //List<StorageUploadTask> _task = <StorageUploadTask>[];
 
 /*     hace falta modificarlo para subir varios archivos a la vez
 void openFileExplorer() async {
@@ -55,10 +56,27 @@ void openFileExplorer() async {
 	}
 }
 */ 
+ void cargandoTarea() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Espere...'),
+            content: LinearProgressIndicator(
+              value: null,
+            ),
+          );
+        });
+    print('Subiendo tarea...');
+  }
 
-  void intentarConectar() {
-    var enlace = uploadToFirebase(); //este sube al storage
-    baseForm(fileName, enlace); //este sube a la firestore
+  void intentarConectar() async {
+    fileName = _path.toString().split('/').last;
+    String filePath = _path;
+    upload(fileName, filePath);
+    //var enlace =  await uploadToFirebase(); //este sube al storage
+    //print("El valor que devuelve uploadToFirebase es: "+enlace.toString());
+    //baseForm(fileName, enlace); //este sube a la firestore
   }
 
   /// metodo para abrir el explorador de archivos y cargar un archivo
@@ -80,21 +98,12 @@ void openFileExplorer() async {
   }
 
   ///funciona que sube el archivo seleccionado al storage
- Future<String> uploadToFirebase() async {
-    var link;
+ Future<dynamic> uploadToFirebase() async {
     fileName = _path.toString().split('/').last;
     String filePath = _path;
     upload(fileName, filePath);
-    StorageReference ref =
-        FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
- 
-      link = await ref.getDownloadURL();
-      String zelda = link.toString();
-    
-      
-      print("La variable link contine: " + link);
-      print("La variable zelda contine: " + zelda);
-    return zelda;
+    StorageReference ref =FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
+    return await ref.getDownloadURL();
   }
 
   /// funcion vacia que recibe el [fileName] y el [filePath] para subir el archivo al storage
@@ -107,9 +116,22 @@ void openFileExplorer() async {
         StorageMetadata(
           contentType: '$_pickType/$_extension',
         ));
-    setState(() {
-      _task.add(uploadTask);
-    });
+        uploadTask.events.listen((event) { 
+          print(event.type.index);
+          if(event.type == StorageTaskEventType.progress){
+            print('En progreso');
+            //insertar un loadingbar mientras está en progreso la subida
+          }
+          else if(event.type == StorageTaskEventType.success){
+            print('Proceso Finalizado');
+            StorageReference ref =FirebaseStorage.instance.ref().child(idgrupoState + "/" + fileName);
+            ref.getDownloadURL().then((value) {
+              baseForm(fileName, value.toString());
+            });
+            
+          }
+        });
+
   }
 
   ///funcion vacia que manda los datos de la tarea a la base de datos
@@ -124,7 +146,6 @@ void openFileExplorer() async {
       'Nombre_Archivo': fileName,
     }).then((_) {
       Navigator.pop(context);
-      //});
     });
   }
 
