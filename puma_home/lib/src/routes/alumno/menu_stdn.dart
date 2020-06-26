@@ -16,7 +16,6 @@ class MenuAlumno extends StatefulWidget {
   }
 }
 
-
 class MenuAlumnoState extends State<MenuAlumno> {
   String idUserState;
   MenuAlumnoState(this.idUserState);
@@ -24,11 +23,12 @@ class MenuAlumnoState extends State<MenuAlumno> {
 //Widget que crea el boton de ver grupos.
   Widget createVerGruposButton(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width / 1.2,
+        width: MediaQuery.of(context).size.width / 1.3,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -37,19 +37,22 @@ class MenuAlumnoState extends State<MenuAlumno> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MisGruposStdn(idUserState)),
+              MaterialPageRoute(
+                  builder: (context) => MisGruposStdn(idUserState)),
             );
           },
         ));
   }
+
 //Widget que crea boton de ver perfil.
   Widget createMiPerfilButton(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width / 1.2,
+        width: MediaQuery.of(context).size.width / 1.3,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -58,27 +61,28 @@ class MenuAlumnoState extends State<MenuAlumno> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FormMiPerfil(idUserState)),
+              MaterialPageRoute(
+                  builder: (context) => FormMiPerfil(idUserState)),
             );
           },
         ));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async => false,
-          child: Scaffold(
+      onWillPop: () async => false,
+      child: Scaffold(
         drawer: MenuAppStdn(idUserState),
         appBar: AppBar(
           backgroundColor: Color(Elementos.contenedor),
           title: Text('Administración (Alumno)',
-          style: TextStyle(color: Color(Elementos.bordes))),
+              style: TextStyle(color: Color(Elementos.bordes))),
           centerTitle: true,
           actions: [
             IconButton(
-                icon: IconAppBar(), //metodo donde se crea la referencia al icono
+                icon:
+                    IconAppBar(), //metodo donde se crea la referencia al icono
                 onPressed: null)
           ],
         ),
@@ -88,14 +92,16 @@ class MenuAlumnoState extends State<MenuAlumno> {
             child: ListView(
               children: [
                 Divider(),
-                createVerGruposButton(context),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[createVerGruposButton(context)]),
                 Divider(),
-                createMiPerfilButton(context),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[createMiPerfilButton(context)]),
               ],
             )),
       ),
     );
   }
-
-
 }

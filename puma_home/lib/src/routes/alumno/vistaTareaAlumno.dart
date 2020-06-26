@@ -3,10 +3,8 @@
  * subir su tarea, y visualizar su calificación
  */
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,7 +38,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
       this.descTarea, this.idGrupo);
 
   TextEditingController comentarioAlumno = TextEditingController();
-  List<StorageUploadTask> _task = <StorageUploadTask>[];
+  //List<StorageUploadTask> _task = <StorageUploadTask>[];
   String _path;
   String nombreBoton = 'Buscar archivo';
   String fileName = 'nombre de archivo esta vacio';
@@ -48,6 +46,7 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
   FileType _pickType;
   String nombreBotonSubir = 'Seleccionar archivo';
   bool downloading = false;
+  bool stateProccess = false;
   var progressString = "";
 
   void initState() {
@@ -243,12 +242,25 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
     }
   }
 
+  Widget barraStatus() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(0, 2, 0, 30),
+      child: (stateProccess == false)
+          ? Text(
+              'Esperando publicar tarea',
+              style: TextStyle(color: Colors.red),
+            )
+          : Text('La tarea se está publicando, espera ...',
+              style: TextStyle(color: Color(Elementos.contenedor))),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(Elementos.contenedor),
-          title: Text('$nombreTarea'),
+          title: Text('$nombreTarea', style: TextStyle(color: Color(Elementos.bordes))),
           centerTitle: true,
           actions: [
             IconButton(
@@ -257,7 +269,6 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                 onPressed: null)
           ],
         ),
-        drawer: MenuAppStdn(idUser),
         body: ListView(
           children: <Widget>[
             Container(
@@ -391,7 +402,13 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                 ),
               ],
             ),
-
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                barraStatus(),
+              ],
+            ),
+            Divider(),
             //Botonoes Inferiores para envio y revison de resultados
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -409,6 +426,9 @@ class _VistaTareaState extends State<VistaTareaAlumno> {
                         )),
                     color: Color(Elementos.contenedor),
                     onPressed: () {
+                      setState(() {
+                        stateProccess = true;
+                      });
                       uploadToFirebase();
                     },
                     child: Row(

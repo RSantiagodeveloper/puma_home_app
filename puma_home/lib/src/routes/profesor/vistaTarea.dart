@@ -2,7 +2,6 @@
 * Pantalla en la que el profesor puede descargar y ver la tarea que entregaron sus alumnos.
 */
 import 'package:flutter/material.dart';
-import 'package:puma_home/src/resources/MenuApp_tch.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
@@ -123,7 +122,6 @@ class _VistaTareaState extends State<VistaTarea> {
                 onPressed: null)
           ],
         ),
-        drawer: MenuAppTch(idUser),
         body: FutureBuilder(
             future: Firestore.instance
                 .collection('Tarea_Alumno')

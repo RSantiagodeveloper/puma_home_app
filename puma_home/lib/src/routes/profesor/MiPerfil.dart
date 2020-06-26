@@ -7,7 +7,7 @@ import 'package:puma_home/src/resources/iconAppBar.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:flutter/services.dart';
 
 class FormMiPerfil extends StatefulWidget {
   final String idUser;
@@ -86,7 +86,10 @@ class FormMiPerfilState extends State<FormMiPerfil> {
           labelText: 'Telefono de Contacto',
           hintText: '(opcional) Agrega tu numero',
           icon: Icon(Icons.phone, color: Color(Elementos.contenedor)),
+          
         ),
+        keyboardType: TextInputType.number,
+        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
       ),
     );
   }
@@ -94,10 +97,10 @@ class FormMiPerfilState extends State<FormMiPerfil> {
 //Widget que es el botón para guardar los cambios.
   Widget createGuardarButton(){
     return Container(
-      width: MediaQuery.of(context).size.width / 2,
-      height: MediaQuery.of(context).size.height / 4.67,
+      width: MediaQuery.of(context).size.width / 3.33,
+      height: MediaQuery.of(context).size.height / 10,
       padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
+      decoration: BoxDecoration( 
           color: Color(Elementos.contenedor),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(width: 5, color: Color(Elementos.bordes))),
@@ -180,7 +183,12 @@ class FormMiPerfilState extends State<FormMiPerfil> {
             Divider(),
             createTelefonoInput(),
             Divider(),
-            createGuardarButton(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                createGuardarButton(),
+              ],
+            ),
             Divider(),
           ],
           )

@@ -20,7 +20,7 @@ class PantallaGrupoTch extends StatelessWidget {
   final String idGroup; //id del Grupo Actual
   final String nombreGrupo;
   PantallaGrupoTch(this.idUser, this.idGroup, this.nombreGrupo);
-  TextEditingController newNotice = new TextEditingController();
+  final TextEditingController newNotice = new TextEditingController();
 
   //boton de acceso a tareas
   Widget createTareasButton(BuildContext context) {
@@ -117,6 +117,8 @@ class PantallaGrupoTch extends StatelessWidget {
                     'Id_Grupo': idGroup,
                     'Notice': newNotice.text,
                     'Fecha': fecha, //inserta fecha actual con zona horaria
+                  }).then((value){
+                    newNotice.text=''; //Limpieza del TextField
                   });
                 } catch (e) {
                   print("Errozote prro!!!!!!!!: " + e);

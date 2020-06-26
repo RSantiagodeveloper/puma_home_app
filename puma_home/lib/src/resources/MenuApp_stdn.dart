@@ -85,7 +85,7 @@ class _MenuAppStdnState extends State<MenuAppStdn> {
         //implementar aqui la funcionalidad del LogOut <- si es aqui, En el evento onpressd
         new ListTile(
           title: Text(
-            'Salir',
+            'Cerrar Sesión',
             style: TextStyle(fontSize: sizeOption),
           ),
           leading: Icon(Icons.exit_to_app),

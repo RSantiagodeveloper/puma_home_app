@@ -36,7 +36,7 @@ class LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
       child: TextFormField(
         controller: _emailController,
-        decoration: InputDecoration(labelText: 'Usuario o Email'),
+        decoration: InputDecoration(labelText: 'Email'),
         keyboardType: TextInputType.emailAddress,
         validator: (value) {
           if (value.isEmpty) {
@@ -80,8 +80,8 @@ class LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-            width: MediaQuery.of(context).size.width / 2.5,
-            height: MediaQuery.of(context).size.height / 7,
+            width: MediaQuery.of(context).size.width / 4,
+            height: MediaQuery.of(context).size.height / 10,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Color(Elementos.contenedor),
@@ -184,7 +184,7 @@ class LoginPageState extends State<LoginPage> {
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+                      
                     },
                   ))
                 ],

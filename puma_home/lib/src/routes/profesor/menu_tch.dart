@@ -16,7 +16,6 @@ class MenuTch extends StatefulWidget {
   }
 }
 
-
 class MenuTchState extends State<MenuTch> {
   String idUserState;
   MenuTchState(this.idUserState);
@@ -24,11 +23,12 @@ class MenuTchState extends State<MenuTch> {
 //Widget que muestra los grupos  que imparte el profesor
   Widget createVerGruposButton(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width / 1.2,
+        width: MediaQuery.of(context).size.width / 1.3,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -37,7 +37,8 @@ class MenuTchState extends State<MenuTch> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MisGruposTch(idUserState)),
+              MaterialPageRoute(
+                  builder: (context) => MisGruposTch(idUserState)),
             );
           },
         ));
@@ -46,11 +47,12 @@ class MenuTchState extends State<MenuTch> {
 //Widget que lleva al perfil del profesor
   Widget createMiPerfilButton(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width / 1.2,
+        width: MediaQuery.of(context).size.width / 1.3,
         height: MediaQuery.of(context).size.height / 6.67,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-            border: Border.all(width: Elementos.widthBorder, color: Color(Elementos.bordes)),
+            border: Border.all(
+                width: Elementos.widthBorder, color: Color(Elementos.bordes)),
             borderRadius: BorderRadius.circular(20),
             color: Color(Elementos.contenedor)),
         child: FlatButton(
@@ -59,7 +61,8 @@ class MenuTchState extends State<MenuTch> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FormMiPerfil(idUserState)),
+              MaterialPageRoute(
+                  builder: (context) => FormMiPerfil(idUserState)),
             );
           },
         ));
@@ -69,8 +72,8 @@ class MenuTchState extends State<MenuTch> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async => false,
-          child: Scaffold(
+      onWillPop: () async => false,
+      child: Scaffold(
         drawer: MenuAppTch(idUserState),
         appBar: AppBar(
           backgroundColor: Color(Elementos.contenedor),
@@ -79,7 +82,8 @@ class MenuTchState extends State<MenuTch> {
           centerTitle: true,
           actions: [
             IconButton(
-                icon: IconAppBar(), //metodo donde se crea la referencia al icono
+                icon:
+                    IconAppBar(), //metodo donde se crea la referencia al icono
                 onPressed: null)
           ],
         ),
@@ -89,9 +93,13 @@ class MenuTchState extends State<MenuTch> {
             child: ListView(
               children: [
                 Divider(),
-                createVerGruposButton(context),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[createVerGruposButton(context)]),
                 Divider(),
-                createMiPerfilButton(context),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[createMiPerfilButton(context)]),
               ],
             )),
       ),

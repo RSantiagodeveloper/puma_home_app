@@ -28,18 +28,20 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
   bool activado = false;
   //bool _multiPick = false;
   bool downloading = false; //variables globales
+  bool stateProccess = false;
   var progressString = "";
   String _extension;
   FileType _pickType;
   String _path;
   String nombreBoton = 'Buscar archivo';
-  List<StorageUploadTask> _task = <StorageUploadTask>[];
+  //List<StorageUploadTask> _task = <StorageUploadTask>[];
 
   @override
   void initState() {
     super.initState();
     print('recibi al usuario $idUserState, $idGrupoState');
   }
+
 //Funcion asincrona para abrir el explorador de archivos.
   void openFileExplorer(_pickType) async {
     try {
@@ -98,16 +100,16 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
     });
   }
 
-  void baseForm(fileName,link) {
-      Firestore.instance.collection('Material_Apoyo').add({
-        'Descripcion': descripcionArchivo.text,
-        'Id_profesor': idUserState,
-        'Id_Grupo': idGrupoState,
-        'Archivo': link,
-        'Nombre_Archivo': fileName,
-      }).then((_) {
-        Navigator.pop(context);
-      });
+  void baseForm(fileName, link) {
+    Firestore.instance.collection('Material_Apoyo').add({
+      'Descripcion': descripcionArchivo.text,
+      'Id_profesor': idUserState,
+      'Id_Grupo': idGrupoState,
+      'Archivo': link,
+      'Nombre_Archivo': fileName,
+    }).then((_) {
+      Navigator.pop(context);
+    });
   }
 
   void intentarConectar() async {
@@ -142,7 +144,11 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
             'Subir archivo',
             style: TextStyle(color: Colors.white),
           ),
+
           onPressed: () {
+            setState((){
+              stateProccess = true;
+            });
             intentarConectar();
           }),
     );
@@ -162,7 +168,7 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
           openFileExplorer(FileType.any);
           print('boton presionado');
         },
-        child: Row( 
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Text(
@@ -176,6 +182,18 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget barraStatus() {
+    return Container(
+      child: (stateProccess == false)
+          ? Text(
+              'Esperando publicar el Material de apoyo',
+              style: TextStyle(color: Colors.red),
+            )
+          : Text('El material de apoyo se está publicando, espera ...',
+              style: TextStyle(color: Color(Elementos.contenedor))),
     );
   }
 
@@ -199,6 +217,12 @@ class MaterialApoyoTchFormState extends State<MaterialApoyoFormTch> {
               nombreDescripcionField(),
               Divider(),
               exploradorArchivo(),
+              Divider(),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    barraStatus(),
+                  ]),
               Divider(),
               subirMaterial(context),
             ],

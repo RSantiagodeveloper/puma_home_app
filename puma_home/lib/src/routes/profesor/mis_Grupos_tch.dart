@@ -8,6 +8,7 @@ import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puma_home/src/routes/profesor/formulario_alta_clases.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
+import 'package:clipboard_manager/clipboard_manager.dart';
 
 class MisGruposTch extends StatefulWidget {
   final String idUser;
@@ -22,6 +23,7 @@ class MisGruposTch extends StatefulWidget {
 class _MisGruposState extends State<MisGruposTch> {
   final String idUserstate;
   _MisGruposState(this.idUserstate);
+  bool showKeyGroup = false;
 
   /// funcion vacia que elimina el grupo [idGroup] en firestore
   void deleteGroup(String idGroup) {
@@ -158,6 +160,14 @@ class _MisGruposState extends State<MisGruposTch> {
         centerTitle: true,
         actions: [
           IconButton(
+            icon: (showKeyGroup == false)?Icon(Icons.visibility, color: Colors.white,):Icon(Icons.visibility_off, color: Colors.white),
+            onPressed: (){
+              setState((){
+                showKeyGroup = !(showKeyGroup);
+              });
+            },
+          ),
+          IconButton(
               icon: IconAppBar(), //metodo donde se crea la referencia al icono
               onPressed: null)
         ],
@@ -191,10 +201,24 @@ class _MisGruposState extends State<MisGruposTch> {
                           Expanded(
                             child: Container(
                               //container del icono libro
-                              child: Icon(
-                                Icons.book,
-                                color: Colors.white,
-                              ),
+                              child: IconButton(
+                                icon: Icon( Icons.book, color: Colors.white,),
+                                onPressed: (){
+                                  setState((){
+                                    showKeyGroup = true;
+                                  });
+                                  ClipboardManager.copyToClipBoard(document.documentID).then((value){
+                                    final snackBar = SnackBar(
+                                      content: Text('Copiada la clave del Grupo ${document['Nombre']}'),
+                                      action: SnackBarAction(
+                                        label: 'deshacer',
+                                        onPressed: (){},
+                                      ),
+                                    );
+                                    Scaffold.of(context).showSnackBar(snackBar);
+                                  }); 
+                                },
+                              )
                             ),
                           ),
                           Expanded(
@@ -210,13 +234,13 @@ class _MisGruposState extends State<MisGruposTch> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    Text(
+                                    (showKeyGroup == true)?Text(
                                       document.documentID,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.white,
                                       ),
-                                    )
+                                    ):Container(),
                                   ]),
                             ),
                           ),

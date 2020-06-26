@@ -1,4 +1,4 @@
-/*
+    /*
  * @author: Ricardo_Santiago, Anibal_Medina.
  * @desciption: Archivo dedicado a la creacion del formulario de registro
  * y la conexion con los servicios de autenticacion y cloud_firestore
@@ -64,7 +64,7 @@ class _RegistryPageState extends State<RegistryPage> {
       padding: const EdgeInsets.only(top: 32),
       child: TextFormField(
         controller: _lastName,
-        decoration: InputDecoration(labelText: 'Ap_Paterno'),
+        decoration: InputDecoration(labelText: 'Apellido Paterno'),
         validator: (value) {
           if (value.isEmpty) {
             return 'Rellenar campo obligatorio';
@@ -81,7 +81,7 @@ class _RegistryPageState extends State<RegistryPage> {
       padding: const EdgeInsets.only(top: 32),
       child: TextFormField(
         controller: _mLastName,
-        decoration: InputDecoration(labelText: 'Ap_Materno'),
+        decoration: InputDecoration(labelText: 'Apellido Materno'),
       ),
     );
   }
@@ -92,7 +92,7 @@ class _RegistryPageState extends State<RegistryPage> {
       padding: const EdgeInsets.only(top: 32),
       child: TextFormField(
         controller: _email,
-        decoration: InputDecoration(labelText: 'correo'),
+        decoration: InputDecoration(labelText: 'Correo'),
         keyboardType: TextInputType.emailAddress,
         validator: (value) {
           if (value.isEmpty) {
@@ -111,7 +111,7 @@ class _RegistryPageState extends State<RegistryPage> {
       child: TextFormField(
         controller: _passwdUsr,
         decoration: InputDecoration(
-            labelText: 'password',
+            labelText: 'Contraseña',
             hintText: '8 caracteres min con almenos 2 especiales'),
         validator: (value) {
           if (value.isEmpty) {
@@ -132,7 +132,7 @@ class _RegistryPageState extends State<RegistryPage> {
       padding: const EdgeInsets.only(top: 32),
       child: TextFormField(
         controller: _passwdUsrCheck,
-        decoration: InputDecoration(labelText: 'confirme pass'),
+        decoration: InputDecoration(labelText: 'Confirme contraseña'),
         validator: (value) {
           if (value != _passwdUsr.text) {
             return 'Las contraseñas no coinciden';
@@ -185,7 +185,7 @@ class _RegistryPageState extends State<RegistryPage> {
       child: TextFormField(
         controller: _keyComunity,
         decoration: InputDecoration(
-            labelText: 'clave de Comunidad UNAM',
+            labelText: 'Clave de Comunidad UNAM',
             hintText: 'No Cuenta o RFC profesor'),
         validator: (value) {
           if (value.isEmpty) {
@@ -210,7 +210,7 @@ class _RegistryPageState extends State<RegistryPage> {
   Widget crearBoton(BuildContext context) {
     // Crea el Boton de Enviar
     return Container(
-      width: MediaQuery.of(context).size.width / 2,
+      width: MediaQuery.of(context).size.width / 2.86,
       height: MediaQuery.of(context).size.height / 6.67,
       decoration: BoxDecoration(
           color: Color(Elementos.contenedor),
@@ -338,7 +338,10 @@ class _RegistryPageState extends State<RegistryPage> {
               userType(),
               keyComunityField(),
               Divider(),
-              crearBoton(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[crearBoton(context)]
+                ),
             ],
           ),
         ),

@@ -29,6 +29,7 @@ class _SubirArchivoState extends State<SubirArchivo> {
   final fireReference = Firestore.instance;
   String fileName = 'nombre de archivo esta vacio';
   String nombreBoton = 'Buscar archivo';
+  bool stateProccess = false;
 
   bool activado = false;
   bool _multiPick = false;
@@ -229,7 +230,7 @@ void openFileExplorer() async {
       child: TextFormField(
         controller: descripcionTarea,
         decoration: InputDecoration(
-          labelText: 'Descripcion de la tarea:',
+          labelText: 'Descripción de la tarea:',
         ),
       ),
     );
@@ -246,6 +247,7 @@ void openFileExplorer() async {
         decoration: InputDecoration(
           labelText: 'Fecha Entrega (dd/mm/aaaa):',
         ),
+        maxLength: 10,
       ),
     );
   }
@@ -253,18 +255,21 @@ void openFileExplorer() async {
   ///widget que devuelve un container con un flatbutton para
   Widget crearBoton(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width / 2,
-      height: MediaQuery.of(context).size.height / 6.67,
+      width: MediaQuery.of(context).size.width / 2.85,
+      height: MediaQuery.of(context).size.height / 10,
       decoration: BoxDecoration(
           color: Color(Elementos.contenedor),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(width: 5, color: Color(Elementos.bordes))),
       child: FlatButton(
           child: Text(
-            'Subir tarea',
+            'Publicar tarea',
             style: TextStyle(color: Colors.white),
           ),
           onPressed: () {
+            setState((){
+              stateProccess = true;
+            });
             intentarConectar();
           }),
     );
@@ -371,6 +376,12 @@ void openFileExplorer() async {
         });
   }
 
+  Widget barraStatus(){
+    return Container(
+      child: (stateProccess == false)? Text('Esperando publicar tarea', style: TextStyle(color: Colors.red),): Text('La tarea se está publicando, espera ...', style: TextStyle(color: Color(Elementos.contenedor))),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -395,7 +406,18 @@ void openFileExplorer() async {
               //showWidget(),
               botonFind(),
               Divider(),
-              crearBoton(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  barraStatus(),
+              ]),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  crearBoton(context),
+                ],
+              ),
             ],
           ),
         ),

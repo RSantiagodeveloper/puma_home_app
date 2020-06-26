@@ -90,6 +90,7 @@ class FormMiPerfilState extends State<FormMiPerfil> {
           hintText: '(opcional) Agrega tu numero',
           icon: Icon(Icons.phone, color: Color(Elementos.contenedor)),
         ),
+        keyboardType: TextInputType.number,
       ),
     );
   }
@@ -97,8 +98,8 @@ class FormMiPerfilState extends State<FormMiPerfil> {
 //Botón para guardar los cambios
   Widget createGuardarButton() {
     return Container(
-      width: MediaQuery.of(context).size.width / 2,
-      height: MediaQuery.of(context).size.height / 4.67,
+      width: MediaQuery.of(context).size.width / 3.33,
+      height: MediaQuery.of(context).size.height / 10,
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
           color: Color(Elementos.contenedor),
@@ -185,7 +186,12 @@ class FormMiPerfilState extends State<FormMiPerfil> {
                 Divider(),
                 createTelefonoInput(),
                 Divider(),
-                createGuardarButton(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    createGuardarButton(),
+                  ],
+                ),
                 Divider(),
               ],
             )),

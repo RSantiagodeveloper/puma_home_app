@@ -4,7 +4,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puma_home/src/resources/iconAppBar.dart';
-import 'package:puma_home/src/resources/MenuApp_stdn.dart';
 import 'package:puma_home/src/resources/App_Elements.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -155,7 +154,6 @@ class _AltaClaseState extends State<AltaClase> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuAppStdn(iduserState),
       appBar: AppBar(
         backgroundColor: Color(Elementos.contenedor),
         title: Text('Alta de Clases',
@@ -171,12 +169,16 @@ class _AltaClaseState extends State<AltaClase> {
         key: _keyForm,
         child: Container(
             padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: ListView(
               children: [
                 codeClassInput(),
-                createButton(context),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    createButton(context)
+                  ],
+                )
+               
               ],
             )),
       ),

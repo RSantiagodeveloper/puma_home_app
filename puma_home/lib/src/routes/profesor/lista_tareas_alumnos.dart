@@ -26,11 +26,6 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
   String nombreTarea;
   _ListaAlumnosState(this.idUser, this.grupoid, this.nombreTarea);
 
-  initState() {
-    super.initState();
-    print('$idUser, $nombreTarea');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,52 +42,52 @@ class _ListaAlumnosState extends State<ListaAlumnos> {
       ),
       drawer: MenuAppTch(idUser),
       body: StreamBuilder(
-          stream: Firestore.instance
-              .collection('Tarea_Alumno')
-              .where('Id_Tarea', isEqualTo: nombreTarea)
-              .where('Status', isEqualTo: 'entregado')
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
-              return Text('Nadie ha entregado tareas');
-            } else {
-              return ListView(
-                  children: snapshot.data.documents.map((document) {
-                return Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 2,
-                        child: ListTile(
-                          leading: Icon(Icons.check_box),
-                          title: Text('${document['Nombre_Alumno']}'),
-                        ),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: Row(children: <Widget>[
-                            IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => VistaTarea(
-                                              idUser, document.documentID, document['Archivo'])));
-                                }),
-                            (document['Calificado'] == 1)
-                                ? Icon(Icons.check_box, color: Colors.green)
-                                : Icon(Icons.check_box_outline_blank,
-                                    color: Colors.blue[200])
-                          ])),
-                    ],
-                  ),
-                );
-              }).toList());
-            }
-          }),
+      stream: Firestore.instance
+        .collection('Tarea_Alumno')
+        .where('Id_Tarea', isEqualTo: nombreTarea)
+        .where('Status', isEqualTo: 'entregado')
+        .snapshots(),
+      builder:
+        (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      if (!snapshot.hasData) {
+        return Text('Nadie ha entregado tareas');
+      } else {
+        return ListView(
+      children: snapshot.data.documents.map((document) {
+          return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: ListTile(
+              leading: Icon(Icons.check_box, color: Colors.teal),
+              title: Text('${document['Nombre_Alumno']}'),
+            ),
+          ),
+          Expanded(
+              flex: 1,
+              child: Row(children: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VistaTarea(
+                                  idUser, document.documentID, document['Archivo'])));
+                    }),
+                (document['Calificado'] == 1)
+                    ? Icon(Icons.check_box, color: Colors.green)
+                    : Icon(Icons.check_box_outline_blank,
+                        color: Colors.blue[200])
+              ])),
+        ],
+      ),
+          );
+        }).toList());
+      }
+      }),
     );
   }
 }

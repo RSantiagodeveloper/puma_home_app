@@ -112,7 +112,7 @@ class _MenuAppTchState extends State<MenuAppTch> {
         //Aqui debe de ir el LogOut
         new ListTile(
           title: Text(
-            'salir',
+            'Cerrar Sesión',
             style: TextStyle(fontSize: sizeOption),
           ),
           leading: Icon(Icons.exit_to_app),
