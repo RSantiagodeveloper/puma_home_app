@@ -80,7 +80,7 @@ class LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-            width: MediaQuery.of(context).size.width / 4,
+            width: MediaQuery.of(context).size.width / 2.5,
             height: MediaQuery.of(context).size.height / 10,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(

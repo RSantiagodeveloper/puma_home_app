@@ -70,6 +70,7 @@ class _TareasStdnState extends State<TareasStdn> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
+                          flex: 1,
                           child: Container(
                             //container del icono libro
                             child: Icon(
@@ -79,6 +80,7 @@ class _TareasStdnState extends State<TareasStdn> {
                           ),
                         ),
                         Expanded(
+                          flex: 2,
                           child: Container(
                             //container del nombre + ID del grupo
                             child: Column(
@@ -102,6 +104,7 @@ class _TareasStdnState extends State<TareasStdn> {
                           ),
                         ),
                         Expanded(
+                          flex: 1,
                           child: Container(
                             //container de los iconos de ver grupo y eliminar grupo
                             child: Row(

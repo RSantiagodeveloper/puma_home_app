@@ -26,7 +26,7 @@ class PantallaGrupoTch extends StatelessWidget {
   Widget createTareasButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 6.67,
+        height: MediaQuery.of(context).size.height / 10,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
             border: Border.all(
@@ -43,15 +43,14 @@ class PantallaGrupoTch extends StatelessWidget {
                   builder: (context) => Tareastch(idUser, idGroup)),
             );
           },
-        )
-      );
+        ));
   }
 
   //Boton de acceso a Material de Apoyo
   Widget createMaterialButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 6.67,
+        height: MediaQuery.of(context).size.height / 10,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
             border: Border.all(
@@ -117,8 +116,8 @@ class PantallaGrupoTch extends StatelessWidget {
                     'Id_Grupo': idGroup,
                     'Notice': newNotice.text,
                     'Fecha': fecha, //inserta fecha actual con zona horaria
-                  }).then((value){
-                    newNotice.text=''; //Limpieza del TextField
+                  }).then((value) {
+                    newNotice.text = ''; //Limpieza del TextField
                   });
                 } catch (e) {
                   print("Errozote prro!!!!!!!!: " + e);
@@ -152,13 +151,29 @@ class PantallaGrupoTch extends StatelessWidget {
           decoration: BoxDecoration(color: Colors.white),
           child: ListView(
             children: [
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text(
+                  'Tablon de Anuncios',
+                  style: TextStyle(fontSize: 30.0),
+                ),
+              ]),
               TablonAnunciosTch(idGroup),
               Divider(),
               cajaMensajes(context),
               Divider(),
-              createTareasButton(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  createTareasButton(context),
+                ],
+              ),
               Divider(),
-              createMaterialButton(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  createMaterialButton(context),
+                ],
+              ),
             ],
           )),
     );

@@ -180,6 +180,7 @@ class _MisGruposState extends State<MisGruposStdn> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
+                          flex: 1,
                           child: Container(
                             //container del icono libro
                             child: Icon(
@@ -189,10 +190,12 @@ class _MisGruposState extends State<MisGruposStdn> {
                           ),
                         ),
                         Expanded(
+                          flex: 2,
                           child: Container(
                             //container del nombre + ID del grupo
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
                                     '${document['NombreGrupo']}',
@@ -205,6 +208,7 @@ class _MisGruposState extends State<MisGruposStdn> {
                           ),
                         ),
                         Expanded(
+                          flex: 2,
                           child: Container(
                             //container de los iconos de ver grupo y eliminar grupo
                             child: Row(

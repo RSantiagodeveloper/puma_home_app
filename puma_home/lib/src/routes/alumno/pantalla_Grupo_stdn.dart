@@ -22,7 +22,7 @@ class PantallaGrupoS extends StatelessWidget {
   Widget createTareasButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 6.67,
+        height: MediaQuery.of(context).size.height / 10,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
             border: Border.all(
@@ -45,7 +45,7 @@ class PantallaGrupoS extends StatelessWidget {
   Widget createMaterialButton(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 6.67,
+        height: MediaQuery.of(context).size.height / 10,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
             border: Border.all(
@@ -68,7 +68,7 @@ class PantallaGrupoS extends StatelessWidget {
   Widget createPerfilProfesor(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 6.67,
+        height: MediaQuery.of(context).size.height / 10,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
             border: Border.all(
@@ -111,11 +111,26 @@ class PantallaGrupoS extends StatelessWidget {
             children: [
               TablonAnunciosStdn(idGroup),
               Divider(),
-              createTareasButton(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  createTareasButton(context),
+                ],
+              ),
               Divider(),
-              createMaterialButton(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  createMaterialButton(context),
+                ],
+              ),
               Divider(),
-              createPerfilProfesor(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  createPerfilProfesor(context),
+                ],
+              ),
             ],
           )),
     );

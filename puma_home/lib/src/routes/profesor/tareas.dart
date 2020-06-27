@@ -185,6 +185,7 @@ class _TareastchState extends State<Tareastch> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
+                          flex: 1,
                           child: Container(
                             //container del icono libro
                             child: Icon(
@@ -194,6 +195,7 @@ class _TareastchState extends State<Tareastch> {
                           ),
                         ),
                         Expanded(
+                          flex: 3,
                           child: Container(
                             //container del nombre + ID del grupo
                             child: Column(
@@ -210,10 +212,11 @@ class _TareastchState extends State<Tareastch> {
                           ),
                         ),
                         Expanded(
+                          flex: 3,
                           child: Container(
                             //container de los iconos de ver grupo y eliminar grupo
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 IconButton(
                                   icon: Icon(

@@ -199,6 +199,7 @@ class _MisGruposState extends State<MisGruposTch> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Expanded(
+                            flex: 1,
                             child: Container(
                               //container del icono libro
                               child: IconButton(
@@ -222,6 +223,7 @@ class _MisGruposState extends State<MisGruposTch> {
                             ),
                           ),
                           Expanded(
+                            flex: 2,
                             child: Container(
                               //container del nombre + ID del grupo
                               child: Column(
@@ -245,6 +247,7 @@ class _MisGruposState extends State<MisGruposTch> {
                             ),
                           ),
                           Expanded(
+                            flex: 2,
                               child: Container(
                             //container de los iconos de ver grupo y eliminar grupo
                             child: Row(
